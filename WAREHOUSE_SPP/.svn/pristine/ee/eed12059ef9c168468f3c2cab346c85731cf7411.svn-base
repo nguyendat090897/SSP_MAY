@@ -1,0 +1,51 @@
+<Application x:Class="DSofT.Warehouse.Main.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="Login.xaml" Startup="Application_Startup"  DispatcherUnhandledException="Application_DispatcherUnhandledException">
+    <Application.Resources>
+        <ResourceDictionary>
+            <Style x:Key="DescriptionHeaderStyle"
+                   TargetType="Label">
+                <Setter Property="FontSize"
+                        Value="22" />
+                <Setter Property="HorizontalAlignment"
+                        Value="Center" />
+            </Style>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Warehouse.Resources;component/English.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Warehouse.Resources;component/Vietnamese.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/CommonDictionary.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Warehouse.Resources;component/Icons.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Warehouse.Resources;component/CommonResource.xaml" />
+
+                <!--<ResourceDictionary Source="pack://application:,,,/DSofT.Warehouse.Main;component/Template/Title.xaml"/>-->
+
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Metro.UIControls;component/Styles/FlatSlider.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Metro.UIControls;component/Styles/Controls.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Metro.UIControls;component/Styles/Fonts.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Metro.UIControls;component/Styles/Colors.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Metro.UIControls;component/Styles/Accents/Blue.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Metro.UIControls;component/Styles/Accents/BaseLight.xaml" />
+
+
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Comm.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/SampleResource.xaml"/>
+
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Devexpress/DataGrid.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Devexpress/DockManager.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Devexpress/EditorTypes.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Devexpress/NavBar.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Devexpress/Ribbon.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Devexpress/TabControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Devexpress/NavBarControlAutoApply.xaml"/>
+
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Sdk/Button.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Sdk/Etc.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Sdk/ListBox.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Sdk/ScrollViewer.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Sdk/TabControl.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Sdk/TextBlock.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

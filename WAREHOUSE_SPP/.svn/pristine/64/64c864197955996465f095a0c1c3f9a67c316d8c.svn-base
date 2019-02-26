@@ -1,0 +1,181 @@
+﻿<uicore:PopupBase x:Class="DSofT.Warehouse.UI.frm_DanhMucSanPham_Popup"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"  
+             xmlns:uicore="clr-namespace:DSofT.Framework.UICore;assembly=DSofT.Framework.UICore"
+             xmlns:resText="clr-namespace:DSofT.Warehouse.Resources;assembly=DSofT.Warehouse.Resources"
+             xmlns:cntr="clr-namespace:DSofT.Framework.UIControl;assembly=DSofT.Framework.UIControl" 
+             xmlns:dxn="http://schemas.devexpress.com/winfx/2008/xaml/navbar" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:Controls="clr-namespace:DSofT.Framework.Metro.UIControls;assembly=DSofT.Framework.Metro.UIControls" 
+             Height="600" Width="800" >
+    <uicore:PopupBase.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Warehouse.Resources;component/CommonResource.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </uicore:PopupBase.Resources>
+    <Grid Background="Transparent">
+        <Grid.Resources>
+            <cntr:ConverterStringDateTime x:Key="ConverterStringDateTime"/>
+        </Grid.Resources>
+        <dxmvvm:Interaction.Behaviors>
+            <dxmvvm:NotificationService x:Name="notificationService" ApplicationId="DxToastTest" UseWin8NotificationsIfAvailable="True" 
+                                  PredefinedNotificationTemplate="{Binding ElementName=notificationStyle, Path=SelectedItem}"
+                                  CustomNotificationTemplate="{StaticResource CustomNotificationTemplate}"
+                                  Sound="Notification_Looping_Alarm8"
+                                  CustomNotificationPosition="BottomRight" CustomNotificationVisibleMaxCount="5" CustomNotificationDuration="0:0:3"/>
+        </dxmvvm:Interaction.Behaviors>
+        <Grid>
+            <!--Main Layout RowDefinition-->
+            <Grid.RowDefinitions>
+                <!--Button Area-->
+                <RowDefinition Height="auto"/>
+                <!--Blank-->
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!--Selection Area Style : row=2-->
+            <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource Sdk.Brd.BtnArea}">
+                <StackPanel Style="{StaticResource Sdk.Spnl.CommBtn.Right}">
+                    <Button Tag="{StaticResource btnGPNK}" HorizontalAlignment="Right" Name="btnGPNK" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center" Click="btnGPNK_Click"/>
+                    <Button Tag="{StaticResource btnQCSP}" HorizontalAlignment="Right" Name="btnQCSP" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center"  Click="btnQCSP_Click"/>
+                    <Button Tag="{StaticResource btnSave}" HorizontalAlignment="Right" Name="btnSave" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center" />
+                    <Button Tag="{StaticResource btnEdit}" HorizontalAlignment="Right" Name="btnEdit" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center" />
+                    <Button Tag="{StaticResource btnClose}" HorizontalAlignment="Right" Name="btnClose" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center" Click="btnClose_Click"/>
+                </StackPanel>
+            </Border>
+            <Grid x:Name="Selection_Area" Grid.Row="1" Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="0.5*"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock  Grid.Row="0"   Grid.Column="0" Name="lblMaSanPham" VerticalAlignment="Center"><Run Text="{DynamicResource lblMaSanPham}"/></TextBlock>
+                <dxe:TextEdit Grid.Row="0" Grid.ColumnSpan="2" Grid.Column="1" Foreground="Red" Name="txtMaSP" Text="{}"/>
+                <TextBlock  Grid.Row="0"   Grid.Column="3" Name="lblMaSanPhamKH" VerticalAlignment="Center"><Run Text="{DynamicResource lblMaSanPhamKH}"/></TextBlock>
+                <dxe:TextEdit Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="2" Name="txtMaSPKH" Text="{}"/>
+
+                <TextBlock Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5" Name="lblChuThich" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="Red"><Run Text="{DynamicResource lblChuThich}" /></TextBlock>
+
+                <TextBlock  Grid.Row="2"   Grid.Column="0" Name="lblTenSanPham" VerticalAlignment="Center"><Run Text="{DynamicResource lblTenSanPham}"/></TextBlock>
+                <dxe:TextEdit Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="5" Name="txtTenSP" Text="{}"/>
+
+                <TextBlock  Grid.Row="3"   Grid.Column="0" Name="lblLoaiSanPham" VerticalAlignment="Center"><Run Text="{DynamicResource lblLoaiSanPham}"/></TextBlock>
+                <dxe:ComboBoxEdit Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="5" Name="cboloaisp" Text="{}"/>
+
+                <TextBlock  Grid.Row="4"   Grid.Column="0" Name="lblMaVach" VerticalAlignment="Center"><Run Text="{DynamicResource lblMaVach}"/></TextBlock>
+                <dxe:TextEdit Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Name="txtMaVach" Text="{}" MaskType="Numeric" Mask="#,##,##,##,##,##,##,##,##,##,##,##,##,###" MaskUseAsDisplayFormat="True" />
+                <TextBlock  Grid.Row="4"   Grid.Column="3" Name="lblThuocKSBD" VerticalAlignment="Center"><Run Text="{DynamicResource lblThuocKSDB}"/></TextBlock>
+                <dxe:CheckEdit Grid.Row="4" Grid.Column="4" Name="chkThuocKSBD" />
+
+                <TextBlock  Grid.Row="5"   Grid.Column="0" Name="lblNhomSP" VerticalAlignment="Center"><Run Text="{DynamicResource lblNhomSP}"/></TextBlock>
+                <dxe:ComboBoxEdit Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="2"  Name="cboNhomSP" Text="{}"/>
+                <TextBlock  Grid.Row="5"   Grid.Column="3" Name="lblHoatChatChinh" VerticalAlignment="Center"><Run Text="{DynamicResource lblHoatChatChinh}"/></TextBlock>
+                <dxe:TextEdit Grid.Row="5" Grid.Column="4" Grid.ColumnSpan="2" Name="txtHoatChatChinh"  Text="{}"/>
+
+                <TextBlock  Grid.Row="6"   Grid.Column="0" Name="lblDVT" VerticalAlignment="Center"><Run Text="{DynamicResource lblDVT}"/></TextBlock>
+                <dxe:ComboBoxEdit Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2"  Name="cboDVT" Text="{}"/>
+                <TextBlock  Grid.Row="6"   Grid.Column="3" Name="lblTonKho" VerticalAlignment="Center"><Run Text="{DynamicResource lblTonKho}"/></TextBlock>
+                <dxe:TextEdit Grid.Row="6" Grid.Column="4" Grid.ColumnSpan="2" Name="txtTonKho" MaskType="Numeric" Mask="#,##,##,##,##,##,##,##,##,##,##,##,##,###" MaskUseAsDisplayFormat="True"   Text="{}"/>
+
+                <TextBlock  Grid.Row="7"   Grid.Column="0" Name="lblNguonNhap" VerticalAlignment="Center"><Run Text="{DynamicResource lblNguonNhap}"/></TextBlock>
+                <dxe:ComboBoxEdit Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="2" Name="cbbNguonNhap"  Text="{}"/>
+                <TextBlock  Grid.Row="7"   Grid.Column="3" Name="lblDKBQ" VerticalAlignment="Center"><Run Text="{DynamicResource lblDKBQ}"/></TextBlock>
+                <dxe:ComboBoxEdit Grid.Row="7" Grid.Column="4" Grid.ColumnSpan="2"  Name="cboDKBQ" Text="{}"/>
+
+                <TextBlock  Grid.Row="8"   Grid.Column="0" Name="lblGiaBanLe" VerticalAlignment="Center"><Run Text="{DynamicResource lblGiaBanLe}"/></TextBlock>
+                <dxe:TextEdit Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2" Name="txtGiaBanLe" MaskType="Numeric" Mask="#,##,##,##,##,##,##,##,##,##,##,##,##,###" MaskUseAsDisplayFormat="True"   Text="{}"/>
+                <TextBlock  Grid.Row="8"   Grid.Column="3" Name="lblGiaBanLuon" VerticalAlignment="Center"><Run Text="{DynamicResource lblGiaBanLuon}"/></TextBlock>
+                <dxe:TextEdit Grid.Row="8" Grid.Column="4" Grid.ColumnSpan="2" Name="txtGiaBanLuon" MaskType="Numeric" Mask="#,##,##,##,##,##,##,##,##,##,##,##,##,###" MaskUseAsDisplayFormat="True"   Text="{}"/>
+
+                <TextBlock  Grid.Row="9"   Grid.Column="0" Name="lblViTriKeDX" VerticalAlignment="Center"><Run Text="{DynamicResource lblViTriKeDX}"/></TextBlock>
+                <dxe:TextEdit Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="2" Name="txtViTriKeDX"  Text="{}"/>
+
+                <TextBlock  Grid.Row="10"   Grid.Column="0" Name="lblNhaSX" VerticalAlignment="Center"><Run Text="{DynamicResource lblNhaSX}"/></TextBlock>
+                <dxe:ComboBoxEdit Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="2" Name="cbbNhaSX"  Text="{}"/>
+                <TextBlock  Grid.Row="10"   Grid.Column="3" Name="lblNuocSX" VerticalAlignment="Center"><Run Text="{DynamicResource lblNuocSX}"/></TextBlock>
+                <dxe:ComboBoxEdit Grid.Row="10" Grid.Column="4" Grid.ColumnSpan="2"  Name="cbbNuocSX" Text="{}"/>
+
+                <TextBlock  Grid.Row="11"   Grid.Column="0" Name="lblNhaCC" VerticalAlignment="Center"><Run Text="{DynamicResource lblNhaCC}"/></TextBlock>
+                <dxe:ComboBoxEdit Grid.Row="11" Grid.Column="1" Grid.ColumnSpan="5"  Name="cboNhaCC" Text="{}"/>
+
+                <TextBlock  Grid.Row="12"   Grid.Column="0" Name="lblThue" VerticalAlignment="Center"><Run Text="{DynamicResource lblThue}"/></TextBlock>
+                <dxe:TextEdit Grid.Row="12" Grid.Column="1" Name="txtThue" MaskType="Numeric" Mask="#,##,##,##,##,##,##,##,##,##,##,##,##,###" MaskUseAsDisplayFormat="True"  Text="{}"/>
+                <TextBlock  Grid.Row="12"   Grid.Column="2" Name="lblChietKhau" VerticalAlignment="Center"><Run Text="{DynamicResource lblChietKhau}"/></TextBlock>
+                <dxe:TextEdit Grid.Row="12" Grid.Column="3" Name="txtChietKhau" MaskType="Numeric" Mask="#,##,##,##,##,##,##,##,##,##,##,##,##,###" MaskUseAsDisplayFormat="True"  Text="{}"/>
+                <TextBlock  Grid.Row="12"   Grid.Column="4" Name="lblThuongDS" VerticalAlignment="Center"><Run Text="{DynamicResource lblThuong}"/></TextBlock>
+                <dxe:TextEdit Grid.Row="12" Grid.Column="5" Name="txtThuongDS" MaskType="Numeric" Mask="#,##,##,##,##,##,##,##,##,##,##,##,##,###" MaskUseAsDisplayFormat="True"   Text="{}"/>
+
+                <TextBlock Grid.Row="13" Grid.Column="0" Name="lblAnh" VerticalAlignment="Center"><Run Text="{DynamicResource lblAnh}" /></TextBlock>
+                <dxe:TextEdit Grid.Row="13" Grid.Column="1" Grid.ColumnSpan="3" Name="txtAnh" Text="{}"></dxe:TextEdit>
+                <Button Grid.Row="13" Grid.Column="4" Width="0.5" Height="1" Name="btnAnh" Tag="{StaticResource btnBrowser}" Style="{StaticResource Sdk.Btn.Comm}" Click="btnAnh_Click"/>
+
+                <TextBlock  Grid.Row="14"   Grid.Column="0" Name="lblConSuDung" VerticalAlignment="Center"><Run Text="{DynamicResource lblConSD}"/></TextBlock>
+                <RadioButton Grid.Row="14" Grid.Column="1" Name="rdbDangSD" Content="{DynamicResource lblDangSD}" IsChecked="True" />
+                <RadioButton Grid.Row="14" Grid.Column="2" Name="rdbKhongSD" Content="{DynamicResource lblKhongSD}" />
+
+                <TextBlock  Grid.Row="15"   Grid.Column="0" Name="lblQuyCachDG" VerticalAlignment="Center"><Run Text="{DynamicResource lblQuyCachDG}"/></TextBlock>
+                <dxe:TextEdit Grid.Row="15" Grid.Column="1" Grid.ColumnSpan="2" Name="txtQuyCach"  Text="{}"/>
+                <TextBlock  Grid.Row="15"   Grid.Column="3" Name="lblDVTDG" VerticalAlignment="Center"><Run Text="{DynamicResource lblDVTDG}"/></TextBlock>
+                <dxe:ComboBoxEdit Grid.Row="15" Grid.Column="4" Name="cboDVTDG" Text="{}"/>
+
+                <Image Grid.Row="13" Grid.Column="5" Grid.RowSpan="3" Name="imgAnh" />
+
+                <TextBlock  Grid.Row="16"   Grid.Column="0" Name="lbltrongluong" VerticalAlignment="Center"><Run Text="{DynamicResource lbltrongluong}"/></TextBlock>
+                <dxe:TextEdit Grid.Row="16" Grid.Column="1" Name="txtTrongLuong" MaskType="Numeric" Mask="#,##,##,##,##,##,##,##,##,##,##,##,##,###" MaskUseAsDisplayFormat="True"  Text="{}"/>
+                <TextBlock  Grid.Row="16"   Grid.Column="2" Name="lblthetich" VerticalAlignment="Center"><Run Text="{DynamicResource lblthetich}"/></TextBlock>
+                <dxe:TextEdit Grid.Row="16" Grid.Column="3" Name="txtTheTich" MaskType="Numeric" Mask="#,##,##,##,##,##,##,##,##,##,##,##,##,###" MaskUseAsDisplayFormat="True"  Text="{}"/>
+                <TextBlock  Grid.Row="16"   Grid.Column="4" Name="lblsothung" VerticalAlignment="Center"><Run Text="{DynamicResource lblsothung}"/></TextBlock>
+                <dxe:TextEdit Grid.Row="16" Grid.Column="5" Name="txtSoThung" MaskType="Numeric" Mask="#,##,##,##,##,##,##,##,##,##,##,##,##,###" MaskUseAsDisplayFormat="True"   Text="{}"/>
+                
+                <TextBlock  Grid.Row="17"   Grid.Column="0" Name="lblSoDK" VerticalAlignment="Center"><Run Text="{DynamicResource lblSoDK}"/></TextBlock>
+                <dxe:TextEdit Grid.Row="17" Grid.Column="1" Name="txtSoDK" Text="{}"/>
+                <TextBlock  Grid.Row="17"   Grid.Column="2" Name="lblNgayKy" VerticalAlignment="Center"><Run Text="{DynamicResource lblNgayKy}"/></TextBlock>
+                <DatePicker Grid.Row="17" Grid.Column="3" Name="dtpNgayKy" Text="{}"/>
+                <TextBlock  Grid.Row="17"   Grid.Column="4" Name="lblNgayHH" VerticalAlignment="Center"><Run Text="{DynamicResource lblNgayHH}"/></TextBlock>
+                <DatePicker Grid.Row="17" Grid.Column="5" Name="dtpNgayHH" Text="{}"/>
+
+                <TextBlock  Grid.Row="18"   Grid.Column="0" Name="lblSoXN" VerticalAlignment="Center"><Run Text="{DynamicResource lblSoXN}"/></TextBlock>
+                <dxe:TextEdit Grid.Row="18" Grid.Column="1" Name="txtSoXN" Text="{}"/>
+                <TextBlock  Grid.Row="18"   Grid.Column="2" Name="lblNgayKy1" VerticalAlignment="Center"><Run Text="{DynamicResource lblNgayKy}"/></TextBlock>
+                <DatePicker Grid.Row="18" Grid.Column="3" Name="dtpNgayKy1" Text="{}"/>
+                <TextBlock  Grid.Row="18"   Grid.Column="4" Name="lblNgayHH1" VerticalAlignment="Center"><Run Text="{DynamicResource lblNgayHH}"/></TextBlock>
+                <DatePicker Grid.Row="18" Grid.Column="5" Name="dtpNgayHH1" Text="{}"/>
+
+                <TextBlock  Grid.Row="19"   Grid.Column="0" Name="lblcanhbao" VerticalAlignment="Center"><Run Text="{DynamicResource lblcanhbao}"/></TextBlock>
+                <dxe:TextEdit Grid.Row="19" Grid.Column="1" Name="txtcanhbao" MaskType="Numeric" Mask="#,##,##,##,##,##,##,##,##,##,##,##,##,###" MaskUseAsDisplayFormat="True"  Text="{}"/>
+            </Grid>
+        </Grid>
+    </Grid>
+</uicore:PopupBase>
+

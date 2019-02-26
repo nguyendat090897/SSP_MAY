@@ -1,0 +1,271 @@
+﻿using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Warehouse.Resources;
+using DSofT.Framework.Client.ExportHelper;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using DSofT.Framework.UICore.TaskProxy;
+using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Windows;
+using System.Windows.Input;
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    /// Interaction logic for frm_ExportWarehousingMaterials.xaml
+    /// </summary>
+    public partial class frm_ExportWarehousingMaterials : ControlBase
+    {
+        DataTable iDataSource = null;
+        GridHelper iGridHelper = null;
+        DataTable iGridDataSource = null;
+        IWarehousingMaterialsBussiness _WarehousingMaterialsBussiness;
+        public frm_ExportWarehousingMaterials()
+        {
+            InitializeComponent();
+            _WarehousingMaterialsBussiness = new WarehousingMaterialsBussiness(string.Empty);
+            Initialize_Grid();
+            this.iDataSource = this.TableSchemaDefineBingding();
+            this.iDataSource.Rows[0]["FromDate"] = DateTime.Now.ToShortDateString();
+            this.iDataSource.Rows[0]["ToDate"] = DateTime.Now.AddDays(7).ToShortDateString();
+            this.DataContext = this.iDataSource;
+            LoadData();
+        }
+
+        /// <summary>
+        /// TableSchemaDefineBingding
+        /// </summary>
+        /// <returns></returns>
+        private DataTable TableSchemaDefineBingding()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("FromDate", typeof(string));
+                xDicUser.Add("ToDate", typeof(string));                
+                 xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "TableSchemaDefineBingding()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            return xDt;
+        }
+        /// <summary>
+        /// LoadData
+        /// </summary>
+        private void LoadData()
+        {
+            try
+            {
+                if (!string.IsNullOrWhiteSpace(this.iDataSource.Rows[0]["FromDate"].ToString()) && !string.IsNullOrWhiteSpace(this.iDataSource.Rows[0]["ToDate"].ToString()))
+                {
+                    using (var task = new AsyncTaskProcess(this))
+                    {
+                        ServiceAction<DataTable> action = ((pd) =>
+                        {
+                            task.SetCallContext();
+                            return _WarehousingMaterialsBussiness.ExportWarehousingMaterialsGetAll(this.iDataSource.Copy());
+                        });
+                        Action<DataTable> onComplete = (dt =>
+                        {
+                            this.Dispatcher.BeginInvoke((Action)(() =>
+                            {
+                                this.iGridDataSource = dt;
+                                this.iGridHelper.BindItemSource(this.iGridDataSource);
+                            }));
+                        });
+                        task.AsyncTaskExecute(action, onComplete);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "LoadData()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// Initialize_Grid
+        /// </summary>
+        private void Initialize_Grid()
+        {
+            try
+            {
+                this.iGridHelper = new GridHelper(this.grd, this.grdView, false);
+                Column xColumn;
+
+                xColumn = new Column("Id", "Id");
+                xColumn.Visible = false;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("ROWNUM", Convert.ToString(UtilLanguage.ApplyLanguage()["lblOrderNo"]));
+                xColumn.Width = 50;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("SchoolsName", Convert.ToString(UtilLanguage.ApplyLanguage()["frmSchool_SchoolsName"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("WarehousingMaterialsCode", Convert.ToString(UtilLanguage.ApplyLanguage()["frmImportWarehousingMaterials_WarehousingMaterialsCode"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("ImplementationDates", Convert.ToString(UtilLanguage.ApplyLanguage()["frmExportWarehousingMaterials_ImplementationDates"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("WarehouseName", Convert.ToString(UtilLanguage.ApplyLanguage()["frmExportWarehousingMaterials_WarehouseId"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("WarehouseNameTo", Convert.ToString(UtilLanguage.ApplyLanguage()["frmExportWarehousingMaterials_WarehouseIdTo"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("ConfirmName", Convert.ToString(UtilLanguage.ApplyLanguage()["frmExportWarehousingMaterials_StatusName"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                this.iGridHelper.Initialize();
+                this.grdView.AutoWidth = true;
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "Initialize_Grid()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// btnNew_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnNew_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                object xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "popup_ExportWarehousingMaterials", null);
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnNew.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// btnRefresh_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            LoadData();
+        }
+        /// <summary>
+        /// grdView_MouseDown
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void grdView_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                if (iDataSource.Rows.Count == 0) return;
+                DataRow iRowSelGb = ((DataRowView)this.grd.GetFocusedRow()).Row;
+                object xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "popup_ExportWarehousingMaterials", iRowSelGb);
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "grdView_MouseDown()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// btnExcel_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnExcel_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (iDataSource.Rows.Count == 0) return;
+                DataRow iRowSelGb = ((DataRowView)this.grd.GetFocusedRow()).Row;
+                string strIdExcel = string.Empty;
+                if (iRowSelGb != null)
+                {
+                    ExportExcel exp = new ExportExcel();
+                    DataSet dsSource = new DataSet();
+                    DataTable dtTitle = new DataTable();
+                    dtTitle.TableName = "dt2";
+                    dtTitle.Columns.Add("NumberFood", typeof(string));
+                    dtTitle.Columns.Add("Day", typeof(string));
+                    dtTitle.Columns.Add("SchoolName", typeof(string));
+                    dtTitle.Columns.Add("WarehousingMaterialsCode", typeof(string));
+                    DataRow drTitle = dtTitle.NewRow();
+                    drTitle["Day"] = string.Format("Ngày: {0}", iRowSelGb["ImplementationDates"].ToString());
+                    drTitle["SchoolName"] = iRowSelGb["SchoolsName"].ToString();
+                    drTitle["WarehousingMaterialsCode"] = string.Format("Mã phiếu: {0}", iRowSelGb["WarehousingMaterialsCode"].ToString());
+                    dtTitle.Rows.Add(drTitle);
+                    dsSource.Tables.Add(dtTitle);
+                    string filename = string.Empty;
+                    strIdExcel = iRowSelGb["Id"].ToString();
+                    DataTable dtExcel = _WarehousingMaterialsBussiness.ExportWarehousingMaterialsByIdExcel(strIdExcel);
+                    dtExcel.TableName = "dt";
+                    dsSource.Tables.Add(dtExcel.Copy());
+                    string templaleFileName = "RP_DeliveryBill.xlsx";                    
+                    SaveFileDialog dlg = new SaveFileDialog();
+                    dlg.Filter = "Excel files (*.xlsx or .xls)|.xlsx;*.xls";
+                    dlg.FileName =string.Format("{0}", Guid.NewGuid());
+                    var result = dlg.ShowDialog();
+                    if (result == true)
+                    {
+                        filename = dlg.FileName;
+                        var export = exp.Return(filename, templaleFileName, dsSource);
+                        if (export)
+                        {
+                            System.Diagnostics.Process.Start(filename);
+                            ToastMessage.ShowToastMessage(Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessage"]), Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageSuccess"]), notificationService);
+                            return;
+                        }
+                    }
+                }                
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnExcel.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+    }
+
+}

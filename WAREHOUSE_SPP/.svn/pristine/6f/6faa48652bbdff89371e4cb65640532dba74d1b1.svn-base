@@ -1,0 +1,342 @@
+﻿using DevExpress.Xpf.Editors;
+using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Warehouse.Resources;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using DSofT.Framework.UICore.TaskProxy;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    /// Interaction logic for popupInventoryCalculated.xaml
+    /// </summary>
+    public partial class popupInventoryCalculated : PopupBase
+    {
+        DataTable iDataSource = null;
+        GridHelper iGridHelper = null;
+        DataTable iGridDataSource = null;
+        IInventoryBussiness _inventoryBussiness;
+        IWarehouseBussiness _warehouseBussiness;
+        DataRow iRowSelGb = null;
+        DataTable dtWarehouse = null;
+        public popupInventoryCalculated()
+        {
+            InitializeComponent();
+            _inventoryBussiness = new InventoryBussiness(string.Empty);
+            _warehouseBussiness = new WarehouseBussiness(string.Empty);
+            this.iDataSource = this.TableSchemaDefineBingding();
+            this.DataContext = this.iDataSource;
+            Initialize_Grid();
+            LoadCombox();
+        }
+
+        public override void OnPopupShown()
+        {
+            if (this.Parameter != null && this.Parameter.Count() > 0)
+            {
+                iRowSelGb = this.Parameter[0] as DataRow;
+                DispalayRequest();
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public void DispalayRequest()
+        {
+            try
+            {
+                foreach (DataColumn item in this.iRowSelGb.Table.Columns)
+                {
+                    if (this.iDataSource.Columns[item.ColumnName] != null)
+                    {
+                        this.iDataSource.Rows[0][item.ColumnName] = iRowSelGb[item.ColumnName];
+                    }
+                }
+                if (!string.IsNullOrWhiteSpace(this.iDataSource.Rows[0]["WarehouseId"].ToString())
+                    && !string.IsNullOrWhiteSpace(this.iDataSource.Rows[0]["Id"].ToString()))
+                {
+                    LoadDataById();
+                    if (this.iDataSource.Rows[0]["IsFinish"].ToString()=="1")
+                    {
+                        this.btnCalculated.IsEnabled = false;
+                        this.btnSave.IsEnabled = false;
+                    }
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "DispalayRequest()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+        /// <summary>
+        /// LoadDataById
+        /// </summary>
+        private void LoadDataById()
+        {
+            try
+            {
+                using (var task = new AsyncTaskProcess(this))
+                {
+                    ServiceAction<DataTable> action = ((pd) =>
+                    {
+                        task.SetCallContext();
+                        return _inventoryBussiness.GetListMetarialCalculatedById(this.iDataSource.Copy());
+                    });
+                    Action<DataTable> onComplete = (dt =>
+                    {
+                        this.Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            this.iGridDataSource = dt;
+                            this.iGridHelper.BindItemSource(this.iGridDataSource);
+                        }));
+                    });
+                    task.AsyncTaskExecute(action, onComplete);
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "LoadData()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// LoadCombox
+        /// </summary>
+        private void LoadCombox()
+        {
+            try
+            {
+                this.dtWarehouse = _warehouseBussiness.GetAllWarehouse(this.iDataSource.Copy());
+                ComboBoxUtil.SetComboBoxEdit(this.cboWarehouse, "WarehouseName", "Id", this.dtWarehouse, SelectionTypeEnum.Native);
+                ComboBoxUtil.InsertItem(cboWarehouse, "*", "0", 0);
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "LoadCombox()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+
+        }
+
+        /// <summary>
+        /// TableSchemaDefineBingding
+        /// </summary>
+        /// <returns></returns>
+        private DataTable TableSchemaDefineBingding()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("DateInventory", typeof(string));
+                xDicUser.Add("WarehouseId", typeof(decimal));
+                xDicUser.Add("InventoryCode", typeof(string));
+                xDicUser.Add("IsFinish", typeof(int));
+                xDicUser.Add("Id", typeof(decimal));
+                xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return xDt;
+        }
+        /// <summary>
+        /// LoadData
+        /// </summary>
+        private void LoadData()
+        {
+            try
+            {
+                using (var task = new AsyncTaskProcess(this))
+                {
+                    ServiceAction<DataTable> action = ((pd) =>
+                    {
+                        task.SetCallContext();
+                        return _inventoryBussiness.InventoryGetListMetarialCalculated(this.iDataSource.Copy());
+                    });
+                    Action<DataTable> onComplete = (dt =>
+                    {
+                        this.Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            this.iGridDataSource = dt;
+                            if (dt == null || dt.Rows.Count <= 0)
+                            {
+                                base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblCheckInventory"]));
+                            }
+                            this.iGridHelper.BindItemSource(this.iGridDataSource);
+                        }));
+                    });
+                    task.AsyncTaskExecute(action, onComplete);
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "LoadData()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// Initialize_Grid
+        /// </summary>
+        private void Initialize_Grid()
+        {
+            try
+            {
+                this.iGridHelper = new GridHelper(this.grd, this.grdView, false);
+                Column xColumn;
+                xColumn = new Column("MaterialId", "MaterialId");
+                xColumn.Visible = false;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("ROWNUM", Convert.ToString(UtilLanguage.ApplyLanguage()["lblOrderNo"]));
+                xColumn.Width = 40;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("MaterialCode", Convert.ToString(UtilLanguage.ApplyLanguage()["frmInventory_MaterialCode"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.AllowSorting = false;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("MaterialName", Convert.ToString(UtilLanguage.ApplyLanguage()["frmInventory_MaterialName"]));
+                xColumn.Width = 120;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+
+                xColumn = new Column("QuantityInventory", Convert.ToString(UtilLanguage.ApplyLanguage()["frmInventory_QuantityInventory"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.MaskType = MaskType.Numeric;
+                xColumn.EditMask = "#,##,##,##,##,##0.0##";
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Right;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+
+                xColumn = new Column("QuantityImport", Convert.ToString(UtilLanguage.ApplyLanguage()["frmInventory_QuantityImport"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.MaskType = MaskType.Numeric;
+                xColumn.EditMask = "#,##,##,##,##,##0.0##";
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Right;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+
+                xColumn = new Column("QuantityExport", Convert.ToString(UtilLanguage.ApplyLanguage()["frmInventory_QuantityExport"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.MaskType = MaskType.Numeric;
+                xColumn.EditMask = "#,##,##,##,##,##0.0##";
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Right;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("QuantityExist", Convert.ToString(UtilLanguage.ApplyLanguage()["frmInventory_QuantityExist"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.MaskType = MaskType.Numeric;
+                xColumn.EditMask = "#,##,##,##,##,##0.0##";
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Right;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+                this.iGridHelper.Initialize();
+                this.grdView.AutoWidth = true;
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "Initialize_Grid()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// btnCalculated_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCalculated_Click(object sender, RoutedEventArgs e)
+        {
+            LoadData();
+            
+        }
+        /// <summary>
+        /// btnNew_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnNew_Click(object sender, RoutedEventArgs e)
+        {
+            this.iDataSource = this.TableSchemaDefineBingding();
+            this.iGridDataSource = new DataTable();
+            this.iGridHelper.BindItemSource(iGridDataSource);
+            this.DataContext = this.iDataSource;
+            this.btnCalculated.IsEnabled = true;
+            this.btnSave.IsEnabled = true;
+        }
+        /// <summary>
+        /// btnSave_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DataRow[] foundRows;
+                DataTable dtDetailInput;
+                foundRows = this.iGridDataSource.Select("QuantityExist>0 OR QuantityExist<0");
+                if (foundRows.Length > 0)
+                {
+                    dtDetailInput = foundRows.CopyToDataTable();
+                    bool result = _inventoryBussiness.InsertOrUpdateInventory(this.iDataSource.Copy(), dtDetailInput);
+                    if (!result)
+                    {
+
+                        base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageFailed"]));
+                        return;
+                    }
+                    else
+                    {
+                        ToastMessage.ShowToastMessage(Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessage"]), Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageSuccess"]), notificationService);
+                        return;
+                    }
+                }
+                else
+                {
+                    base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblCheckInventory"]));
+                    return;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnSave.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+    }
+
+}

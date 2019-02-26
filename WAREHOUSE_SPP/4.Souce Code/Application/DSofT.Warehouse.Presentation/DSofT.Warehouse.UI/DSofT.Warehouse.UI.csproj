@@ -1,0 +1,1308 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BDA58BB6-7C7E-4C26-960C-466AA332BE1A}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DSofT.Warehouse.UI</RootNamespace>
+    <AssemblyName>DSofT.Warehouse.UI</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Application.Release\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\DownloadAssemblies\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Aspose.Cells, Version=7.3.0.0, Culture=neutral, PublicKeyToken=6df9b8117ff94198, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DSofT.Warehouse.DLL\Libs\Aspose.Cells.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DataAccess.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DataAccess.v14.2.UI, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Mvvm.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v14.2.Core, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Controls.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Core.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.NavBar.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Printing.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Grid.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Grid.v14.2.Core, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Grid.v14.2.Extensions, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Layout.v14.2.Core, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.LayoutControl.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Themes.DXStyle.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DSofT.Framework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DSofT.Warehouse.DLL\BaseFramework\DSofT.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DSofT.Warehouse.DLL\BaseFramework\DSofT.Framework.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.Environments, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DSofT.Warehouse.DLL\Application\DSofT.Framework.Environments.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.Internal, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DSofT.Warehouse.DLL\BaseFramework\DSofT.Framework.Internal.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.Metro.UIControls">
+      <HintPath>..\..\DSofT.Warehouse.DLL\Application\DSofT.Framework.Metro.UIControls.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.Presentation">
+      <HintPath>..\..\DSofT.Warehouse.DLL\BaseFramework\DSofT.Framework.Presentation.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DSofT.Warehouse.DLL\Application\DSofT.Framework.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.Styles">
+      <HintPath>..\..\DSofT.Warehouse.DLL\Application\DSofT.Framework.Styles.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.UIControl">
+      <HintPath>..\..\DSofT.Warehouse.DLL\Application\DSofT.Framework.UIControl.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.UICore">
+      <HintPath>..\..\DSofT.Warehouse.DLL\Application\DSofT.Framework.UICore.dll</HintPath>
+    </Reference>
+    <Reference Include="Interop.BarTender">
+      <HintPath>..\..\DSofT.Warehouse.DLL\Libs\Interop.BarTender.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ChuyenDoiDVT.xaml.cs">
+      <DependentUpon>ChuyenDoiDVT.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucKho\frmDanhMucKho.xaml.cs">
+      <DependentUpon>frmDanhMucKho.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucKho\frmDanhMucKho_popup.xaml.cs">
+      <DependentUpon>frmDanhMucKho_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucKho\frm_khai_bao_khach_hang_theo_khuvuc.xaml.cs">
+      <DependentUpon>frm_khai_bao_khach_hang_theo_khuvuc.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucKho\frm_khai_bao_khuvuc_theo_kho.xaml.cs">
+      <DependentUpon>frm_khai_bao_khuvuc_theo_kho.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucKho\frm_khai_bao_so_luong_cho_vi_tri.xaml.cs">
+      <DependentUpon>frm_khai_bao_so_luong_cho_vi_tri.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucKho\frm_khai_bao_trang_thai_theo_khuvuc.xaml.cs">
+      <DependentUpon>frm_khai_bao_trang_thai_theo_khuvuc.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucKho\frm_khai_bao_vi_tri_kho.xaml.cs">
+      <DependentUpon>frm_khai_bao_vi_tri_kho.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucKho\frm_khai_bao_vi_tri_theo_khach_hang.xaml.cs">
+      <DependentUpon>frm_khai_bao_vi_tri_theo_khach_hang.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucNguyenLieu\frmDanhMucNguyenLieu.xaml.cs">
+      <DependentUpon>frmDanhMucNguyenLieu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucNguyenLieu\frmDanhMucNguyenLieu_popup.xaml.cs">
+      <DependentUpon>frmDanhMucNguyenLieu_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucNhaSanXuat\frmDanhMucNhaSanXuat.xaml.cs">
+      <DependentUpon>frmDanhMucNhaSanXuat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucNhaSanXuat\frmDanhMucNhaSanXuat_popup.xaml.cs">
+      <DependentUpon>frmDanhMucNhaSanXuat_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucNhomSanPham\frmDanhMucNhomSanPham.xaml.cs">
+      <DependentUpon>frmDanhMucNhomSanPham.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucNhomSanPham\frmDanhMucNhomSanPham_popup.xaml.cs">
+      <DependentUpon>frmDanhMucNhomSanPham_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucQuocGia\frmDanhMucQuocGia.xaml.cs">
+      <DependentUpon>frmDanhMucQuocGia.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucQuocGia\frmDanhMucQuocGia_Popup.xaml.cs">
+      <DependentUpon>frmDanhMucQuocGia_Popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucSanPham\frm_DanhMuc_SanPham_Popup.xaml.cs">
+      <DependentUpon>frm_DanhMuc_SanPham_Popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucTheoDieuKienBaoQuan\frm_ThuocTheoDKBQ.xaml.cs">
+      <DependentUpon>frm_ThuocTheoDKBQ.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucThietBi\frm_ThietBi.xaml.cs">
+      <DependentUpon>frm_ThietBi.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucThietBi\frm_ThietBi_Popup.xaml.cs">
+      <DependentUpon>frm_ThietBi_Popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucThuocTheoKho\frm_ThuocTheoKho.xaml.cs">
+      <DependentUpon>frm_ThuocTheoKho.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucThuocTheoKSDB\frm_ThuocTheoKSDB.xaml.cs">
+      <DependentUpon>frm_ThuocTheoKSDB.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucThuocTheoNhaCC\frm_ThuocTheoNhaCC.xaml.cs">
+      <DependentUpon>frm_ThuocTheoNhaCC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucThuocTheoNhaSX\frm_ThuocTheoNhaSX.xaml.cs">
+      <DependentUpon>frm_ThuocTheoNhaSX.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucThuocTheoNhomSanPham\frm_ThuocTheoNhomSP.xaml.cs">
+      <DependentUpon>frm_ThuocTheoNhomSP.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucThuocTheoQuocGia\frm_ThuocTheoQuocGia.xaml.cs">
+      <DependentUpon>frm_ThuocTheoQuocGia.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucTrangThietBiYTe\frmDanhMucTrangThietBiYTe.xaml.cs">
+      <DependentUpon>frmDanhMucTrangThietBiYTe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DanhMuc\DanhMucTrangThietBiYTe\frmDanhMucTrangThietBiYTe_popup.xaml.cs">
+      <DependentUpon>frmDanhMucTrangThietBiYTe_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmDanhMucVatTuYTe.xaml.cs">
+      <DependentUpon>frmDanhMucVatTuYTe.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmDanhMucVatTuYTe_popup.xaml.cs">
+      <DependentUpon>frmDanhMucVatTuYTe_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmDSSPDong_Goi.xaml.cs">
+      <DependentUpon>frmDSSPDong_Goi.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmDSSPDong_Goi_popup.xaml.cs">
+      <DependentUpon>frmDSSPDong_Goi_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmDSSPDong_Goi_popup_2.xaml.cs">
+      <DependentUpon>frmDSSPDong_Goi_popup_2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmKhoiTaoTonKho.xaml.cs">
+      <DependentUpon>frmKhoiTaoTonKho.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmKhoiTaoTonKho_popup.xaml.cs">
+      <DependentUpon>frmKhoiTaoTonKho_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmKiemKeHangHoa.xaml.cs">
+      <DependentUpon>frmKiemKeHangHoa.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmKiemKeHangHoa_popup.xaml.cs">
+      <DependentUpon>frmKiemKeHangHoa_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmKiemKeHangHoa_popup_nhapdieuchinh.xaml.cs">
+      <DependentUpon>frmKiemKeHangHoa_popup_nhapdieuchinh.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmKiemKeHangHoa_popup_xuatdieuchinh.xaml.cs">
+      <DependentUpon>frmKiemKeHangHoa_popup_xuatdieuchinh.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmThietLapTonKhoTT.xaml.cs">
+      <DependentUpon>frmThietLapTonKhoTT.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmThietLapTonKhoTT_Popup.xaml.cs">
+      <DependentUpon>frmThietLapTonKhoTT_Popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmTLQTHangBanCham.xaml.cs">
+      <DependentUpon>frmTLQTHangBanCham.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frmTLQTHangBanCham_popup.xaml.cs">
+      <DependentUpon>frmTLQTHangBanCham_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_bo_sung_tem_toa_popup.xaml.cs">
+      <DependentUpon>frm_bo_sung_tem_toa_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_CanhBaoHangBanCham.xaml.cs">
+      <DependentUpon>frm_CanhBaoHangBanCham.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_canh_bao_hang_sap_het_han_su_dung.xaml.cs">
+      <DependentUpon>frm_canh_bao_hang_sap_het_han_su_dung.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_canh_bao_hang_sap_het_han_su_dung_popup.xaml.cs">
+      <DependentUpon>frm_canh_bao_hang_sap_het_han_su_dung_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_ChiTietTonPallet.xaml.cs">
+      <DependentUpon>frm_ChiTietTonPallet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_DanhMucLoaiKho.xaml.cs">
+      <DependentUpon>frm_DanhMucLoaiKho.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_DanhMucLoaiKho_Popup.xaml.cs">
+      <DependentUpon>frm_DanhMucLoaiKho_Popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_DanhMucSanPham.xaml.cs">
+      <DependentUpon>frm_DanhMucSanPham.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_DanhMucSanPham_KhaiBaoGPNK.xaml.cs">
+      <DependentUpon>frm_DanhMucSanPham_KhaiBaoGPNK.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_DanhMucSanPham_Popup.xaml.cs">
+      <DependentUpon>frm_DanhMucSanPham_Popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_DanhMucSanPham_Popup1.xaml.cs">
+      <DependentUpon>frm_DanhMucSanPham_Popup1.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_danhsach_loaipallet.xaml.cs">
+      <DependentUpon>frm_danhsach_loaipallet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_danhsach_loaipallet_popup.xaml.cs">
+      <DependentUpon>frm_danhsach_loaipallet_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_DiaDiemXuatHang.xaml.cs">
+      <DependentUpon>frm_DiaDiemXuatHang.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_donvitinh.xaml.cs">
+      <DependentUpon>frm_dm_donvitinh.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_donvitinh_popup.xaml.cs">
+      <DependentUpon>frm_dm_donvitinh_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_khachhang_ncc.xaml.cs">
+      <DependentUpon>frm_dm_khachhang_ncc.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_khachhang_ncc_popup.xaml.cs">
+      <DependentUpon>frm_dm_khachhang_ncc_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_LoaiKichThuoc.xaml.cs">
+      <DependentUpon>frm_dm_LoaiKichThuoc.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_LoaiKichThuoc_Popup.xaml.cs">
+      <DependentUpon>frm_dm_LoaiKichThuoc_Popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_LoaiSanPham.xaml.cs">
+      <DependentUpon>frm_dm_LoaiSanPham.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_LoaiSanPham_popup.xaml.cs">
+      <DependentUpon>frm_dm_LoaiSanPham_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_nhom_pallet.xaml.cs">
+      <DependentUpon>frm_dm_nhom_pallet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_nhom_pallet_popup.xaml.cs">
+      <DependentUpon>frm_dm_nhom_pallet_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_pallet.xaml.cs">
+      <DependentUpon>frm_dm_pallet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_pallet_capnhat.xaml.cs">
+      <DependentUpon>frm_dm_pallet_capnhat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_pallet_cap_nhat_trang_thai.xaml.cs">
+      <DependentUpon>frm_dm_pallet_cap_nhat_trang_thai.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_pallet_cap_nhat_trang_thai_popup.xaml.cs">
+      <DependentUpon>frm_dm_pallet_cap_nhat_trang_thai_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_pallet_dieuchuyen.xaml.cs">
+      <DependentUpon>frm_dm_pallet_dieuchuyen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_pallet_dieuchuyen_popup.xaml.cs">
+      <DependentUpon>frm_dm_pallet_dieuchuyen_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_pallet_dieuchuyen_popup_2.xaml.cs">
+      <DependentUpon>frm_dm_pallet_dieuchuyen_popup_2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_pallet_dieu_chuyen.xaml.cs">
+      <DependentUpon>frm_dm_pallet_dieu_chuyen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_pallet_khaibao_nhompallet.xaml.cs">
+      <DependentUpon>frm_dm_pallet_khaibao_nhompallet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_pallet_popup.xaml.cs">
+      <DependentUpon>frm_dm_pallet_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_pallet_tiepnhandieuchuyen.xaml.cs">
+      <DependentUpon>frm_dm_pallet_tiepnhandieuchuyen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_sanphamkhac.xaml.cs">
+      <DependentUpon>frm_dm_sanphamkhac.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_sanphamkhac_popup.xaml.cs">
+      <DependentUpon>frm_dm_sanphamkhac_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_sua.xaml.cs">
+      <DependentUpon>frm_dm_sua.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_sua_popup.xaml.cs">
+      <DependentUpon>frm_dm_sua_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_ThongKePallet.xaml.cs">
+      <DependentUpon>frm_dm_ThongKePallet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_Tinh.xaml.cs">
+      <DependentUpon>frm_dm_Tinh.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_dm_Tinh_popup.xaml.cs">
+      <DependentUpon>frm_dm_Tinh_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_DonViVanChuyen.xaml.cs">
+      <DependentUpon>frm_DonViVanChuyen.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_duyet_phieu_yeu_cau.xaml.cs">
+      <DependentUpon>frm_duyet_phieu_yeu_cau.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_duyet_phieu_yeu_cau_popup.xaml.cs">
+      <DependentUpon>frm_duyet_phieu_yeu_cau_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_lapphieu_xacnhan_hanghuhong.xaml.cs">
+      <DependentUpon>frm_lapphieu_xacnhan_hanghuhong.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_lapphieu_xacnhan_hanghuhong_popup.xaml.cs">
+      <DependentUpon>frm_lapphieu_xacnhan_hanghuhong_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_lapphieu_yeucau_xuatkho.xaml.cs">
+      <DependentUpon>frm_lapphieu_yeucau_xuatkho.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_lapphieu_yeucau_nhapkho.xaml.cs">
+      <DependentUpon>frm_lapphieu_yeucau_nhapkho.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_lapphieu_yeucau_nhapkho_importexcel.xaml.cs">
+      <DependentUpon>frm_lapphieu_yeucau_nhapkho_importexcel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_lapphieu_yeucau_nhapkho_popup.xaml.cs">
+      <DependentUpon>frm_lapphieu_yeucau_nhapkho_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_lap_phieu_xuat_kho_vattu_dich_vu.xaml.cs">
+      <DependentUpon>frm_lap_phieu_xuat_kho_vattu_dich_vu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_lap_phieu_xuat_kho_vattu_dich_vu_popup.xaml.cs">
+      <DependentUpon>frm_lap_phieu_xuat_kho_vattu_dich_vu_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_lap_phieu_xuat_tu_PYC.xaml.cs">
+      <DependentUpon>frm_lap_phieu_xuat_tu_PYC.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_lap_phieu_xuat_tu_PYC_popup.xaml.cs">
+      <DependentUpon>frm_lap_phieu_xuat_tu_PYC_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_lap_yeu_cau_dich_vu.xaml.cs">
+      <DependentUpon>frm_lap_yeu_cau_dich_vu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_lap_yeu_cau_dich_vu_popup.xaml.cs">
+      <DependentUpon>frm_lap_yeu_cau_dich_vu_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_lap_yeu_cau_dich_vu_popup_2.xaml.cs">
+      <DependentUpon>frm_lap_yeu_cau_dich_vu_popup_2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_NhapKho.xaml.cs">
+      <DependentUpon>frm_NhapKho.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_NhapKho_popup.xaml.cs">
+      <DependentUpon>frm_NhapKho_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_NhapKho_popup_nhap_hang_nhieu_lan.xaml.cs">
+      <DependentUpon>frm_NhapKho_popup_nhap_hang_nhieu_lan.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_NhapKho_popup_phieu_yeu_cau.xaml.cs">
+      <DependentUpon>frm_NhapKho_popup_phieu_yeu_cau.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_NhapLaiVatTuDaXuatRa.xaml.cs">
+      <DependentUpon>frm_NhapLaiVatTuDaXuatRa.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_NhapLaiVatTuDaXuatRa_popup.xaml.cs">
+      <DependentUpon>frm_NhapLaiVatTuDaXuatRa_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_phancong_thietbi.xaml.cs">
+      <DependentUpon>frm_phancong_thietbi.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_phancong_thietbi_popup.xaml.cs">
+      <DependentUpon>frm_phancong_thietbi_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_phanquyen_quanlykho.xaml.cs">
+      <DependentUpon>frm_phanquyen_quanlykho.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_phanquyen_quanlykho_popup.xaml.cs">
+      <DependentUpon>frm_phanquyen_quanlykho_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_PhieuNhap_SanPhamDichVu.xaml.cs">
+      <DependentUpon>frm_PhieuNhap_SanPhamDichVu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_PhieuNhap_SanPhamDichVu_Popup.xaml.cs">
+      <DependentUpon>frm_PhieuNhap_SanPhamDichVu_Popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_PhieuXuat_DieuChinh.xaml.cs">
+      <DependentUpon>frm_PhieuXuat_DieuChinh.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_PhieuXuat_DieuChinh_chon_phieu_xuat_popup.xaml.cs">
+      <DependentUpon>frm_PhieuXuat_DieuChinh_chon_phieu_xuat_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_phieu_lap_vat_tu_dich_vu.xaml.cs">
+      <DependentUpon>frm_phieu_lap_vat_tu_dich_vu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_phieu_lap_vat_tu_dich_vu_popup.xaml.cs">
+      <DependentUpon>frm_phieu_lap_vat_tu_dich_vu_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_phieu_xuat_kho_san_pham_dich_vu_popup.xaml.cs">
+      <DependentUpon>frm_phieu_xuat_kho_san_pham_dich_vu_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_phieu_xuat_kho_vat_tu_dich_vu_popup.xaml.cs">
+      <DependentUpon>frm_phieu_xuat_kho_vat_tu_dich_vu_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_quytac_makytudau_sanpham.xaml.cs">
+      <DependentUpon>frm_quytac_makytudau_sanpham.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_SanPhamKhac.xaml.cs">
+      <DependentUpon>frm_SanPhamKhac.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_SanPhamKhac_popup.xaml.cs">
+      <DependentUpon>frm_SanPhamKhac_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_ThamSo.xaml.cs">
+      <DependentUpon>frm_ThamSo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_ThietLapCanhBaoHSDThuoc.xaml.cs">
+      <DependentUpon>frm_ThietLapCanhBaoHSDThuoc.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_ThietLapCanhBaoHSDThuoc_Popup.xaml.cs">
+      <DependentUpon>frm_ThietLapCanhBaoHSDThuoc_Popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_thietlap_quytac_xuathang.xaml.cs">
+      <DependentUpon>frm_thietlap_quytac_xuathang.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_Warehouse.xaml.cs">
+      <DependentUpon>frm_Warehouse.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_XDDinhMuc_BoSung_TTTViet.xaml.cs">
+      <DependentUpon>frm_XDDinhMuc_BoSung_TTTViet.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_XDDinhMuc_BoSung_TTTViet_KhaiBaoCPDV.xaml.cs">
+      <DependentUpon>frm_XDDinhMuc_BoSung_TTTViet_KhaiBaoCPDV.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_XDDinhMuc_BoSung_TTTViet_Popup.xaml.cs">
+      <DependentUpon>frm_XDDinhMuc_BoSung_TTTViet_Popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_XDDinhMuc_BoSung_TTTViet_TimKiemSP_Kho.xaml.cs">
+      <DependentUpon>frm_XDDinhMuc_BoSung_TTTViet_TimKiemSP_Kho.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_XDDinhMuc_BoSung_TTTViet_TimKiemSP.xaml.cs">
+      <DependentUpon>frm_XDDinhMuc_BoSung_TTTViet_TimKiemSP.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_XDDinhMuc_ChoSP_KhuyenMai.xaml.cs">
+      <DependentUpon>frm_XDDinhMuc_ChoSP_KhuyenMai.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_XDDinhMuc_ChoSP_KhuyenMai_KhaiBaoCPDV.xaml.cs">
+      <DependentUpon>frm_XDDinhMuc_ChoSP_KhuyenMai_KhaiBaoCPDV.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_XDDinhMuc_ChoSP_KhuyenMai_Popup.xaml.cs">
+      <DependentUpon>frm_XDDinhMuc_ChoSP_KhuyenMai_Popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_XuatKho.xaml.cs">
+      <DependentUpon>frm_XuatKho.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_XuatKho_popup_huy_dieuchinh_phieuxuat.xaml.cs">
+      <DependentUpon>frm_XuatKho_popup_huy_dieuchinh_phieuxuat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ImportExcel_PhieuYeuCauXuatKho.xaml.cs">
+      <DependentUpon>ImportExcel_PhieuYeuCauXuatKho.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="popupWarehouse.xaml.cs">
+      <DependentUpon>popupWarehouse.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_Menu.xaml.cs">
+      <DependentUpon>frm_Menu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_UserRole.xaml.cs">
+      <DependentUpon>frm_UserRole.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="popup_ChangePassword.xaml.cs">
+      <DependentUpon>popup_ChangePassword.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="popup_Menu.xaml.cs">
+      <DependentUpon>popup_Menu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PrintDialogShift.xaml.cs">
+      <DependentUpon>PrintDialogShift.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="QuanLyCongNo\QuanLyChi\frmQuanLyChi.xaml.cs">
+      <DependentUpon>frmQuanLyChi.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="QuanLyCongNo\QuanLyChi\frmQuanLyChi_Popup.xaml.cs">
+      <DependentUpon>frmQuanLyChi_Popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="QuanLyCongNo\QuanLyKhachHang_HopDong\frmKhachHang_HopDong.xaml.cs">
+      <DependentUpon>frmKhachHang_HopDong.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="QuanLyCongNo\QuanLyKhachHang_HopDong\frmKhachHang_HopDong_Popup.xaml.cs">
+      <DependentUpon>frmKhachHang_HopDong_Popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="QuanLyCongNo\QuanLyThu\frmQuanLyThu.xaml.cs">
+      <DependentUpon>frmQuanLyThu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="QuanLyCongNo\QuanLyThu\frmQuanLyThu_Popup.xaml.cs">
+      <DependentUpon>frmQuanLyThu_Popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="QuanLyNghiepVuKhac\frm_DSHBT_Duoc_Xuat.xaml.cs">
+      <DependentUpon>frm_DSHBT_Duoc_Xuat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="QuanLyNghiepVuKhac\frm_DSHBT_Duoc_Xuat_popup.xaml.cs">
+      <DependentUpon>frm_DSHBT_Duoc_Xuat_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="QuanLyNghiepVuKhac\frm_DS_Phieu_Lam_Dich_Vu.xaml.cs">
+      <DependentUpon>frm_DS_Phieu_Lam_Dich_Vu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="QuanLyNghiepVuKhac\frm_DS_Phieu_Lam_Dich_Vu_popup.xaml.cs">
+      <DependentUpon>frm_DS_Phieu_Lam_Dich_Vu_popup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ReportTempalte\Rpt_Thuchi.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Page Include="ChuyenDoiDVT.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucKho\frmDanhMucKho.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucKho\frmDanhMucKho_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucKho\frm_khai_bao_khach_hang_theo_khuvuc.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucKho\frm_khai_bao_khuvuc_theo_kho.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucKho\frm_khai_bao_so_luong_cho_vi_tri.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucKho\frm_khai_bao_trang_thai_theo_khuvuc.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucKho\frm_khai_bao_vi_tri_kho.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucKho\frm_khai_bao_vi_tri_theo_khach_hang.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucNguyenLieu\frmDanhMucNguyenLieu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucNguyenLieu\frmDanhMucNguyenLieu_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucNhaSanXuat\frmDanhMucNhaSanXuat.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucNhaSanXuat\frmDanhMucNhaSanXuat_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucNhomSanPham\frmDanhMucNhomSanPham.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucNhomSanPham\frmDanhMucNhomSanPham_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucQuocGia\frmDanhMucQuocGia.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucQuocGia\frmDanhMucQuocGia_Popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucSanPham\frm_DanhMuc_SanPham_Popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucTheoDieuKienBaoQuan\frm_ThuocTheoDKBQ.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucThietBi\frm_ThietBi.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucThietBi\frm_ThietBi_Popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucThuocTheoKho\frm_ThuocTheoKho.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucThuocTheoKSDB\frm_ThuocTheoKSDB.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucThuocTheoNhaCC\frm_ThuocTheoNhaCC.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucThuocTheoNhaSX\frm_ThuocTheoNhaSX.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucThuocTheoNhomSanPham\frm_ThuocTheoNhomSP.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucThuocTheoQuocGia\frm_ThuocTheoQuocGia.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucTrangThietBiYTe\frmDanhMucTrangThietBiYTe.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="DanhMuc\DanhMucTrangThietBiYTe\frmDanhMucTrangThietBiYTe_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmDanhMucVatTuYTe.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmDanhMucVatTuYTe_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmDSSPDong_Goi.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmDSSPDong_Goi_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmDSSPDong_Goi_popup_2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmKhoiTaoTonKho.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmKhoiTaoTonKho_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmKiemKeHangHoa.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmKiemKeHangHoa_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmKiemKeHangHoa_popup_nhapdieuchinh.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmKiemKeHangHoa_popup_xuatdieuchinh.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmThietLapTonKhoTT.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmThietLapTonKhoTT_Popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmTLQTHangBanCham.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frmTLQTHangBanCham_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_bo_sung_tem_toa_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_CanhBaoHangBanCham.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_canh_bao_hang_sap_het_han_su_dung.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_canh_bao_hang_sap_het_han_su_dung_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_ChiTietTonPallet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_DanhMucLoaiKho.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_DanhMucLoaiKho_Popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_DanhMucSanPham.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_DanhMucSanPham_KhaiBaoGPNK.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_DanhMucSanPham_Popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_DanhMucSanPham_Popup1.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_danhsach_loaipallet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_danhsach_loaipallet_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_DiaDiemXuatHang.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_donvitinh.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_donvitinh_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_khachhang_ncc.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_khachhang_ncc_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_LoaiKichThuoc.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_LoaiKichThuoc_Popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_LoaiSanPham.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_LoaiSanPham_popup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="frm_dm_nhom_pallet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_nhom_pallet_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_pallet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_pallet_capnhat.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_pallet_cap_nhat_trang_thai.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_pallet_cap_nhat_trang_thai_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_pallet_dieuchuyen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_pallet_dieuchuyen_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_pallet_dieuchuyen_popup_2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_pallet_dieu_chuyen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_pallet_khaibao_nhompallet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_pallet_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_pallet_tiepnhandieuchuyen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_sanphamkhac.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_sanphamkhac_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_sua.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_sua_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_ThongKePallet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_Tinh.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_dm_Tinh_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_DonViVanChuyen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_duyet_phieu_yeu_cau.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_duyet_phieu_yeu_cau_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_lapphieu_xacnhan_hanghuhong.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_lapphieu_xacnhan_hanghuhong_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_lapphieu_yeucau_xuatkho.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_lapphieu_yeucau_nhapkho.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_lapphieu_yeucau_nhapkho_importexcel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_lapphieu_yeucau_nhapkho_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_lap_phieu_xuat_kho_vattu_dich_vu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_lap_phieu_xuat_kho_vattu_dich_vu_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_lap_phieu_xuat_tu_PYC.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_lap_phieu_xuat_tu_PYC_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_lap_yeu_cau_dich_vu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_lap_yeu_cau_dich_vu_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_lap_yeu_cau_dich_vu_popup_2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_NhapKho.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_NhapKho_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_NhapKho_popup_nhap_hang_nhieu_lan.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_NhapKho_popup_phieu_yeu_cau.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_NhapLaiVatTuDaXuatRa.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_NhapLaiVatTuDaXuatRa_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_phancong_thietbi.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_phancong_thietbi_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_phanquyen_quanlykho.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_phanquyen_quanlykho_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_PhieuNhap_SanPhamDichVu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_PhieuNhap_SanPhamDichVu_Popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_PhieuXuat_DieuChinh.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_PhieuXuat_DieuChinh_chon_phieu_xuat_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_phieu_lap_vat_tu_dich_vu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_phieu_lap_vat_tu_dich_vu_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_phieu_xuat_kho_san_pham_dich_vu_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_phieu_xuat_kho_vat_tu_dich_vu_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_quytac_makytudau_sanpham.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_SanPhamKhac.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_SanPhamKhac_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_ThamSo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="frm_ThietLapCanhBaoHSDThuoc.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_ThietLapCanhBaoHSDThuoc_Popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_thietlap_quytac_xuathang.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_Warehouse.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_XDDinhMuc_BoSung_TTTViet.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_XDDinhMuc_BoSung_TTTViet_KhaiBaoCPDV.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_XDDinhMuc_BoSung_TTTViet_Popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_XDDinhMuc_BoSung_TTTViet_TimKiemSP_Kho.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_XDDinhMuc_BoSung_TTTViet_TimKiemSP.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_XDDinhMuc_ChoSP_KhuyenMai.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_XDDinhMuc_ChoSP_KhuyenMai_KhaiBaoCPDV.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_XDDinhMuc_ChoSP_KhuyenMai_Popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_XuatKho.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_XuatKho_popup_huy_dieuchinh_phieuxuat.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ImportExcel_PhieuYeuCauXuatKho.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="popupWarehouse.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_Menu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="frm_UserRole.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="popup_ChangePassword.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_User.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_UserType.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="popup_Menu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PrintDialogModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PrintDialogShift.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Properties\DesignTimeResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="QuanLyCongNo\QuanLyChi\frmQuanLyChi.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="QuanLyCongNo\QuanLyChi\frmQuanLyChi_Popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="QuanLyCongNo\QuanLyKhachHang_HopDong\frmKhachHang_HopDong.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="QuanLyCongNo\QuanLyKhachHang_HopDong\frmKhachHang_HopDong_Popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="QuanLyCongNo\QuanLyThu\frmQuanLyThu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="QuanLyCongNo\QuanLyThu\frmQuanLyThu_Popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="QuanLyNghiepVuKhac\frm_DSHBT_Duoc_Xuat.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="QuanLyNghiepVuKhac\frm_DSHBT_Duoc_Xuat_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="QuanLyNghiepVuKhac\frm_DS_Phieu_Lam_Dich_Vu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="QuanLyNghiepVuKhac\frm_DS_Phieu_Lam_Dich_Vu_popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="frm_User.xaml.cs">
+      <DependentUpon>frm_User.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_UserType.xaml.cs">
+      <DependentUpon>frm_UserType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PrintDialogModel.xaml.cs">
+      <DependentUpon>PrintDialogModel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ReportTempalte\Rpt_Thuchi.resx">
+      <DependentUpon>Rpt_Thuchi.cs</DependentUpon>
+    </EmbeddedResource>
+    <None Include="Documents\Lic\Aspose.Cells.lic">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="Documents\ReportTemplate\RP_FoodMenu.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Documents\ReportTemplate\RP_MaterialWeek.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Documents\ReportTemplate\RP_DeliveryBill.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Documents\ReportTemplate\RP_VegetablesQuatitative.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Documents\ReportTemplate\RP_DeliveryVegetablesQuatitative.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DSofT.Warehouse.Business\DSofT.Warehouse.Business.csproj">
+      <Project>{e6db43d7-5bb5-42db-9ab9-191308905624}</Project>
+      <Name>DSofT.Warehouse.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DSofT.Warehouse.Domain\DSofT.Warehouse.Domain.csproj">
+      <Project>{b61d0ccb-084c-4581-af41-ed2c26029e2c}</Project>
+      <Name>DSofT.Warehouse.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DSofT.Warehouse.Log\DSofT.Warehouse.Log.csproj">
+      <Project>{c5d8a503-e807-40b0-9139-92d5456dae35}</Project>
+      <Name>DSofT.Warehouse.Log</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DSofT.Warehouse.Resources\DSofT.Warehouse.Resources.csproj">
+      <Project>{e708ac99-605b-42a0-8d20-abca8fe42dd2}</Project>
+      <Name>DSofT.Warehouse.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="QuanLyNhapXuatKho\DieuChuyenNoiBo\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

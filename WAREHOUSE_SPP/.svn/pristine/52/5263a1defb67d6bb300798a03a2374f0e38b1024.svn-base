@@ -1,0 +1,176 @@
+﻿using DSofT.Framework.Internal.Data;
+using DSofT.Framework.UIControl;
+using System;
+using System.Data;
+using System.Globalization;
+
+namespace DSofT.Warehouse.Provider
+{
+    public interface IFoodMenuProvider
+    {
+        DataTable GetAllFoodMenu(DataTable dtInput);
+        bool InsertOrUpdateFoodMenu(DataTable dt,DataTable dtInput);
+        DataTable GeFoodMenuByDateAndSchool(DataTable dtInput);
+        DataTable ReportVegetablesQuatitative(DataTable dtInput);
+        DataTable ReportDeliveryVegetablesQuatitative(string dateTime, string schoolsId);
+    }
+    public class FoodMenuProvider : BaseSqlExecute, IFoodMenuProvider
+    {
+
+        public FoodMenuProvider(string appId, string userId)
+            : base(DbCommon.WarehouseDbConnstr, appId, userId)
+        {
+
+        }
+/// <summary>
+/// 
+/// </summary>
+/// <param name="dtInput"></param>
+/// <returns></returns>
+        public DataTable GeFoodMenuByDateAndSchool(DataTable dtInput)
+        {
+            var sqlParams = new object[] { DateTime.ParseExact(dtInput.Rows[0]["FromDay"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                , DateTime.ParseExact(dtInput.Rows[0]["ToDay"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+            ,dtInput.Rows[0]["SchoolsId"]};
+            var result = base.ExecuteDataSet("FoodMenu_GetAll", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+
+
+
+        /// <summary>
+        /// Get danh sách thuc don theo ngay
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetAllFoodMenu(DataTable dtInput)
+        {
+            var sqlParams = new object[] { DateTime.ParseExact(dtInput.Rows[0]["FromDay"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                , DateTime.ParseExact(dtInput.Rows[0]["ToDay"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                ,dtInput.Rows[0]["SchoolsId"]};
+            var result = base.ExecuteDataSet("FoodMenuDetail_GetAll", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// InsertOrUpdateFoodMenu
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public bool InsertOrUpdateFoodMenu(DataTable dt, DataTable dtInput)
+        {
+            using (var tran = new System.Transactions.TransactionScope(System.Transactions.TransactionScopeOption.Required,
+             new System.Transactions.TransactionOptions { IsolationLevel = System.Transactions.IsolationLevel.ReadUncommitted }))
+            {
+                string strIdFoodMenu = string.Empty;
+                //insert hoac update thuc đơn
+                if (NumberHelper.ConvertStringToLong(dt.Rows[0]["Id"].ToString()) <= 0)
+                {
+                    var sqlParams = new object[] { dt.Rows[0]["FoodMenuCode"]
+                                             , DateTime.ParseExact(dt.Rows[0]["FromDay"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                             , DateTime.ParseExact(dt.Rows[0]["ToDay"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                             , dt.Rows[0]["SchoolsId"]
+                                             , dt.Rows[0]["NumberFood"]
+                                             , CommonDataHelper.UserName
+                                             };
+                    var result = base.ExecScalar("FoodMenu_Insert", sqlParams);
+                    if (NumberHelper.ConvertStringToLong(result.ToString()) < 0)
+                    {
+                        return false;
+                    }
+                    strIdFoodMenu = result.ToString();
+                }
+                else
+                {
+                    var sqlParams = new object[] { dt.Rows[0]["Id"]
+                                             , DateTime.ParseExact(dt.Rows[0]["FromDay"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                             , DateTime.ParseExact(dt.Rows[0]["ToDay"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                             , dt.Rows[0]["SchoolsId"]
+                                             , dt.Rows[0]["NumberFood"]
+                                             , CommonDataHelper.UserName
+                                             };
+                    var result = base.ExecScalar("FoodMenu_Update", sqlParams);
+                    if (NumberHelper.ConvertStringToLong(result.ToString()) < 0)
+                    {
+                        return false;
+                    }
+                    strIdFoodMenu = dt.Rows[0]["Id"].ToString();
+                }
+                //xoa thuc don chi tiet
+                var sqlDelete = new object[] { strIdFoodMenu , CommonDataHelper.UserName };
+
+                var resultDelete = base.ExecScalar("FoodMenuDetail_Delete", sqlDelete);
+                if (NumberHelper.ConvertStringToLong(resultDelete.ToString()) <= 0)
+                {
+                    return false;
+                }
+
+                // insert phần thực đơn chi tiết
+                foreach (DataRow dr in dtInput.Rows)
+                {
+                    
+                    foreach (DataColumn column in dtInput.Columns)
+                    {
+                        if (column.ColumnName.Contains("FoodTypes") && !string.IsNullOrWhiteSpace(dr[column.ColumnName].ToString()))
+                        {
+                            var sqlParams = new object[] {strIdFoodMenu, DateTime.ParseExact(dr["DateMenu"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                 , dr[column.ColumnName]
+                                                 , CommonDataHelper.UserName
+                                                   , dr["NumberFoodTeacher"]
+                                                     , dr["NumberFoodStudent"]
+                                             };
+                            var result = base.ExecScalar("FoodMenuDetail_Insert", sqlParams);
+                            if (NumberHelper.ConvertStringToLong(result.ToString()) <= 0)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                tran.Complete();
+                return true;
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public DataTable ReportVegetablesQuatitative(DataTable dtInput)
+        {
+            var sqlParams = new object[] { DateTime.ParseExact(dtInput.Rows[0]["FromDay"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                , DateTime.ParseExact(dtInput.Rows[0]["ToDay"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                ,dtInput.Rows[0]["SchoolsId"]};
+            var result = base.ExecuteDataSet("ReportVegetablesQuatitative_GetBySchoolId", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+        /// <summary>
+        /// ReportDeliveryQuatitative
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="schoolsId"></param>
+        /// <returns></returns>
+        public DataTable ReportDeliveryVegetablesQuatitative(string dateTime, string schoolsId)
+        {
+            var sqlParams = new object[] { DateTime.ParseExact(dateTime, "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                ,schoolsId};
+            var result = base.ExecuteDataSet("ReportDeliveryVegetablesQuatitative_GetBySchoolId", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+    }
+}

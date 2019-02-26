@@ -1,0 +1,69 @@
+﻿<uicore:ControlBase x:Class="DSofT.Warehouse.UI.frm_NhapKho"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"  
+             xmlns:uicore="clr-namespace:DSofT.Framework.UICore;assembly=DSofT.Framework.UICore"
+             xmlns:resText="clr-namespace:DSofT.Warehouse.Resources;assembly=DSofT.Warehouse.Resources"
+             xmlns:cntr="clr-namespace:DSofT.Framework.UIControl;assembly=DSofT.Framework.UIControl" 
+             xmlns:dxn="http://schemas.devexpress.com/winfx/2008/xaml/navbar" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:Controls="clr-namespace:DSofT.Framework.Metro.UIControls;assembly=DSofT.Framework.Metro.UIControls" 
+             d:DesignHeight="600" d:DesignWidth="1200" >
+    <uicore:ControlBase.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Warehouse.Resources;component/CommonResource.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </uicore:ControlBase.Resources>
+    <Grid Background="Transparent">
+        <Grid.Resources>
+            <cntr:ConverterStringDateTime x:Key="ConverterStringDateTime"/>
+        </Grid.Resources>
+        <dxmvvm:Interaction.Behaviors>
+            <dxmvvm:NotificationService x:Name="notificationService" ApplicationId="DxToastTest" UseWin8NotificationsIfAvailable="True" 
+                                  PredefinedNotificationTemplate="{Binding ElementName=notificationStyle, Path=SelectedItem}"
+                                  CustomNotificationTemplate="{StaticResource CustomNotificationTemplate}"
+                                  Sound="Notification_Looping_Alarm8"
+                                  CustomNotificationPosition="BottomRight" CustomNotificationVisibleMaxCount="5" CustomNotificationDuration="0:0:3"/>
+        </dxmvvm:Interaction.Behaviors>
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <!--Button Area-->
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <!--Blank-->
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource Sdk.Brd.BtnArea}">
+                <StackPanel Style="{StaticResource Sdk.Spnl.CommBtn.Right}">
+                    <Button Tag="{StaticResource btnPrint}" HorizontalAlignment="Right" Name="btnPrint" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center"/>
+                    <Button Tag="{StaticResource btnRefresh}" HorizontalAlignment="Right" Name="btnRefresh" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center"/>
+                    <Button Tag="{StaticResource btnDelete}" HorizontalAlignment="Right" Name="btnDelete" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center"/>
+                    <Button Tag="{StaticResource btnNew}" HorizontalAlignment="Right" Name="btnNew" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center" Click="btnNew_Click" />
+                </StackPanel>
+            </Border>
+            <dxn:NavBarControl Grid.Row="1" Grid.Column="1" Name="nbcSearch" Style="{StaticResource Dx.NavBar.CommSchWrap}" Margin="6.85">
+                <dxn:NavBarControl.View>
+                    <dxn:ExplorerBarView 
+                        Style="{StaticResource Dx.NavBar.Explorer.CommSch}" />
+                </dxn:NavBarControl.View>
+            </dxn:NavBarControl>
+
+            <!--Selection Area Style : row=2-->
+            <Grid Grid.Row="2" x:Name="Body_Area" Grid.Column="0" Style="{StaticResource Sdk.Grd.BodyWrap.Vessel}">
+                <dxg:GridControl AutoPopulateColumns="True" x:Name="grd"  Grid.Row="1" Grid.Column="0">
+                    <dxg:GridControl.View>
+                        <dxg:TableView AutoWidth="True"  NavigationStyle="Cell" ShowGroupPanel="False" ShowAutoFilterRow="True" SearchPanelFindFilter="Contains"  SearchPanelFindMode="FindClick"  UseAnimationWhenExpanding="False"
+                                          x:Name="grdView" MouseDoubleClick="grdView_MouseDoubleClick"/>
+                    </dxg:GridControl.View>
+                </dxg:GridControl>
+            </Grid>
+        </Grid>
+    </Grid>
+</uicore:ControlBase>

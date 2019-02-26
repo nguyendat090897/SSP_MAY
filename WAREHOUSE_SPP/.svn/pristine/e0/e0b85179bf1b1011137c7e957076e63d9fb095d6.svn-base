@@ -1,0 +1,550 @@
+﻿using DevExpress.Utils;
+using DevExpress.Xpf.Editors.Settings;
+using DevExpress.Xpf.Grid;
+using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Domain.Constant;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Warehouse.Resources;
+using DSofT.Framework.Helpers;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using DSofT.Framework.UICore.TaskProxy;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Input;
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    /// Interaction logic for popup_ExportWarehousingMaterials.xaml
+    /// </summary>
+    public partial class popup_ExportWarehousingMaterials : PopupBase
+    {
+        DataTable iDataSource = null;
+        DataTable iGridDataSource = null;
+        GridHelper iGridHelper = null;
+        DataRow dr;
+        IWarehousingMaterialsBussiness _warehousingMaterialsBussiness;
+        IWarehouseBussiness _warehouseBussiness;
+        DataTable dtNguyenLieu;
+        ISchoolsBussiness _schoolsBussiness;
+        IMaterialBussiness _materialBussiness;
+        DataTable dtSchools;
+        DataTable dtMaterialsFifo;
+
+        public popup_ExportWarehousingMaterials()
+        {
+            InitializeComponent();
+            _warehousingMaterialsBussiness = new WarehousingMaterialsBussiness(string.Empty);
+            _warehouseBussiness = new WarehouseBussiness(string.Empty);
+            _schoolsBussiness = new SchoolsBussiness(string.Empty);
+            _materialBussiness = new MaterialBussiness(string.Empty);
+            this.iDataSource = this.TableSchemaDefineBingding();
+            this.DataContext = this.iDataSource;
+            this.iGridDataSource = TableSchemaDefineBingdingGrid();
+            Initialize_Grid();
+            loadDataForCombobox();
+        }
+        /// <summary>
+        /// Initialize_Grid
+        /// </summary>
+        private void Initialize_Grid()
+        {
+            try
+            {
+                this.iGridHelper = new GridHelper(this.grd, this.grdView, false);
+                Column xColumn;
+                xColumn = new Column("Id", "Id");
+                xColumn.Visible = false;
+                this.iGridHelper.Add(xColumn);
+                string[] header = new string[3] { "", Convert.ToString(UtilLanguage.ApplyLanguage()["frmQuantitativeFood_MaterialCode"]), Convert.ToString(UtilLanguage.ApplyLanguage()["frmQuantitativeFood_MaterialName"]) };
+                string[] id = new string[3] { "Id", "MaterialCode", "MaterialName" };
+                string[] align = new string[3] { "left", "left", "left" };
+
+                this.dtNguyenLieu = _materialBussiness.GetAllMaterial(this.iDataSource.Copy());
+                xColumn = new Column("MaterialId", Convert.ToString(UtilLanguage.ApplyLanguage()["frmQuantitativeFood_MaterialCode"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DefaultBoolean.True;
+                xColumn.AllowAutoFilter = true;
+                xColumn.ColumnType = ColumnControl.LookUpEdit;
+                xColumn.Binding = new Binding("MaterialId") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
+                xColumn.ValueList.DataSource = dtNguyenLieu;
+                xColumn.ValueList.DisplayMember = "MaterialCode";
+                xColumn.ValueList.ValueMember = "Id";
+                xColumn.dataTemplate = LookupEditUtil.CreateTemplateLookupEdit(dtNguyenLieu, header, id, align);
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("MaterialName", Convert.ToString(UtilLanguage.ApplyLanguage()["frmQuantitativeFood_MaterialName"]));
+                xColumn.Width = 120;
+                xColumn.Visible = true;
+                xColumn.AllowSorting = false;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("UnitName", Convert.ToString(UtilLanguage.ApplyLanguage()["frmQuantitativeFood_UnitName"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.AllowSorting = false;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("Quantity", Convert.ToString(UtilLanguage.ApplyLanguage()["frmImportWarehousingMaterials_Quantity"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.AllowSorting = false;
+                xColumn.MaskType = DevExpress.Xpf.Editors.MaskType.Numeric;
+                xColumn.EditMask = "#,##,##,##,##,##0.0##";
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Right;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+                xColumn = new Column("Price", Convert.ToString(UtilLanguage.ApplyLanguage()["frmImportWarehousingMaterials_Price"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.AllowSorting = false;
+                xColumn.MaskType = DevExpress.Xpf.Editors.MaskType.Numeric;
+                xColumn.EditMask = "#,##,##,##,##,##0.0##";
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Right;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+                
+                this.iGridHelper.Initialize();
+                this.grdView.AutoWidth = true;
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "Initialize_Grid()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// btnAddRow_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnAddRow_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DataRow drNew = this.iGridDataSource.NewRow();
+                drNew["Id"] = 0;
+                this.iGridDataSource.Rows.Add(drNew);
+                this.iGridDataSource.AcceptChanges();
+                this.iGridHelper.BindItemSource(this.iGridDataSource);
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "btnAddRow_Click()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// TableSchemaDefineBingdingGrid
+        /// </summary>
+        /// <returns></returns>
+        private DataTable TableSchemaDefineBingdingGrid()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("Quantity", typeof(decimal));
+                xDicUser.Add("MaterialId", typeof(decimal));
+                xDicUser.Add("MaterialCode", typeof(string));
+                xDicUser.Add("MaterialName", typeof(string));
+                xDicUser.Add("UnitName", typeof(string));
+                xDicUser.Add("FoodId", typeof(decimal));
+                xDicUser.Add("Id", typeof(decimal));
+                xDicUser.Add("MaterialsFifoId", typeof(decimal));
+                xDicUser.Add("Price", typeof(decimal));
+                xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+            }
+            catch (Exception ex)
+            {
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            return xDt;
+        }
+        /// <summary>
+        /// TableSchemaDefineBingding
+        /// </summary>
+        /// <returns></returns>
+        private DataTable TableSchemaDefineBingding()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("Id", typeof(decimal));
+                xDicUser.Add("IsConfirm", typeof(int));
+                xDicUser.Add("ImplementationDates", typeof(string));
+                xDicUser.Add("ImplementationDatesSearch", typeof(string));
+                xDicUser.Add("IsImport", typeof(int));
+                xDicUser.Add("WarehouseId", typeof(decimal));
+                xDicUser.Add("SchoolId", typeof(decimal));
+                xDicUser.Add("WarehouseIdTo", typeof(decimal));
+                xDicUser.Add("WarehousingMaterialsCode", typeof(string));
+                xDicUser.Add("SchoolName", typeof(string));
+                xDicUser.Add("SchoolCode", typeof(string));
+                xDicUser.Add("MaterialCode", typeof(string));
+                xDicUser.Add("MaterialName", typeof(string));
+                xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "TableSchemaDefineBingding()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            return xDt;
+        }
+        /// <summary>
+        /// OnPopupShown
+        /// </summary>
+        public override void OnPopupShown()
+        {
+            if (this.Parameter != null && this.Parameter.Count() > 0)
+            {
+                dr = this.Parameter[0] as DataRow;
+                Dispalay_request();
+            }
+        }
+        /// <summary>
+        /// Dispalay_request
+        /// </summary>
+        public void Dispalay_request()
+        {
+            try
+            {
+                foreach (DataColumn item in this.dr.Table.Columns)
+                {
+                    if (this.iDataSource.Columns[item.ColumnName] != null)
+                    {
+                        this.iDataSource.Rows[0][item.ColumnName] = dr[item.ColumnName];
+                    }
+                }
+                if (!string.IsNullOrWhiteSpace(this.iDataSource.Rows[0]["Id"].ToString()) && this.iDataSource.Rows[0]["Id"].ToString() != "0")
+                {
+                    LoadDataById();
+                    if (this.iDataSource.Rows[0]["IsConfirm"].ToString() == "1")
+                    {
+                        this.btnSave.IsEnabled = false;
+                        this.btnAdd.IsEnabled = false;
+                        this.btnDelete.IsEnabled = false;
+                    }
+                }
+                this.iDataSource.Rows[0]["IsImport"] = "0";
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "Dispalay_request()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+        /// <summary>
+        /// LoadDataById
+        /// </summary>
+        private void LoadDataById()
+        {
+            try
+            {
+                using (var task = new AsyncTaskProcess(this))
+                {
+                    ServiceAction<DataTable> action = ((pd) =>
+                    {
+                        task.SetCallContext();
+                        return _warehousingMaterialsBussiness.ExportWarehousingMaterialsById(this.iDataSource.Copy());
+                    });
+                    Action<DataTable> onComplete = (dt =>
+                    {
+                        this.Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            this.iGridDataSource = dt;
+                            this.iGridHelper.BindItemSource(this.iGridDataSource);
+                        }));
+                    });
+                    task.AsyncTaskExecute(action, onComplete);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "LoadData()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// loadDataForCombobox
+        /// </summary>
+        private void loadDataForCombobox()
+        {
+            try
+            {
+                DataTable dt = _warehouseBussiness.GetAllWarehouse(this.iDataSource.Copy());
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    ComboBoxUtil.SetComboBoxEdit(this.cboWarehouseId, "WarehouseName", "Id", dt, SelectionTypeEnum.Native);
+                    ComboBoxUtil.InsertItem(this.cboWarehouseId, "*", "0", 0, true);
+
+                    ComboBoxUtil.SetComboBoxEdit(this.cboWarehouseIdTo, "WarehouseName", "Id", dt, SelectionTypeEnum.Native);
+                    ComboBoxUtil.InsertItem(this.cboWarehouseIdTo, "*", "0", 0, true);
+
+                    this.dtSchools = _schoolsBussiness.GetAllSchools(this.iDataSource.Copy());
+                    ComboBoxUtil.SetComboBoxEdit(this.cboSchool, "SchoolsName", "Id", dtSchools, SelectionTypeEnum.Native);
+                    ComboBoxUtil.InsertItem(cboSchool, "*", "0", 0);
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "loadDataForCombobox()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// btnSave_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bool result = _warehousingMaterialsBussiness.InsertOrUpdateExportWarehousingMaterials(this.iDataSource.Copy(), this.iGridDataSource.Copy());
+                if (!result)
+                {
+                    base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageFailed"]));
+                    return;
+                }
+                else
+                {
+                    ToastMessage.ShowToastMessage(Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessage"]), Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageSuccess"]), notificationService);
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnSave.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+
+        }
+        /// <summary>
+        /// btnCancel_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnCancel.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+        /// <summary>
+        /// LoadData()
+        /// </summary>
+        private void LoadData()
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(this.iDataSource.Rows[0]["Id"].ToString()) || this.iDataSource.Rows[0]["Id"].ToString()== "0")
+                {
+                    using (var task = new AsyncTaskProcess(this))
+                    {
+                        ServiceAction<DataTable> action = ((pd) =>
+                        {
+                            task.SetCallContext();
+                            return _warehousingMaterialsBussiness.WarehousingMaterialsGetByDateAndSchool(this.iDataSource.Copy());
+                        });
+                        Action<DataTable> onComplete = (dt =>
+                        {
+                            this.Dispatcher.BeginInvoke((Action)(() =>
+                            {
+                                this.iGridDataSource = dt;
+                                this.iGridHelper.BindItemSource(this.iGridDataSource);
+                                CheckQuantityInWarehouse();
+                            }));
+                        });
+                        task.AsyncTaskExecute(action, onComplete);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "LoadData()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        
+        /// <summary>
+        /// cboSchool_EditValueChanged
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cboSchool_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(this.iDataSource.Rows[0]["SchoolId"].ToString()) && !string.IsNullOrWhiteSpace(this.iDataSource.Rows[0]["ImplementationDates"].ToString()))
+            {
+                LoadData();
+                CheckQuantityInWarehouse();
+            }
+        }
+        /// <summary>
+        /// dtpImplementationDates_EditValueChanged
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void dtpImplementationDates_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(this.iDataSource.Rows[0]["SchoolId"].ToString()) && !string.IsNullOrWhiteSpace(this.iDataSource.Rows[0]["ImplementationDates"].ToString()))
+            {
+                LoadData();
+                CheckQuantityInWarehouse();
+            }
+        }
+        /// <summary>
+        /// btnDeleteRow_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnDeleteRow_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (iGridDataSource.Rows.Count == 0) return;
+                DataRow rolSel = ((DataRowView)grd.GetFocusedRow()).Row;
+                this.iGridDataSource.Rows.Remove(rolSel);
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "btnDeleteRow_Click()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// grdView_CellValueChanged
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void grdView_CellValueChanged(object sender, CellValueChangedEventArgs e)
+        {
+            try
+            {
+                int vitri = this.grdView.FocusedRowHandle;
+                DataRow dr = this.dtNguyenLieu.Select("Id = " + this.iGridDataSource.Rows[vitri]["MaterialId"]).FirstOrDefault();
+                if (dr != null)
+                {
+                    this.iGridDataSource.Rows[vitri]["MaterialName"] = dr["MaterialName"].ToString();
+                    this.iGridDataSource.Rows[vitri]["UnitName"] = dr["UnitName"].ToString();
+                    this.iGridDataSource.Rows[vitri]["FoodId"] = "0";
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "grdView_CellValueChanged()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// cboWarehouseId_EditValueChanged
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cboWarehouseId_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
+        {
+            this.dtMaterialsFifo = _warehousingMaterialsBussiness.MaterialsFifoGetAll(this.iDataSource.Copy());
+        }
+        /// <summary>
+        /// CheckQuantityInWarehouse
+        /// </summary>
+        private void CheckQuantityInWarehouse()
+        {
+            try
+            {
+                decimal quantity = 0;
+                if (this.dtMaterialsFifo == null || this.dtMaterialsFifo.Rows.Count <= 0)
+                {
+                    base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["frmExportWarehousingMaterials_MessageCheck"]));
+                    return;
+                }
+                else
+                {
+                    DataTable dtDetail = this.iGridDataSource.Clone();                     
+                    foreach (DataRow dr in this.iGridDataSource.Rows)
+                    {
+                        quantity = dr["Quantity"].ToString().TryParseToDecimal();
+                        DataRow[] drFifo = this.dtMaterialsFifo.Select("MaterialId=" + dr["MaterialId"], "OrderNo ASC");
+                        if (drFifo.Length>0)
+                        {
+                            foreach (DataRow fifo in drFifo)
+                            {
+                                if (quantity <= fifo["Quantity"].ToString().TryParseToDecimal())
+                                {
+                                    DataRow drNew = dtDetail.NewRow();
+                                    drNew["MaterialsFifoId"] = fifo["Id"];
+                                    drNew["Price"] = fifo["Price"];
+                                    drNew["Quantity"] = quantity;
+                                    drNew["MaterialCode"] = dr["MaterialCode"];
+                                    drNew["MaterialName"] = dr["MaterialName"];
+                                    drNew["UnitName"] = dr["UnitName"];
+                                    drNew["FoodId"] = dr["FoodId"];
+                                    drNew["MaterialId"] = dr["MaterialId"];
+                                    dtDetail.Rows.Add(drNew);
+                                    break;
+                                }
+                                else
+                                {
+                                    quantity = quantity - fifo["Quantity"].ToString().TryParseToDecimal();
+                                    DataRow drNew = dtDetail.NewRow();
+                                    drNew["MaterialsFifoId"] = fifo["Id"];
+                                    drNew["Price"] = fifo["Price"];
+                                    drNew["Quantity"] = quantity;
+                                    drNew["MaterialCode"] = dr["MaterialCode"];
+                                    drNew["MaterialName"] = dr["MaterialName"];
+                                    drNew["UnitName"] = dr["UnitName"];
+                                    drNew["FoodId"] = dr["FoodId"];
+                                    drNew["MaterialId"] = dr["MaterialId"];
+                                    dtDetail.Rows.Add(drNew);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["frmExportWarehousingMaterials_MessageCheck"]));
+                            return;
+                        }
+                    }
+                    dtDetail.AcceptChanges();
+                    this.iGridDataSource = dtDetail;
+                    this.iGridHelper.BindItemSource(this.iGridDataSource);
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "CheckQuantityInWarehouse()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+    }
+}

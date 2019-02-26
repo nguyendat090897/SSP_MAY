@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A2EBDBE8-9DC6-463F-9AB9-058CF0770C30}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DSofT.Warehouse.ApiClient</RootNamespace>
+    <AssemblyName>DSofT.Warehouse.ApiClient</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DSofT.Framework">
+      <HintPath>..\DSofT.Warehouse.DLL\BaseFramework\DSofT.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.Client">
+      <HintPath>..\DSofT.Warehouse.DLL\BaseFramework\DSofT.Framework.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Clients\UserManagerClient.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="BaseClient\BaseClient.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DSofT.Warehouse.Business\DSofT.Warehouse.Business.csproj">
+      <Project>{e6db43d7-5bb5-42db-9ab9-191308905624}</Project>
+      <Name>DSofT.Warehouse.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DSofT.Warehouse.Domain\DSofT.Warehouse.Domain.csproj">
+      <Project>{b61d0ccb-084c-4581-af41-ed2c26029e2c}</Project>
+      <Name>DSofT.Warehouse.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>"C:\Program Files (x86)\Microsoft\Ilmerge\Ilmerge.exe" /wildcards /out:"$(SolutionDir)Application\DSofT.Warehouse.Dll\DSofT.Warehouse.ApiClient.Release.dll" /targetplatform:v4 "$(ProjectDir)bin\Debug\*.dll"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

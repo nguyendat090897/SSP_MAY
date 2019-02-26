@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<MENU>
+  <SUB>
+    <ID>VTTS001</ID>
+    <PARENTID></PARENTID>
+    <NAME>Bán hàng</NAME>
+    <NAMESPACE></NAMESPACE>
+    <CLASS></CLASS>
+    <REMARK></REMARK>
+    <ICON></ICON>
+  </SUB>
+  <SUB>
+    <ID>DANHMUC001</ID>
+    <PARENTID>VTTS001</PARENTID>
+    <NAME>Chất lượng vật tư</NAME>
+    <NAMESPACE>DSofT.FoodWarehouse.UI</NAMESPACE>
+    <CLASS>frmDonViPhongBan</CLASS>
+    <REMARK></REMARK>
+    <ICON>clt_ico_purchase.png</ICON>
+  </SUB>
+<SUB>
+    <ID>DANHMUC002</ID>
+    <PARENTID>VTTS001</PARENTID>
+    <NAME>abc</NAME>
+    <NAMESPACE>DSofT.FoodWarehouse.UI</NAMESPACE>
+    <CLASS>dm_donvi_phongban1</CLASS>
+    <REMARK></REMARK>
+    <ICON>clt_ico_purchase.png</ICON>
+  </SUB>
+<SUB>
+    <ID>DANHMUC003</ID>
+    <PARENTID>VTTS001</PARENTID>
+    <NAME>abc</NAME>
+    <NAMESPACE>DSofT.FoodWarehouse.UI</NAMESPACE>
+    <CLASS>dm_donvi_phongban_popup</CLASS>
+    <REMARK></REMARK>
+    <ICON>clt_ico_purchase.png</ICON>
+  </SUB>
+  <SUB>
+    <ID>DANHMUC005</ID>
+    <PARENTID>VTTS001</PARENTID>
+    <NAME>cang</NAME>
+    <NAMESPACE>DSofT.FoodWarehouse.UI</NAMESPACE>
+    <CLASS>frm_Port</CLASS>
+    <REMARK></REMARK>
+    <ICON>clt_ico_purchase.png</ICON>
+  </SUB>
+  <SUB>
+    <ID>DANHMUC004</ID>
+    <PARENTID>VTTS001</PARENTID>
+    <NAME>abc</NAME>
+    <NAMESPACE>DSofT.FoodWarehouse.UI</NAMESPACE>
+    <CLASS>dm_donvi_phongban_popup</CLASS>
+    <REMARK></REMARK>
+    <ICON>clt_ico_purchase.png</ICON>
+  </SUB>
+   <SUB>
+    <ID>DANHMUC005</ID>
+    <PARENTID>VTTS001</PARENTID>
+    <NAME>Receiver</NAME>
+    <NAMESPACE>DSofT.FoodWarehouse.UI</NAMESPACE>
+    <CLASS>frm_Receiver</CLASS>
+    <REMARK></REMARK>
+    <ICON>clt_ico_purchase.png</ICON>
+  </SUB>
+
+<SUB>
+    <ID>DANHMUC006</ID>
+    <PARENTID>VTTS001</PARENTID>
+    <NAME>Quản lý tàu</NAME>
+    <NAMESPACE>DSofT.FoodWarehouse.UI</NAMESPACE>
+    <CLASS>frm_VesselManager</CLASS>
+    <REMARK></REMARK>
+    <ICON>clt_ico_purchase.png</ICON>
+  </SUB>
+
+  <SUB>
+    <ID>DANHMUC004</ID>
+    <PARENTID>VTTS001</PARENTID>
+    <NAME>Menu</NAME>
+    <NAMESPACE>DSofT.FoodWarehouse.UI</NAMESPACE>
+    <CLASS>frm_Menu</CLASS>
+    <REMARK></REMARK>
+    <ICON>clt_ico_purchase.png</ICON>
+  </SUB>
+
+<SUB>
+    <ID>DANHMUC005</ID>
+    <PARENTID>VTTS001</PARENTID>
+    <NAME>Port</NAME>
+    <NAMESPACE>DSofT.FoodWarehouse.UI</NAMESPACE>
+    <CLASS>frm_Port</CLASS>
+    <REMARK></REMARK>
+    <ICON>clt_ico_purchase.png</ICON>
+	<SUB>
+    <ID>DANHMUC007</ID>
+    <PARENTID>VTTS001</PARENTID>
+    <NAME>Giám sát</NAME>
+    <NAMESPACE>DSofT.FoodWarehouse.UI</NAMESPACE>
+    <CLASS>frm_Giamsat</CLASS>
+    <REMARK></REMARK>
+    <ICON>clt_ico_purchase.png</ICON>
+  </SUB>
+  </SUB>
+</MENU>

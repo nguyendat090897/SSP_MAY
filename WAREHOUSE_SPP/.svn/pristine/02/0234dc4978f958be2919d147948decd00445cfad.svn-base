@@ -1,0 +1,233 @@
+﻿using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Warehouse.Resources;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Input;
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    ///  Author:	 Ngo Gia Thien
+    ///  Create date: 22/03/2018
+    ///  Editor:
+    ///  Modify date:
+    ///  Description:Xay dung dinh muc cho san pham khuyen mai
+    /// </summary>
+    public partial class frm_XDDinhMuc_ChoSP_KhuyenMai_Popup : PopupBase
+    {
+        DataTable iDataSource = null;
+        GridHelper iGridHelper = null;
+        DataTable iGridDataSource = null;
+        DataRow iRowSelG;
+        DataTable dt;
+
+        public frm_XDDinhMuc_ChoSP_KhuyenMai_Popup()
+        {
+            InitializeComponent();
+            this.DataContext = this.iDataSource;
+            Initialize_Grid();
+            Initialize_Grid1();
+        }
+
+        /// <summary>
+        /// NVL Tieu hao cho 1 thung
+        /// </summary>
+        private void Initialize_Grid()
+        {
+            try
+            {
+                this.iGridHelper = new GridHelper(this.grd, this.grdView, false);
+                Column xColumn;
+
+                xColumn = new Column("ROWNUM", Convert.ToString(UtilLanguage.ApplyLanguage()["lblOrderNo"]));
+                xColumn.Width = 50;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("MASPKH", Convert.ToString(UtilLanguage.ApplyLanguage()["lblMaThuocKH"]));
+                xColumn.Width = 150;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("tensp", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_xacnhan_hanghuhong_TenThuoc"]));
+                xColumn.Width = 250;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("DVT", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_xuatkho_sanpham_dichvu_DonViTinh"]));
+                xColumn.Width = 150;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("SOLUONG", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_xuatkho_vattu_dichvu_SoLuong"]));
+                xColumn.Width = 150;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("GIANHAP", Convert.ToString(UtilLanguage.ApplyLanguage()["lblGiaNhap"]));
+                xColumn.Width = 150;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("THANHTIEN", Convert.ToString(UtilLanguage.ApplyLanguage()["lblThanhTien"]));
+                xColumn.Width = 150;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("HANGKM", Convert.ToString(UtilLanguage.ApplyLanguage()["lblKhuyenMai"]));
+                xColumn.Width = 150;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("REMOVE", Convert.ToString(UtilLanguage.ApplyLanguage()["lblRemove"]));
+                xColumn.Width = 250;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                this.iGridHelper.Initialize();
+                //this.grdView.AutoWidth = true;
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "Initialize_Grid()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// NVL Tieu hao cho 1 don vi san pham
+        /// </summary>
+        private void Initialize_Grid1()
+        {
+            try
+            {
+                this.iGridHelper = new GridHelper(this.grd1, this.grdView1, false);
+                Column xColumn;
+
+                xColumn = new Column("ROWNUM", Convert.ToString(UtilLanguage.ApplyLanguage()["lblOrderNo"]));
+                xColumn.Width = 50;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("MANL", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieuxuat_tuPYC_MaNL"]));
+                xColumn.Width = 150;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("TENNL", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieuxuat_tuPYC_TenNL"]));
+                xColumn.Width = 250;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("DVT", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_xuatkho_sanpham_dichvu_DonViTinh"]));
+                xColumn.Width = 150;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("SOLUONG", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_xuatkho_vattu_dichvu_SoLuong"]));
+                xColumn.Width = 150;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("GIANHAP", Convert.ToString(UtilLanguage.ApplyLanguage()["lblGiaNhap"]));
+                xColumn.Width = 150;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("THANHTIEN", Convert.ToString(UtilLanguage.ApplyLanguage()["lblThanhTien"]));
+                xColumn.Width = 150;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("haohut", Convert.ToString(UtilLanguage.ApplyLanguage()["lblHaoHut"]));
+                xColumn.Width = 150;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("REMOVE", Convert.ToString(UtilLanguage.ApplyLanguage()["lblRemove"]));
+                xColumn.Width = 250;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                this.iGridHelper.Initialize();
+                //this.grdView1.AutoWidth = true;
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "Initialize_Grid()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+
+        private void btnKhaiBaoCPDV_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                object xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_XDDinhMuc_BoSung_TTTViet_KhaiBaoCPDV", null);
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnNew.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+        private void btnChon_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                object xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_XDDinhMuc_BoSung_TTTViet_TimKiemSP", null);
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnNew.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+    }
+}

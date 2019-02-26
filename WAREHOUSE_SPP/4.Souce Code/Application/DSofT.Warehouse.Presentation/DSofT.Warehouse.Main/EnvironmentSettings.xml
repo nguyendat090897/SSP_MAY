@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<configuration>
+<assembly ntdhttp="False" 
+		remoteserver="http://localhost/HRMS/" 
+		wcfserver="http://localhost:8000/DataService/"		
+		displayerror="True" 
+  	appdebugmode="True"
+		usewcf="False" 
+		https="False"
+		roserver="False"
+/> 
+</configuration>

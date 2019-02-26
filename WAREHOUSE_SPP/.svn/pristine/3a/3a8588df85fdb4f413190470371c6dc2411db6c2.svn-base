@@ -1,0 +1,209 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Data;
+using System.Windows;
+using System.Windows.Input;
+using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Resources;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Framework.UICore;
+using DSofT.Framework.UIControl;
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    /// Interaction logic for frm_dm_donvitinh.xaml
+    /// </summary>
+    public partial class frm_dm_donvitinh : ControlBase
+    {
+        DataTable iDataSource = null;
+        GridHelper iGridHelper = null;
+        DataTable iGridDataSource = null;
+        public frm_dm_donvitinh()
+        {
+            InitializeComponent();
+            Initialize_Grid();
+            //  this.iDataSource = this.TableSchemaDefineBingding();
+            // this.DataContext = this.iDataSource;
+        }
+        private DataTable TableSchemaDefineBingding()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("MaDonViTinh", typeof(string));
+                xDicUser.Add("TenDonViTinh", typeof(string));
+                xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "TableSchemaDefineBingding()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            return xDt;
+        }
+        /// <summary>
+        /// LoadData
+        /// </summary>
+
+        /// <summary>
+        /// Initialize_Grid
+        /// </summary>
+        private void Initialize_Grid()
+        {
+            try
+            {
+                this.iGridHelper = new GridHelper(this.grd, this.grdView, false);
+                Column xColumn;
+                Band xBand;
+                Band xBand1 = new Band(Convert.ToString(UtilLanguage.ApplyLanguage()["lblDonVi"]), new string[] { "DVT" });
+                Band xBand2 = new Band(Convert.ToString(UtilLanguage.ApplyLanguage()["frmImportWarehousingMaterials_Quantity"]), new string[] { "SoLuong" });
+
+                xColumn = new Column("Id", "Id");
+                xColumn.Visible = false;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("ROWNUM", Convert.ToString(UtilLanguage.ApplyLanguage()["lblOrderNo"]));
+                xColumn.Width = 40;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+                xBand = new Band(Convert.ToString(UtilLanguage.ApplyLanguage()["lblOrderNo"]));
+                this.iGridHelper.Add(xBand);
+
+                xColumn = new Column("MaDonViTinh", Convert.ToString(UtilLanguage.ApplyLanguage()["lblMaDonViTinh"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+                xBand = new Band(Convert.ToString(UtilLanguage.ApplyLanguage()["lblMaDonViTinh"]));
+                this.iGridHelper.Add(xBand);
+
+                xColumn = new Column("TenDonViTinh", Convert.ToString(UtilLanguage.ApplyLanguage()["lblTenDonViTinh"]));
+                xColumn.Width = 150;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+                xBand = new Band(Convert.ToString(UtilLanguage.ApplyLanguage()["lblTenDonViTinh"]));
+                this.iGridHelper.Add(xBand);
+
+                xColumn = new Column("Cap1", Convert.ToString(UtilLanguage.ApplyLanguage()["lblCap1"]));
+                xColumn.Width = 50;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+                xBand = new Band(Convert.ToString(UtilLanguage.ApplyLanguage()["lblCap1"]));
+                this.iGridHelper.Add(xBand);
+
+                xColumn = new Column("Cap2", Convert.ToString(UtilLanguage.ApplyLanguage()["lblCap2"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+                xBand = new Band(Convert.ToString(UtilLanguage.ApplyLanguage()["lblCap2"]));
+                xBand.Items.Add(xBand2);
+                xBand.Items.Add(xBand1);
+                this.iGridHelper.Add(xBand);
+
+                xColumn = new Column("Cap3", Convert.ToString(UtilLanguage.ApplyLanguage()["lblCap3"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+                xBand = new Band(Convert.ToString(UtilLanguage.ApplyLanguage()["lblCap3"]));
+                xBand.Items.Add(xBand2);
+                xBand.Items.Add(xBand1);
+                this.iGridHelper.Add(xBand);
+
+                xColumn = new Column("Cap4", Convert.ToString(UtilLanguage.ApplyLanguage()["lblCap4"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+                xBand = new Band(Convert.ToString(UtilLanguage.ApplyLanguage()["lblCap4"]));
+                xBand.Items.Add(xBand2);
+                xBand.Items.Add(xBand1);
+                this.iGridHelper.Add(xBand);
+
+                xColumn = new Column("Cap5", Convert.ToString(UtilLanguage.ApplyLanguage()["lblCap5"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+                xBand = new Band(Convert.ToString(UtilLanguage.ApplyLanguage()["lblCap5"]));
+                xBand.Items.Add(xBand2);
+                xBand.Items.Add(xBand1);
+                this.iGridHelper.Add(xBand); ;
+
+
+                xColumn = new Column("GhiChu", Convert.ToString(UtilLanguage.ApplyLanguage()["frmMenu_MenuRemark"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+                xBand = new Band(Convert.ToString(UtilLanguage.ApplyLanguage()["frmMenu_MenuRemark"]));
+                this.iGridHelper.Add(xBand);
+
+
+                xColumn = new Column("TinhTrangSuDung", Convert.ToString(UtilLanguage.ApplyLanguage()["lblTinhTrangSuDung"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+                xBand = new Band(Convert.ToString(UtilLanguage.ApplyLanguage()["lblTinhTrangSuDung"]));
+                this.iGridHelper.Add(xBand);
+
+                this.iGridHelper.Initialize();
+                this.grdView.AutoWidth = true;
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "Initialize_Grid()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+        private void btnNew_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                object xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_dm_donvitinh_popup", null);
+                //LoadData();
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnNew.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+        private void grdView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                // if (iDataSource.Rows.Count == 0) return;
+                // DataRow iRowSelGb = ((DataRowView)this.grd.GetFocusedRow()).Row;
+                // object xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_dm_donvitinh_popup", iRowSelGb);
+                // LoadData();
+                object xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_dm_donvitinh_popup", null);
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "grdView_MouseDoubleClick()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+    }
+}

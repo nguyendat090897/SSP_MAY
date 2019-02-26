@@ -1,0 +1,110 @@
+﻿using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Resources;
+using DevExpress.Xpf.Grid;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Windows;
+using System.Windows.Input;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Framework.UICore.TaskProxy;
+
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    /// Interaction logic for frm_dm_Tinh.xaml
+    /// </summary>
+    public partial class frm_dm_Tinh : ControlBase
+    {
+        DataRow iRowSelGb = null;
+        DataTable iDataSource = null;
+        GridHelper iGridHelper = null;
+        DataTable iGridDataSource = null;
+        public frm_dm_Tinh()
+        {
+            InitializeComponent();
+            Initialize_Grid();
+        }
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            //LoadData();
+        }
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            //LoadData();
+        }
+        private void btnNew_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                object xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_dm_Tinh_popup", null);
+               // LoadData();
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnNew.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        private void grdView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+//something
+        }
+        private void Initialize_Grid()
+        {
+            try
+            {
+                this.iGridHelper = new GridHelper(this.grd, this.grdView, false);
+                Column xColumn;
+
+                xColumn = new Column("ROWNUM", Convert.ToString(UtilLanguage.ApplyLanguage()["lblOrderNo"]));
+                xColumn.Width = 50;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("MA_TINH", Convert.ToString(UtilLanguage.ApplyLanguage()["lblMaTinh"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("TEN_TINH", Convert.ToString(UtilLanguage.ApplyLanguage()["lblTenTinh"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("GHI_CHU", Convert.ToString(UtilLanguage.ApplyLanguage()["frmMenu_MenuRemark"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("TINH_TRANG", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_dm_khachhang_ncc_TinhTrang"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                this.iGridHelper.Initialize();
+                this.grdView.AutoWidth = true;
+
+
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "Initialize_Grid()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+    }
+}

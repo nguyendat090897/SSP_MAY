@@ -1,0 +1,51 @@
+using DSofT.Warehouse.Provider;
+using System.Data;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface IFoodRealityBussiness
+    {
+        DataTable GetAllFoodReality(DataTable dtInput);
+        bool InsertOrUpdateFoodReality(DataTable dtInput);
+        bool DeleteFoodReality(DataTable dtInput);
+    }
+    public class FoodRealityBussiness : IFoodRealityBussiness
+    {
+        IFoodRealityProvider _foodRealityProvider;
+        /// <summary>
+        /// Hàm khởi tạo bắt buộc
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <param name="userId"></param>
+        public FoodRealityBussiness(string appId, string userId = "0")
+        {
+            _foodRealityProvider = new FoodRealityProvider(appId, userId);
+        }
+        /// <summary>
+        /// GetAllFoodReality
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetAllFoodReality(DataTable dtInput)
+        {
+            return _foodRealityProvider.GetAllFoodReality(dtInput);
+        }
+        /// <summary>
+        /// InsertOrUpdateFoodReality
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public bool InsertOrUpdateFoodReality( DataTable dtInput)
+        {
+            return _foodRealityProvider.InsertOrUpdateFoodReality(dtInput);
+        }
+        /// <summary>
+        /// DeleteFoodReality
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public bool DeleteFoodReality(DataTable dtInput)
+        {
+            return _foodRealityProvider.DeleteFoodReality(dtInput);
+        }
+    }
+}

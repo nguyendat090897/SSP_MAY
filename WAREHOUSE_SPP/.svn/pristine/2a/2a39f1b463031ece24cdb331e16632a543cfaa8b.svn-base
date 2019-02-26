@@ -1,0 +1,308 @@
+﻿using DevExpress.Xpf.Editors;
+using DevExpress.Xpf.Editors.Settings;
+using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Warehouse.Resources;
+using DSofT.Framework.Helpers;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using DSofT.Framework.UICore.TaskProxy;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Input;
+using DSofT.Framework.Client.ExportHelper;
+using Microsoft.Win32;
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    /// Interaction logic for frm_ReportMaterialWeek.xaml
+    /// </summary>
+    public partial class frm_ReportMaterialWeek : ControlBase
+    {
+        DataTable iDataSource = null;
+        GridHelper iGridHelper = null;
+        DataTable iGridDataSource = null;
+        IReportBussiness _reportBussiness;
+        ISchoolsBussiness _schoolsBussiness;
+        DataTable dtSchools;
+        public frm_ReportMaterialWeek()
+        {
+            InitializeComponent();
+            _reportBussiness = new ReportBussiness(string.Empty);
+            _schoolsBussiness = new SchoolsBussiness(string.Empty);          
+            this.iDataSource = this.TableSchemaDefineBingding();
+            this.DataContext = this.iDataSource;
+            Initialize_Grid();
+            LoadCombox();
+        }
+        /// <summary>
+        /// LoadCombox
+        /// </summary>
+        private void LoadCombox()
+        {
+            try
+            {
+                this.dtSchools = _schoolsBussiness.GetAllSchools(this.iDataSource.Copy());
+                ComboBoxUtil.SetComboBoxEdit(this.cboSchool, "SchoolsName", "Id", dtSchools, SelectionTypeEnum.Native);
+                ComboBoxUtil.InsertItem(cboSchool, "*", "0", 0);
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "LoadCombox()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+
+        }
+
+        /// <summary>
+        /// TableSchemaDefineBingding
+        /// </summary>
+        /// <returns></returns>
+        private DataTable TableSchemaDefineBingding()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("FromDay", typeof(string));
+                xDicUser.Add("ToDay", typeof(string));
+                xDicUser.Add("SchoolName", typeof(string));
+                xDicUser.Add("SchoolCode", typeof(string));
+                xDicUser.Add("DayChoose", typeof(string));
+                xDicUser.Add("SchoolsId", typeof(decimal));
+                xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return xDt;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        private void LoadData()
+        {
+            try
+            {
+                using (var task = new AsyncTaskProcess(this))
+                {
+                    ServiceAction<DataTable> action = ((pd) =>
+                    {
+                        task.SetCallContext();
+                        return _reportBussiness.ReportMaterialWeekGetBySchoolId(this.iDataSource.Copy());
+                    });
+                    Action<DataTable> onComplete = (dt =>
+                    {
+                        this.Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            this.iGridDataSource = dt;
+                            this.iGridHelper.BindItemSource(this.iGridDataSource);
+                        }));
+                    });
+                    task.AsyncTaskExecute(action, onComplete);
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "LoadData()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// Initialize_Grid
+        /// </summary>
+        private void Initialize_Grid()
+        {
+            try
+            {
+                this.iGridHelper = new GridHelper(this.grd, this.grdView, false);
+                Column xColumn;
+                xColumn = new Column("Id", "Id");
+                xColumn.Visible = false;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("WEEKNAMEDAY", Convert.ToString(UtilLanguage.ApplyLanguage()["frmReportMaterialWeek_WEEKNAMEDAY"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.IsCellMerging = true;
+                xColumn.AllowSorting = false;
+                xColumn.VerticalContentAlignment = VerticalAlignment.Center;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("DateMenu", Convert.ToString(UtilLanguage.ApplyLanguage()["frmReportMaterialWeek_DateMenu"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.IsCellMerging = true;
+                xColumn.AllowSorting = false;
+                xColumn.VerticalContentAlignment = VerticalAlignment.Center;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+
+
+                xColumn = new Column("FoodName", Convert.ToString(UtilLanguage.ApplyLanguage()["frmReportMaterialWeek_FoodName"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.IsCellMerging = true;
+                xColumn.AllowSorting = false;
+                xColumn.VerticalContentAlignment = VerticalAlignment.Center;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("MaterialName", Convert.ToString(UtilLanguage.ApplyLanguage()["frmReportMaterialWeek_MaterialName"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("Quantitative", Convert.ToString(UtilLanguage.ApplyLanguage()["frmReportMaterialWeek_Quantitative"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+
+
+                xColumn = new Column("NumberFoodStudent", Convert.ToString(UtilLanguage.ApplyLanguage()["frmReportMaterialWeek_NumberFoodStudent"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("NumberFoodTeacher", Convert.ToString(UtilLanguage.ApplyLanguage()["frmReportMaterialWeek_NumberFoodTeacher"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+
+                this.iGridHelper.Initialize();
+                this.grdView.AutoWidth = true;
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "Initialize_Grid()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// ChangeDate()
+        /// </summary>
+        private void ChangeDate()
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                if (string.IsNullOrWhiteSpace(this.iDataSource.Rows[0]["DayChoose"].ToString())
+                    || this.iDataSource.Rows[0]["SchoolsId"].ToString().TryParseToDecimal() <= 0)
+                {
+                    return;
+                }
+                CultureInfo cultureInfo = CultureInfo.CurrentCulture;
+                DateTime firstDayOfWeek = DateTime.Now;
+                DayOfWeek firstDay = cultureInfo.DateTimeFormat.FirstDayOfWeek;
+                DateTime firstDayInWeek = DateTime.ParseExact(DateTimeHelper.ConvertDateTimeWithFormat(this.iDataSource.Rows[0]["DayChoose"].ToString(), "dd/MM/yyyy"), "dd/MM/yyyy", CultureInfo.InvariantCulture).Date;
+                while (firstDayInWeek.DayOfWeek != firstDay)
+                {
+                    firstDayInWeek = firstDayInWeek.AddDays(-1);
+                }
+                this.iDataSource.Rows[0]["FromDay"] = DateTimeHelper.ConvertDateTimeWithFormat(firstDayInWeek.ToShortDateString(), "dd/MM/yyyy");
+                this.iDataSource.Rows[0]["ToDay"] = DateTimeHelper.ConvertDateTimeWithFormat(firstDayInWeek.AddDays(6).ToShortDateString(), "dd/MM/yyyy");
+
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "ChangeDate");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void dtpDayChoose_EditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            ChangeDate();
+        }
+        /// <summary>
+        /// cboSchool_EditValueChanged
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cboSchool_EditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            ChangeDate();
+        }
+        /// <summary>
+        /// btnExcel_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnExcel_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ExportExcel exp = new ExportExcel();
+                DataSet dsSource = new DataSet();
+                string filename = string.Empty;
+                DataTable dt = new DataTable();
+                dt = this.iGridDataSource.Copy();
+                dt.TableName = "dt";
+                dsSource.Tables.Add(dt);
+                string templaleFileName = "RP_MaterialWeek.xlsx";
+                DataTable dtTitle = new DataTable();
+                dtTitle.TableName = "dt2";
+                dtTitle.Columns.Add("TitleReport", typeof(string));
+                dtTitle.Columns.Add("SchoolName", typeof(string));
+                DataRow drTitle = dtTitle.NewRow();
+                drTitle["TitleReport"] = string.Format("TIẾP PHẨM TUẦN ({0} -> {1})", this.iDataSource.Rows[0]["FromDay"].ToString(), this.iDataSource.Rows[0]["ToDay"].ToString());
+                drTitle["SchoolName"] = string.Format("Trường: {0}", cboSchool.Text);
+                dtTitle.Rows.Add(drTitle);
+                dsSource.Tables.Add(dtTitle);
+                SaveFileDialog dlg = new SaveFileDialog();
+                dlg.Filter = "Excel files (*.xlsx or .xls)|.xlsx;*.xls";
+                dlg.FileName = string.Format("{0}", Guid.NewGuid());
+                var result = dlg.ShowDialog();
+                if (result == true)
+                {
+                    filename = dlg.FileName;
+                    var export = exp.Return(filename, templaleFileName, dsSource);
+                    if (export)
+                    {
+                        System.Diagnostics.Process.Start(filename);
+                        ToastMessage.ShowToastMessage(Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessage"]), Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageSuccess"]), notificationService);
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnExcel.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// btnSearch_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            LoadData();
+        }
+    }
+
+}

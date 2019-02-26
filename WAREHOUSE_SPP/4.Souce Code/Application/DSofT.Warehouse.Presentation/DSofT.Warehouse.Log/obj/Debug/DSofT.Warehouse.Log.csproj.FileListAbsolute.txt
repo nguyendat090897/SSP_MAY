@@ -1,0 +1,17 @@
+E:\DVSoft\DVS.Warehouse\4.Souce Code\Application.Release\DSofT.Warehouse.Log.dll
+E:\DVSoft\DVS.Warehouse\4.Souce Code\Application.Release\DSofT.Warehouse.Log.pdb
+E:\DVSoft\DVS.Warehouse\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Log\obj\Debug\DSofT.Warehouse.Log.csprojResolveAssemblyReference.cache
+E:\DVSoft\DVS.Warehouse\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Log\obj\Debug\DSofT.Warehouse.Log.dll
+E:\DVSoft\DVS.Warehouse\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Log\obj\Debug\DSofT.Warehouse.Log.pdb
+D:\Projects\WAREHOUSE_SPP\4.Souce Code\Application.Release\DSofT.Warehouse.Log.dll
+D:\Projects\WAREHOUSE_SPP\4.Souce Code\Application.Release\DSofT.Warehouse.Log.pdb
+D:\Projects\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Log\obj\Debug\DSofT.Warehouse.Log.csprojResolveAssemblyReference.cache
+D:\Projects\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Log\obj\Debug\DSofT.Warehouse.Log.dll
+D:\Projects\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Log\obj\Debug\DSofT.Warehouse.Log.pdb
+D:\NOT\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application.Release\DSofT.Warehouse.Log.dll
+D:\NOT\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application.Release\DSofT.Warehouse.Log.pdb
+D:\NOT\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Log\obj\Debug\DSofT.Warehouse.Log.csproj.CoreCompileInputs.cache
+D:\NOT\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Log\obj\Debug\DSofT.Warehouse.Log.csproj.CopyComplete
+D:\NOT\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Log\obj\Debug\DSofT.Warehouse.Log.dll
+D:\NOT\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Log\obj\Debug\DSofT.Warehouse.Log.pdb
+D:\NOT\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Log\obj\Debug\DSofT.Warehouse.Log.csprojAssemblyReference.cache

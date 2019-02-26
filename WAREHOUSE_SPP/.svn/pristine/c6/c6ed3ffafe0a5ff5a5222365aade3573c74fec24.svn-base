@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<repositories>
+  <repository path="..\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Main\packages.config" />
+  <repository path="..\Application\DSofT.Warehouse.Provider\packages.config" />
+  <repository path="..\Application\DSoft.ApiListener\packages.config" />
+  <repository path="..\Lingo.CS.ApiListener\packages.config" />
+  <repository path="..\Lingo.CS.SignalR\packages.config" />
+  <repository path="..\Lingo.CS\packages.config" />
+  <repository path="..\Lingo.EyeBeam.UtilityTool\packages.config" />
+  <repository path="..\Lingo.Framework.Client\packages.config" />
+  <repository path="..\Lingo.Framework.Internal\packages.config" />
+  <repository path="..\Lingo.Framework.Logging\packages.config" />
+  <repository path="..\Lingo.Framework.Presentation\packages.config" />
+  <repository path="..\Lingo.Framework\packages.config" />
+</repositories>

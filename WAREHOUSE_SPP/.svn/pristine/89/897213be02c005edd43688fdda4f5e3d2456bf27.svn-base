@@ -1,0 +1,72 @@
+using DSofT.Warehouse.Provider;
+using System.Data;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface IFoodMenuBussiness
+    {
+        DataTable GetAllFoodMenu(DataTable dtInput);
+        DataTable GeFoodMenuByDateAndSchool(DataTable dtInput);
+        bool InsertOrUpdateFoodMenu(DataTable dt, DataTable dtInput);
+        DataTable ReportVegetablesQuatitative(DataTable dtInput);
+        DataTable ReportDeliveryVegetablesQuatitative(string dateTime,string schoolsId);
+    }
+    public class FoodMenuBussiness : IFoodMenuBussiness
+    {
+        IFoodMenuProvider _FoodMenuProvider;
+        /// <summary>
+        /// Hàm khởi tạo bắt buộc
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <param name="userId"></param>
+        public FoodMenuBussiness(string appId, string userId = "0")
+        {
+            _FoodMenuProvider = new FoodMenuProvider(appId, userId);
+        }
+        /// <summary>
+        /// GeFoodMenuByDateAndSchool
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public DataTable GeFoodMenuByDateAndSchool(DataTable dtInput)
+        {
+            return _FoodMenuProvider.GeFoodMenuByDateAndSchool(dtInput);
+        }
+        /// <summary>
+        /// ReportVegetablesQuatitative
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public DataTable ReportVegetablesQuatitative(DataTable dtInput)
+        {
+            return _FoodMenuProvider.ReportVegetablesQuatitative(dtInput);
+        }
+        /// <summary>
+        /// ReportDeliveryQuatitative
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="schoolsId"></param>
+        /// <returns></returns>
+        public DataTable ReportDeliveryVegetablesQuatitative(string dateTime, string schoolsId)
+        {
+            return _FoodMenuProvider.ReportDeliveryVegetablesQuatitative(dateTime, schoolsId);
+        }
+        /// <summary>
+        /// GetAllFoodMenu
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetAllFoodMenu(DataTable dtInput)
+        {
+            return _FoodMenuProvider.GetAllFoodMenu(dtInput);
+        }
+        /// <summary>
+        /// InsertOrUpdateFoodMenu
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public bool InsertOrUpdateFoodMenu(DataTable dt, DataTable dtInput)
+        {
+            return _FoodMenuProvider.InsertOrUpdateFoodMenu(dt, dtInput);
+        }
+    }
+}

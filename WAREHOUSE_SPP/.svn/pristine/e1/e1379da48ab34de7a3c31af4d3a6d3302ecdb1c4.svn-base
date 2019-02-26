@@ -1,0 +1,44 @@
+
+using DSofT.Warehouse.Provider;
+using System.Data;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface IDM_SanPhamBussiness
+    {
+        int InsertOrUpdateSanPham(DataTable dtInput);
+        int DeleteSanPham(int SANPHAM_ID);
+
+        DataTable GetList_SanPham(string MA_DVQL);
+
+        DataTable GetList_SanPham_By_Loai_SPham( int LOAI_SPHAM_ID);
+
+    }
+    public class SanPhamBussiness : IDM_SanPhamBussiness
+    {
+        IDM_SanPhamProvider _DM_SAN_PHAMProvider;
+        public SanPhamBussiness(string appId, string userId = "0")
+        {
+            _DM_SAN_PHAMProvider = new SanPhamProvider(appId, userId);
+        }
+        
+        public int InsertOrUpdateSanPham(DataTable dt)
+        {
+            return _DM_SAN_PHAMProvider.InsertOrUpdateSanPham(dt);
+        }
+        
+        public int DeleteSanPham(int SANPHAM_ID)
+        {
+            return _DM_SAN_PHAMProvider.DeleteSanPham(SANPHAM_ID);
+        }
+        public DataTable GetList_SanPham(string MA_DVIQLY)
+        {
+            return _DM_SAN_PHAMProvider.GetList_SanPham(MA_DVIQLY);
+        }
+
+        public DataTable GetList_SanPham_By_Loai_SPham(int LOAI_SPHAM_ID)
+        {
+            return _DM_SAN_PHAMProvider.GetList_SanPham_By_Loai_SPham(LOAI_SPHAM_ID);
+        }
+    }
+}

@@ -1,0 +1,90 @@
+﻿using DSofT.Framework.Internal.Data;
+using DSofT.Framework.UIControl;
+using System.Collections.Generic;
+using System.Data;
+
+namespace DSofT.Warehouse.Provider
+{
+    public interface IUnitProvider
+    {
+        DataTable GetAllUnit();
+        bool InsertOrUpdateUnit(DataTable dtInput);
+        bool DeleteUnit(DataTable dtInput);
+    }
+    public class UnitProvider : BaseSqlExecute, IUnitProvider
+    {
+
+        public UnitProvider(string appId, string userId)
+            : base(DbCommon.WarehouseDbConnstr, appId, userId)
+        {
+        }
+        /// <summary>
+        /// Get danh sách đơn vị tính
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetAllUnit()
+        {
+            var sqlParams = new object[] { };
+            var result = base.ExecuteDataSet("Unit_GetAll", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+        /// <summary>
+        /// Insert hoặc Update loại món ăn
+        /// </summary>
+        /// <returns></returns>
+        public bool InsertOrUpdateUnit(DataTable dtInput)
+        {
+            //thuc hien update
+            if (NumberHelper.ConvertStringToLong(dtInput.Rows[0]["Id"].ToString()) > 0)
+            {
+                var sqlParams = new object[] { dtInput.Rows[0]["Id"]
+                                             , dtInput.Rows[0]["UnitCode"]
+                                             , dtInput.Rows[0]["UnitName"]
+                                             , dtInput.Rows[0]["Remark"]
+                                             , CommonDataHelper.UserName
+                                             };
+                var result = base.ExecScalar("Unit_Update", sqlParams);
+                if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                var sqlParams = new object[] { 
+                                              dtInput.Rows[0]["UnitCode"]
+                                             , dtInput.Rows[0]["UnitName"]
+                                             , dtInput.Rows[0]["Remark"]
+                                             , CommonDataHelper.UserName
+                                             };
+                var result = base.ExecScalar("Unit_Insert", sqlParams);
+                if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        /// <summary>
+        /// DeleteUnit
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public bool DeleteUnit(DataTable dtInput)
+        {
+                var sqlParams = new object[] { dtInput.Rows[0]["Id"]
+                                             , CommonDataHelper.UserName
+                                             };
+                var result = base.ExecScalar("Unit_Delete", sqlParams);
+                if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+                {
+                    return true;
+                }
+            return false;
+        }
+    }
+}

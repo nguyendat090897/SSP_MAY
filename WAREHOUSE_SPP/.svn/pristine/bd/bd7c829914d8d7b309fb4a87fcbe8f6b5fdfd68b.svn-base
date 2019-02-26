@@ -1,0 +1,116 @@
+﻿using DSofT.Framework.Internal.Data;
+using DSofT.Framework.UIControl;
+using System.Collections.Generic;
+using System.Data;
+
+namespace DSofT.Warehouse.Provider
+{
+    public interface IMaterialProvider
+    {
+        DataTable GetAllMaterial(DataTable dtInput);
+        bool InsertOrUpdateMaterial(DataTable dtInput);
+        bool DeleteMaterial(DataTable dtInput);
+        DataTable GetAllMaterialFood(string foodId);
+    }
+    public class MaterialProvider : BaseSqlExecute, IMaterialProvider
+    {
+
+        public MaterialProvider(string appId, string userId)
+            : base(DbCommon.WarehouseDbConnstr, appId, userId)
+        {
+        }
+        /// <summary>
+        /// Get danh sách nguyên liệu
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetAllMaterial(DataTable dtInput)
+        {
+            var sqlParams = new object[] { dtInput.Rows[0]["MaterialCode"],dtInput.Rows[0]["MaterialName"] };
+            var result = base.ExecuteDataSet("Material_GetAll", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+        /// <summary>
+        /// Insert hoặc Update nguyên liệu
+        /// </summary>
+        /// <returns></returns>
+        public bool InsertOrUpdateMaterial(DataTable dtInput)
+        {
+            //thuc hien update
+            if (NumberHelper.ConvertStringToLong(dtInput.Rows[0]["Id"].ToString()) > 0)
+            {
+                var sqlParams = new object[] {   dtInput.Rows[0]["Id"]
+                                                ,dtInput.Rows[0]["MaterialCode"]
+                                                ,dtInput.Rows[0]["MaterialName"]
+                                                ,dtInput.Rows[0]["UnitId"]
+                                                ,dtInput.Rows[0]["SupplierId"]
+                                                ,dtInput.Rows[0]["VAT"]
+                                                ,dtInput.Rows[0]["Price"]
+                                                ,dtInput.Rows[0]["Remark"]
+                                                ,CommonDataHelper.UserName
+                                                 ,dtInput.Rows[0]["GroupMaterialId"]
+                                             };
+                var result = base.ExecScalar("Material_Update", sqlParams);
+                if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                var sqlParams = new object[] {
+                                                dtInput.Rows[0]["MaterialCode"]
+                                                ,dtInput.Rows[0]["MaterialName"]
+                                                ,dtInput.Rows[0]["UnitId"]
+                                                ,dtInput.Rows[0]["SupplierId"]
+                                                ,dtInput.Rows[0]["VAT"]
+                                                ,dtInput.Rows[0]["Price"]
+                                                ,dtInput.Rows[0]["Remark"]
+                                                , CommonDataHelper.UserName
+                                                ,dtInput.Rows[0]["GroupMaterialId"]
+                                             };
+                var result = base.ExecScalar("Material_Insert", sqlParams);
+                if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        /// <summary>
+        /// DeleteMaterial
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public bool DeleteMaterial(DataTable dtInput)
+        {
+                var sqlParams = new object[] { dtInput.Rows[0]["Id"]
+                                             , CommonDataHelper.UserName
+                                             };
+                var result = base.ExecScalar("Material_Delete", sqlParams);
+                if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+                {
+                    return true;
+                }
+            return false;
+        }
+        /// <summary>
+        /// GetAllMaterialFood
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public DataTable GetAllMaterialFood(string foodId)
+        {
+            var sqlParams = new object[] { foodId };
+            var result = base.ExecuteDataSet("Material_GetAllByFood", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+    }
+}

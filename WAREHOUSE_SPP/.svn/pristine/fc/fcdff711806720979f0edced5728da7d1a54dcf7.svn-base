@@ -1,0 +1,48 @@
+
+using DSofT.Warehouse.Provider;
+using System.Data;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface IGroupMaterialBussiness
+    {
+        DataTable GetAllGroupMaterial();
+        bool InsertOrUpdateGroupMaterial(DataTable dtInput);
+        bool DeleteGroupMaterial(DataTable dtInput);
+    }
+    public class GroupMaterialBussiness : IGroupMaterialBussiness
+    {
+        IGroupMaterialProvider _GroupMaterialProvider;
+        /// <summary>
+        /// Hàm khởi tạo bắt buộc
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <param name="userId"></param>
+        public GroupMaterialBussiness(string appId, string userId = "0")
+        {
+            _GroupMaterialProvider = new GroupMaterialProvider(appId, userId);
+        }
+        /// <summary>
+        /// GetAllGroupMaterial
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetAllGroupMaterial()
+        {
+            return _GroupMaterialProvider.GetAllGroupMaterial();
+        }
+
+        public bool InsertOrUpdateGroupMaterial( DataTable dtInput)
+        {
+            return _GroupMaterialProvider.InsertOrUpdateGroupMaterial(dtInput);
+        }
+        /// <summary>
+        /// DeleteGroupMaterial
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public bool DeleteGroupMaterial(DataTable dtInput)
+        {
+            return _GroupMaterialProvider.DeleteGroupMaterial(dtInput);
+        }
+    }
+}

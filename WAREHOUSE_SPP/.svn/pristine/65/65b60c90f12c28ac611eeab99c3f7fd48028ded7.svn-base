@@ -1,0 +1,551 @@
+﻿using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Resources;
+using DevExpress.Xpf.Grid;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Windows;
+using System.Windows.Input;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Framework.UICore.TaskProxy;
+using DevExpress.Xpf.Editors;
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    /// Interaction logic for frm_lapphieu_yeucau_nhapkho.xaml
+    /// </summary>
+    public partial class frm_lapphieu_yeucau_nhapkho : ControlBase
+    {
+        DataTable iDataSource = null;
+        GridHelper iGridHelper = null;
+        GridHelper iGridHelper_ctiet = null;
+        DataTable iGridDataSource = null;
+        DataSet iGridDataSource_dataset = null;
+        IYEUCAU_NHAPXUATKHOBussiness _IYEUCAU_NHAPXUATKHOBussiness;
+        DataRow iRowSelGb = null;
+        public frm_lapphieu_yeucau_nhapkho()
+        {
+            InitializeComponent();
+            Initialize_Grid_LapPhieu_YeuCau_NhapKho();
+            Initialize_Grid_ctiet();
+            _IYEUCAU_NHAPXUATKHOBussiness = new YEUCAU_NHAPXUATKHOBussiness(string.Empty);
+            this.iDataSource = this.TableSchemaDefineBingding();
+            this.DataContext = this.iDataSource;
+            LoadData();
+        }
+        /// <summary>
+        /// Initialize_Grid_Sua
+        /// </summary>
+        /// 
+
+        private DataTable TableSchemaDefineBingding()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("MA_DVIQLY", typeof(string));
+                xDicUser.Add("PHIEUYEUCAU_NHAPXUATKHO_ID", typeof(decimal));
+                xDicUser.Add("KHACHHANG_NCC_ID", typeof(decimal));
+                xDicUser.Add("TEN_KH", typeof(string));
+                xDicUser.Add("SO_HOPDONG", typeof(string));
+                xDicUser.Add("TEN_DONVI_VANCHUYEN", typeof(string));
+                xDicUser.Add("DIADIEM_GIAO", typeof(string));
+                xDicUser.Add("TEN_HINHTHU_NHAPXUAT", typeof(string));
+                xDicUser.Add("HOPDONG_ID", typeof(decimal));
+                xDicUser.Add("KHACHHANG_NCC_DONVI_VANCHUYEN_ID", typeof(decimal));
+                xDicUser.Add("KHACHHANG_NCC_NOI_XUATHANG_ID", typeof(decimal));
+                xDicUser.Add("NGUOILIENHE_A", typeof(string));
+                xDicUser.Add("TEN_KHO", typeof(string));
+                xDicUser.Add("NGUOILIENHE_B", typeof(string));
+                xDicUser.Add("SO_CHUNGTU", typeof(string));
+                xDicUser.Add("NGAY_CHUNGTU", typeof(string));
+                xDicUser.Add("MA_HINHTHU_NHAPXUAT", typeof(string));
+                xDicUser.Add("SOPHIEU", typeof(string));
+                xDicUser.Add("NGAYLAP", typeof(string));
+                xDicUser.Add("TEN_TAIXE", typeof(string));
+                xDicUser.Add("SO_DIENTHOAI", typeof(string));
+                xDicUser.Add("SO_XE", typeof(string));
+                xDicUser.Add("SO_CONT", typeof(string));
+                xDicUser.Add("GHI_CHU", typeof(string));
+                xDicUser.Add("RowVersion", typeof(long));
+                xDicUser.Add("IsDelete", typeof(bool));
+                xDicUser.Add("CreateBy", typeof(string));
+                xDicUser.Add("CreateDate", typeof(string));
+                xDicUser.Add("ModifiedBy", typeof(string));
+                xDicUser.Add("ModifiedDate", typeof(string));
+                xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "TableSchemaDefineBingding()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            return xDt;
+        }
+
+        private void Initialize_Grid_LapPhieu_YeuCau_NhapKho()
+        {
+            try
+            {
+                this.iGridHelper = new GridHelper(this.gridControl, this.grdViewLapPhieuYeuCauNhapKho, false);
+                Column xColumn;
+
+                xColumn = new Column("ROWNUM", Convert.ToString(UtilLanguage.ApplyLanguage()["lblOrderNo"]));
+                xColumn.Width = 50;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("PHIEUYEUCAU_NHAPXUATKHO_ID", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_NCC"]));
+                xColumn.Width = 100;
+                xColumn.Visible = false;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("TEN_KH", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_NCC"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("SO_HOPDONG", "Số HĐ");
+                xColumn.Width = 120;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+
+                xColumn = new Column("NGUOILIENHE_A", "Người liên hệ(A)");
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("NGUOILIENHE_B", "Người liên hệ(B)");
+                xColumn.Width = 120;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("SO_CHUNGTU", "Số chứng từ");
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("NGAY_CHUNGTU", "Ngày chứng từ");
+                xColumn.Width = 120;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("TEN_HINHTHU_NHAPXUAT", "Hình thức nhập hàng");
+                xColumn.Width = 150;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("SOPHIEU", "Số phiếu");
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("NGAYLAP", "Ngày lập");
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("TEN_DONVI_VANCHUYEN", "Đơn vị vận chuyển");
+                xColumn.Width = 150;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("DIADIEM_GIAO", "Địa điểm xuất hàng");
+                xColumn.Width = 150;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+
+                xColumn = new Column("TEN_TAIXE", "Tài xế");
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("SO_DIENTHOAI", "Số ĐT");
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+
+                xColumn = new Column("SO_XE", "Số xe");
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("SO_CONT", "Số Cont");
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("GHI_CHU", "Ghi chú");
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+
+                xColumn = new Column("CreateDate", "Ngày tạo hệ thống");
+                xColumn.Width = 120;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("CreateBy", "Người tạo");
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+
+                xColumn = new Column("ModifiedDate", "Ngày sửa");
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("ModifiedBy", "Người sửa");
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+
+
+                this.iGridHelper.Initialize();
+                 ConstCommon.setAutoFilterConditionGrid(this.gridControl);
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "Initialize_Grid_LapPhieu_YeuCau_NhapKho()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// btnNew_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// 
+
+        public void LoadData()
+        {
+            try
+            {
+                using (var task = new AsyncTaskProcess(this))
+                {
+                    ServiceAction<DataSet> action = ((pd) =>
+                    {
+                        task.SetCallContext();
+                        return _IYEUCAU_NHAPXUATKHOBussiness.getKO_PHIEUYEUCAU_NHAPXUATKHO_ALL(ConstCommon.DonViQuanLy,"N");
+                    });
+                    Action<DataSet> onComplete = (dt =>
+                    {
+                        this.Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            this.iGridDataSource = dt.Tables[0];
+                            this.iGridDataSource_dataset=dt.Copy();
+                            this.iGridHelper.BindItemSource(this.iGridDataSource);
+                        }));
+                    });
+                    task.AsyncTaskExecute(action, onComplete);
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "LoadData()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        private void btnNew_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                object xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_lapphieu_yeucau_nhapkho_popup", null);
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnNew.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+        private void grdView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+            try
+            {
+                if (iDataSource.Rows.Count == 0) return;
+                if (this.gridControl.GetFocusedRow() == null) return;
+                iRowSelGb = ((DataRowView)this.gridControl.GetFocusedRow()).Row;
+
+                DataRow[] iRowSelGb_ctiet = iGridDataSource_dataset.Tables[1].Select("PHIEUYEUCAU_NHAPXUATKHO_ID=" +  ConstCommon.NVL_NUM_LONG_NEW(iRowSelGb["PHIEUYEUCAU_NHAPXUATKHO_ID"]));
+
+                object xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_lapphieu_yeucau_nhapkho_popup", iRowSelGb, iRowSelGb_ctiet);
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "grdView_MouseDoubleClick()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "LoadData()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                iRowSelGb = null;
+                if (!base.ShowMessage(MessageType.OkCancel, Convert.ToString(UtilLanguage.ApplyLanguage()["lblcomfrimDelete"])))
+                    return;
+                if (this.gridControl.GetFocusedRow() == null) return;
+                iRowSelGb = ((DataRowView)gridControl.GetFocusedRow()).Row;
+
+                bool result = _IYEUCAU_NHAPXUATKHOBussiness.KO_PHIEUYEUCAU_NHAPXUATKHO_DELETE_BYID(ConstCommon.DonViQuanLy, ConstCommon.NVL_NUM_LONG_NEW(iRowSelGb["PHIEUYEUCAU_NHAPXUATKHO_ID"].ToString()), CommonDataHelper.UserName);
+                if (!result)
+                {
+                    base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["tblKhongThanhCong"]));
+                    return;
+                }
+                else
+                {
+                    ToastMessage.ShowToastMessage(Convert.ToString(UtilLanguage.ApplyLanguage()["tblThongBao"]), Convert.ToString(UtilLanguage.ApplyLanguage()["tblThanhCong"]), notificationService);
+                }
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnDelete.Tag.ToString());
+                base.ShowMessage(MessageType.Error, "Vui lòng chọn dữ liệu cần xóa", ex);
+            }
+        }
+
+        public void DispalayRequest()
+        {
+            try
+            {
+                foreach (DataColumn item in this.iRowSelGb.Table.Columns)
+                {
+                    if (this.iDataSource.Columns[item.ColumnName] != null)
+                    {
+                        this.iDataSource.Rows[0][item.ColumnName] = iRowSelGb[item.ColumnName];
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "DispalayRequest()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+
+
+        private void Initialize_Grid_ctiet()
+        {
+            try
+            {
+                this.iGridHelper_ctiet = new GridHelper(this.grdChiTiet, this.grdViewChiTiet, false);
+                Column xColumn;
+
+                xColumn = new Column("STT", Convert.ToString(UtilLanguage.ApplyLanguage()["lblOrderNo"]));
+                xColumn.Width = 50;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper_ctiet.Add(xColumn);
+
+                xColumn = new Column("TEN_KHO", "Kho");
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper_ctiet.Add(xColumn);
+
+                xColumn = new Column("TEN_KHO_KHUVUC", "Khu vực");
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper_ctiet.Add(xColumn);
+
+                xColumn = new Column("MA_SANPHAM", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_MaThuoc"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper_ctiet.Add(xColumn);
+
+                xColumn = new Column("MA_SANPHAM_KH", "Mã sản phẩm(KH)");
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper_ctiet.Add(xColumn);
+
+                xColumn = new Column("TEN_SANPHAM", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_TenThuoc"]));
+                xColumn.Width = 120;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper_ctiet.Add(xColumn);
+
+                xColumn = new Column("SOLO", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_SoLo"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper_ctiet.Add(xColumn);
+
+
+
+
+                xColumn = new Column("HANDUNG", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_HanDung"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper_ctiet.Add(xColumn);
+
+                xColumn = new Column("QUYCACHDONGGOI", "Quy cách đóng gói");
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper_ctiet.Add(xColumn);
+
+
+                xColumn = new Column("MA_DONVI_TINH", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_DonViTinh"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper_ctiet.Add(xColumn);
+
+                xColumn = new Column("SO_LUONG", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_SoLuong"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.MaskType = MaskType.Numeric;
+                xColumn.EditMask = "n0";
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Right;
+                this.iGridHelper_ctiet.Add(xColumn);
+
+                xColumn = new Column("DONGIA", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_GiaNhap"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.MaskType = MaskType.Numeric;
+                xColumn.EditMask = "n0";
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Right;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper_ctiet.Add(xColumn);
+
+                xColumn = new Column("THANHTIEN", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_ThanhTien"]));
+                xColumn.Width = 120;
+                xColumn.Visible = true;
+                xColumn.MaskType = MaskType.Numeric;
+                xColumn.EditMask = "n0";
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Right;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper_ctiet.Add(xColumn);
+
+
+                this.iGridHelper_ctiet.Initialize();
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "Initialize_Grid()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        private void grdViewLapPhieuYeuCauNhapKho_FocusedRowChanged(object sender, FocusedRowChangedEventArgs e)
+        {
+            try
+            {
+                if (this.gridControl.GetFocusedRow() == null) return;
+                iRowSelGb = ((DataRowView)gridControl.GetFocusedRow()).Row;
+                DispalayRequest();
+                DataRow[] iRowSelGb_ctiet = iGridDataSource_dataset.Tables[1].Select("PHIEUYEUCAU_NHAPXUATKHO_ID=" + ConstCommon.NVL_NUM_LONG_NEW(iRowSelGb["PHIEUYEUCAU_NHAPXUATKHO_ID"]));
+                if (iRowSelGb_ctiet.Length>0)
+                {
+                    this.iGridHelper_ctiet.BindItemSource(iRowSelGb_ctiet.CopyToDataTable());
+                }
+                else
+                {
+                    grdChiTiet.ItemsSource = null;
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnDelete.Tag.ToString());
+                base.ShowMessage(MessageType.Error, "Vui lòng chọn dữ liệu cần xóa", ex);
+            }
+        }
+    }
+}

@@ -1,0 +1,309 @@
+﻿using DevExpress.Xpf.Editors;
+using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Warehouse.Resources;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using DSofT.Framework.UICore.TaskProxy;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Windows;
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    /// Interaction logic for frm_QuantitativeFoodV02.xaml
+    /// </summary>
+    public partial class frm_QuantitativeFoodV02 : ControlBase
+    {
+        DataTable iDataSource = null;
+        GridHelper iGridHelper = null;
+        DataTable iGridDataSource = null;
+        IQuantitativeFoodBussiness _quantitativeFoodBussiness;
+        ISchoolsBussiness _schoolsBussiness;
+        DataTable dtSchools;
+        DataTable dtCopyGridDataSource = null;
+        bool isCopy = false;
+        public frm_QuantitativeFoodV02()
+        {
+            InitializeComponent();
+            _quantitativeFoodBussiness = new QuantitativeFoodBussiness(string.Empty);
+            _schoolsBussiness = new SchoolsBussiness(string.Empty);
+            Initialize_Grid();
+            this.iDataSource = this.TableSchemaDefineBingding();
+            this.DataContext = this.iDataSource;
+            LoadCombox();
+        }
+
+        private void LoadCombox()
+        {
+            try
+            {
+                this.dtSchools = _schoolsBussiness.GetAllSchools(this.iDataSource.Copy());
+                ComboBoxUtil.SetComboBoxEdit(this.cboSchool, "SchoolsName", "Id", dtSchools, SelectionTypeEnum.Native);
+                ComboBoxUtil.InsertItem(cboSchool, "*", "0", 0);
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "LoadCombox()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+
+        }
+        private DataTable TableSchemaDefineBingding()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("foodId", typeof(decimal));
+                xDicUser.Add("foodTypeId", typeof(decimal));
+                xDicUser.Add("SchoolId", typeof(decimal));
+                xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "TableSchemaDefineBingding()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            return xDt;
+        }
+        private void Initialize_Grid()
+        {
+            try
+            {
+                this.iGridHelper = new GridHelper(this.grd, this.grdView, false);
+                Column xColumn;
+
+                xColumn = new Column("QuantitativeFoodId", "QuantitativeFoodId");
+                xColumn.Visible = false;
+                this.iGridHelper.Add(xColumn);
+
+
+                xColumn = new Column("FoodId", "FoodId");
+                xColumn.Visible = false;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("MaterialId", "MaterialId");
+                xColumn.Visible = false;
+                this.iGridHelper.Add(xColumn);
+
+
+                xColumn = new Column("ROWNUM", Convert.ToString(UtilLanguage.ApplyLanguage()["lblOrderNo"]));
+                xColumn.Width = 50;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("FullNameFood", Convert.ToString(UtilLanguage.ApplyLanguage()["frmFood_FoodName"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.IsCellMerging = true;
+                xColumn.AllowSorting = false;
+                xColumn.VerticalContentAlignment = VerticalAlignment.Center;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+
+
+                xColumn = new Column("MaterialCode", Convert.ToString(UtilLanguage.ApplyLanguage()["frmQuantitativeFood_MaterialCode"]));
+                xColumn.Width = 40;
+                xColumn.Visible = true;
+                xColumn.AllowSorting = false;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("MaterialName", Convert.ToString(UtilLanguage.ApplyLanguage()["frmQuantitativeFood_MaterialName"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.AllowSorting = false;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("UnitName", Convert.ToString(UtilLanguage.ApplyLanguage()["frmQuantitativeFood_UnitName"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.AllowSorting = false;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("QuantitativeOne", Convert.ToString(UtilLanguage.ApplyLanguage()["frmQuantitativeFood_QuantitativeOne"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.AllowSorting = false;
+                xColumn.MaskType = MaskType.Numeric;
+                xColumn.EditMask = "#,##,##,##,##,##0.0##";
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Right;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("QuantitativeTwo", Convert.ToString(UtilLanguage.ApplyLanguage()["frmQuantitativeFood_QuantitativeTwo"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.AllowSorting = false;
+                xColumn.MaskType = MaskType.Numeric;
+                xColumn.EditMask = "#,##,##,##,##,##0.0##";
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Right;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("QuantitativeOrther", Convert.ToString(UtilLanguage.ApplyLanguage()["frmQuantitativeFood_QuantitativeOrther"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.MaskType = MaskType.Numeric;
+                xColumn.EditMask = "#,##,##,##,##,##0.0##";
+                xColumn.AllowSorting = false;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Right;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("Price", Convert.ToString(UtilLanguage.ApplyLanguage()["frmQuantitativeFood_Price"]));
+                xColumn.Width = 80;
+                xColumn.MaskType = MaskType.Numeric;
+                xColumn.EditMask = "#,##,##,##,##,##0";
+                xColumn.Visible = true;
+                xColumn.AllowSorting = false;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Right;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+
+                this.iGridHelper.Initialize();
+                this.grdView.AutoWidth = true;
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "Initialize_Grid()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        private void LoadData()
+        {
+            try
+            {
+                if (isCopy)
+                {
+                    this.iGridHelper.BindItemSource(this.dtCopyGridDataSource);
+                    isCopy = false;
+                    this.iGridDataSource = this.dtCopyGridDataSource;
+                    foreach (DataRow dr in this.iGridDataSource.Rows)
+                    {
+                        dr["QuantitativeFoodId"] = "0";
+                    }
+                    this.iGridDataSource.AcceptChanges();
+                }
+                else
+                {
+                    using (var task = new AsyncTaskProcess(this))
+                    {
+                        ServiceAction<DataTable> action = ((pd) =>
+                        {
+                            task.SetCallContext();
+                            return _quantitativeFoodBussiness.GetAllQuantitativeFood(this.iDataSource.Copy());
+                        });
+                        Action<DataTable> onComplete = (dt =>
+                        {
+                            this.Dispatcher.BeginInvoke((Action)(() =>
+                            {
+                                this.iGridDataSource = dt;
+                                this.iGridHelper.BindItemSource(this.iGridDataSource);
+                            }));
+                        });
+                        task.AsyncTaskExecute(action, onComplete);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "LoadData()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// Refresh lại dữ liệu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnRefresh_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            LoadData();
+        }
+        /// <summary>
+        /// Get data input
+        /// </summary>
+        /// <returns></returns>
+        private DataTable GetDataInput()
+        {
+            DataTable dtResult = new DataTable();
+            dtResult = this.iGridDataSource.Clone();
+            foreach (DataRow row in this.iGridDataSource.Rows)
+            {
+                //lấy những món ăn chi tiết được nhập để tiến hành lưu
+                if (!string.IsNullOrWhiteSpace(row["QuantitativeOne"].ToString()) || !string.IsNullOrWhiteSpace(row["QuantitativeTwo"].ToString())
+                    || !string.IsNullOrWhiteSpace(row["QuantitativeOrther"].ToString()) || !string.IsNullOrWhiteSpace(row["Price"].ToString()))
+                {
+                    dtResult.ImportRow(row);
+                }
+
+            }
+            return dtResult;
+        }
+        /// <summary>
+        /// Lưu dữ liệu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSave_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            try
+            {
+
+                DataTable dtInput = GetDataInput();
+                bool result = _quantitativeFoodBussiness.InsertOrUpdateQuantitativeFood(dtInput, this.iDataSource.Rows[0]["schoolId"].ToString());
+
+                if (result == true)
+                {
+                    base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageSuccess"]));
+                    LoadData();
+                }
+                else
+                {
+                    base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageFailed"]));
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnSave.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// cboSchool_EditValueChanged
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void cboSchool_EditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+                LoadData();
+        }
+        /// <summary>
+        /// btnCopy_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnCopy_Click(object sender, RoutedEventArgs e)
+        {
+            this.iDataSource.Rows[0]["SchoolId"] = "0";
+            isCopy = true;
+            this.dtCopyGridDataSource = this.iGridDataSource.Copy();
+        }
+    }
+}

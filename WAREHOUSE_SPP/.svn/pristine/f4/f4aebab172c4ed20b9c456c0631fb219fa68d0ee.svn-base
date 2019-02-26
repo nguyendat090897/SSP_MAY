@@ -1,0 +1,286 @@
+﻿using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Warehouse.Resources;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Input;
+using DSofT.Framework.UICore.TaskProxy;
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    /// Interaction logic for frm_dm_nhom_pallet_popup.xaml
+    /// </summary>
+    public partial class frm_dm_nhom_pallet_popup : PopupBase
+    {
+        DataTable iDataSource = null;
+        DataTable xLoaiKichThuoc = null;
+        DataTable xLoaiPallet = null;
+        DataTable xNhaSanXuat = null;
+        IDM_NHOM_PALLETBussiness _DM_NHOM_PALLETBussiness;
+        DataRow iRowSelGb = null; 
+        public frm_dm_nhom_pallet_popup()
+        {
+            InitializeComponent();
+            _DM_NHOM_PALLETBussiness = new DM_NHOM_PALLETBussiness(string.Empty);
+            this.iDataSource = this.TableSchemaDefineBingding();
+            this.DataContext = this.iDataSource;
+            LoadComboBox();
+            UpdateCheckBox();
+        }
+        public override void OnPopupShown()
+        {
+            try
+            {
+                if (this.Parameter != null && this.Parameter.Count() > 0)
+                {
+                    iRowSelGb = this.Parameter[0] as DataRow;
+                    DispalayRequest();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public void DispalayRequest()
+        {
+            try
+            {
+                foreach (DataColumn item in this.iRowSelGb.Table.Columns)
+                {
+                    if (this.iDataSource.Columns[item.ColumnName] != null)
+                    {
+                        this.iDataSource.Rows[0][item.ColumnName] = iRowSelGb[item.ColumnName];
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "DispalayRequest()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+        /// <summary>
+        /// TableSchemaDefineBingding
+        /// </summary>
+        /// <returns></returns>
+        private DataTable TableSchemaDefineBingding()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("NHOM_PALLET_ID", typeof(decimal));
+                xDicUser.Add("MA_DVIQLY", typeof(string));
+                xDicUser.Add("TEN_NHOM_PALLET", typeof(string));
+                xDicUser.Add("LOAI_KTHUOC_ID", typeof(decimal));
+                xDicUser.Add("LOAI_PALLET_ID", typeof(decimal));
+                xDicUser.Add("NHA_SXUAT_ID", typeof(decimal));
+                xDicUser.Add("MA_PL_THEO_NSX", typeof(string));
+                xDicUser.Add("TEN_PL_THEO_NSX", typeof(string));
+                xDicUser.Add("GHI_CHU", typeof(string));
+                xDicUser.Add("TINH_TRANG", typeof(bool));
+                xDicUser.Add("RowVersion", typeof(long));
+                xDicUser.Add("IsDelete", typeof(bool));
+                xDicUser.Add("CreateBy", typeof(string));
+                xDicUser.Add("CreateDate", typeof(DateTime));
+                xDicUser.Add("ModifiedBy", typeof(string));
+                xDicUser.Add("ModifiedDate", typeof(DateTime));
+                xDicUser.Add("MA_SIZE", typeof(string));
+                xDicUser.Add("TEN_LOAI_PALLET", typeof(string));
+                xDicUser.Add("TEN_NHA_SXUAT", typeof(string));
+                xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return xDt;
+        }
+        /// <summary>
+        /// LoadComboBox
+        /// </summary>
+        /// <returns></returns>
+        private void LoadComboBox()
+        {
+            try
+            {
+                DataTable dtkt = _DM_NHOM_PALLETBussiness.GetListDM_NHOM_PALLET_KICH_THUOC(ConstCommon.DonViQuanLy);
+                DataTable dtlp = _DM_NHOM_PALLETBussiness.GetListDM_NHOM_PALLET_LOAI_PALLET(ConstCommon.DonViQuanLy);
+                DataTable dtnsx = _DM_NHOM_PALLETBussiness.GetListDM_NHOM_PALLE_NHA_SAN_XUAT(ConstCommon.DonViQuanLy);
+                if (dtkt != null && dtkt.Rows.Count > 0)
+                {
+                    this.xLoaiKichThuoc = dtkt;
+                    ComboBoxUtil.SetComboBoxEdit(this.cboLOAI_KTHUOC_ID, "MA_SIZE", "LOAI_KTHUOC_ID", xLoaiKichThuoc, SelectionTypeEnum.Native);
+                   // ComboBoxUtil.InsertItem(this.cboLOAI_KTHUOC_ID, "0", "0", 0, true);
+                }
+                if (dtlp != null && dtlp.Rows.Count > 0)
+                {
+                    this.xLoaiPallet = dtlp;
+                    ComboBoxUtil.SetComboBoxEdit(this.cboLOAI_PALLET_ID, "TEN_LOAI_PALLET", "LOAI_PALLET_ID", xLoaiPallet, SelectionTypeEnum.Native);
+                }
+                if (dtnsx != null && dtnsx.Rows.Count > 0)
+                {
+                    this.xNhaSanXuat = dtnsx;
+                    ComboBoxUtil.SetComboBoxEdit(this.cboNHA_SXUAT_ID, "TEN_NHA_SXUAT", "NHA_SXUAT_ID", xNhaSanXuat, SelectionTypeEnum.Native);
+                }
+            }
+            catch (Exception ex)
+            {
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+        private void KTTinhTrang()
+        {
+            try
+            {
+                if (chkTINH_TRANG.IsChecked == true)
+                    this.iDataSource.Rows[0]["TINH_TRANG"] = 1;
+                else
+                    this.iDataSource.Rows[0]["TINH_TRANG"] = 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private void UpdateCheckBox()
+        {
+            try
+            {
+                if (this.iDataSource.Rows[0]["TINH_TRANG"].ToString() == "1")
+                    chkTINH_TRANG.IsChecked = true;
+                else
+                    chkTINH_TRANG.IsChecked = false;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private void SetIsNull()
+        {
+            this.iDataSource.Rows[0]["TEN_NHOM_PALLET"] = string.Empty;
+            this.iDataSource.Rows[0]["MA_PL_THEO_NSX"] = string.Empty;
+            this.iDataSource.Rows[0]["TEN_PL_THEO_NSX"] = string.Empty;
+            this.iDataSource.Rows[0]["GHI_CHU"] = string.Empty;
+            this.iDataSource.Rows[0]["TINH_TRANG"] = 0;
+            this.cboLOAI_KTHUOC_ID.Text = this.iDataSource.Rows[0]["MA_SIZE"].ToString();
+            this.cboLOAI_PALLET_ID.Text = this.iDataSource.Rows[0]["TEN_LOAI_PALLET"].ToString();
+            this.cboNHA_SXUAT_ID.Text = this.iDataSource.Rows[0]["TEN_NHA_SXUAT"].ToString();
+        }
+        private void SetFocus()
+        {
+            try
+            {
+                if (txtTEN_NHOM_PALLET.Text == String.Empty)
+                    txtTEN_NHOM_PALLET.Focus();
+                else if (cboLOAI_KTHUOC_ID.Text == String.Empty)
+                    cboLOAI_KTHUOC_ID.Focus();
+                else if (cboLOAI_PALLET_ID.Text == String.Empty)
+                    cboLOAI_PALLET_ID.Focus();
+                else if (cboNHA_SXUAT_ID.Text == String.Empty)
+                    cboNHA_SXUAT_ID.Focus();
+                else if (txtMA_PL_THEO_NSX.Text == String.Empty)
+                    txtMA_PL_THEO_NSX.Focus();
+                else
+                    txtTEN_PL_THEO_NSX.Focus();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        private void btnNew_Click(object sender, RoutedEventArgs e)
+        {
+            frm_dm_nhom_pallet.status = true;
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                SetIsNull();
+                txtTEN_NHOM_PALLET.Focus();
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DataTable dts = _DM_NHOM_PALLETBussiness.GetListDM_NHOM_PALLET_KEY(ConstCommon.DonViQuanLy, txtTEN_NHOM_PALLET.Text, 
+                    ConstCommon.NVL_NUM_LONG_NEW(this.iDataSource.Rows[0]["LOAI_KTHUOC_ID"].ToString()), ConstCommon.NVL_NUM_LONG_NEW(this.iDataSource.Rows[0]["LOAI_PALLET_ID"].ToString()),
+                    ConstCommon.NVL_NUM_LONG_NEW(this.iDataSource.Rows[0]["NHA_SXUAT_ID"].ToString()), txtMA_PL_THEO_NSX.Text,txtTEN_PL_THEO_NSX.Text);
+                if (frm_dm_nhom_pallet.status == true && dts != null && dts.Rows.Count > 0)
+                {
+                    base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblNoteKey"]));
+                }
+                else
+                {
+                    if (txtTEN_NHOM_PALLET.Text != String.Empty && cboLOAI_KTHUOC_ID.Text != String.Empty
+                    && cboLOAI_PALLET_ID.Text != String.Empty && cboNHA_SXUAT_ID.Text != String.Empty
+                    && txtMA_PL_THEO_NSX.Text != String.Empty && txtTEN_PL_THEO_NSX.Text != String.Empty)
+                    {
+                        KTTinhTrang();
+                        if (dts == null || dts.Rows.Count == 0)
+                        {
+                            bool result = _DM_NHOM_PALLETBussiness.InsertorUpdateDM_NHOM_PALLET(this.iDataSource.Copy());
+                            if (!result)
+                            {
+
+                                base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageFailed"]));
+                                return;
+                            }
+                            else
+                            {
+                                ToastMessage.ShowToastMessage(Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessage"]), Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageSuccess"]), notificationService);
+                                this.Close();
+                            }
+                        }
+                        else
+                            base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblNoteKey"]));
+                    }
+                    else
+                    {
+                        base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblNoteFull"]));
+                        SetFocus();
+                        return;
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnSave.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+     
+    }
+
+}

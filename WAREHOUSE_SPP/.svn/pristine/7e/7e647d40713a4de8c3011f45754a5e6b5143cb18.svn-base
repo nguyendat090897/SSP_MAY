@@ -1,0 +1,75 @@
+
+using DSofT.Warehouse.Provider;
+using System.Data;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface IInventoryBussiness
+    {
+        DataTable InventoryGetListMetarialCalculated(DataTable dtInput);
+        bool InsertOrUpdateInventory(DataTable dtInput, DataTable dtInputDetail);
+        bool DeleteInventory(DataTable dtInput);
+        DataTable GetAllInventoryList(DataTable dtInput);
+        DataTable GetListMetarialCalculatedById(DataTable dtInput);
+    }
+    public class InventoryBussiness : IInventoryBussiness
+    {
+        IInventoryProvider _inventoryProvider;
+        /// <summary>
+        /// Hàm khởi tạo bắt buộc
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <param name="userId"></param>
+        public InventoryBussiness(string appId, string userId = "0")
+        {
+            _inventoryProvider = new InventoryProvider(appId, userId);
+        }
+        /// <summary>
+        /// InventoryGetListMetarialCalculated
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public DataTable InventoryGetListMetarialCalculated(DataTable dtInput)
+        {
+            return _inventoryProvider.InventoryGetListMetarialCalculated(dtInput);
+        }
+        /// <summary>
+        /// GetListMetarialCalculatedById
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public DataTable GetListMetarialCalculatedById(DataTable dtInput)
+        {
+            return _inventoryProvider.GetListMetarialCalculatedById(dtInput);
+        }
+
+        /// <summary>
+        /// GetAllInventoryList
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public DataTable GetAllInventoryList(DataTable dtInput)
+        {
+            return _inventoryProvider.GetAllInventoryList(dtInput);
+        }
+        /// <summary>
+        /// InsertOrUpdateInventory
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <param name="dtInputDetail"></param>
+        /// <returns></returns>
+        public bool InsertOrUpdateInventory(DataTable dtInput, DataTable dtInputDetail)
+        {
+            return _inventoryProvider.InsertOrUpdateInventory(dtInput, dtInputDetail);
+        }
+        /// <summary>
+        /// DeleteInventory
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public bool DeleteInventory(DataTable dtInput)
+        {
+            return _inventoryProvider.DeleteInventory(dtInput);
+        }
+    }
+}

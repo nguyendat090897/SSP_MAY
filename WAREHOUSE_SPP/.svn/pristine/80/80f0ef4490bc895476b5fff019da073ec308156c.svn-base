@@ -1,0 +1,48 @@
+
+using DSofT.Warehouse.Provider;
+using System.Data;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface ISchoolsBussiness
+    {
+        DataTable GetAllSchools(DataTable dtInput);
+        bool InsertOrUpdateSchools(DataTable dtInput);
+        bool DeleteSchools(DataTable dtInput);
+    }
+    public class SchoolsBussiness : ISchoolsBussiness
+    {
+        ISchoolsProvider _SchoolsProvider;
+        /// <summary>
+        /// Hàm khởi tạo bắt buộc
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <param name="userId"></param>
+        public SchoolsBussiness(string appId, string userId = "0")
+        {
+            _SchoolsProvider = new SchoolsProvider(appId, userId);
+        }
+        /// <summary>
+        /// GetAllSchools
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetAllSchools(DataTable dtInput)
+        {
+            return _SchoolsProvider.GetAllSchools(dtInput);
+        }
+
+        public bool InsertOrUpdateSchools( DataTable dtInput)
+        {
+            return _SchoolsProvider.InsertOrUpdateSchools(dtInput);
+        }
+        /// <summary>
+        /// DeleteSchools
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public bool DeleteSchools(DataTable dtInput)
+        {
+            return _SchoolsProvider.DeleteSchools(dtInput);
+        }
+    }
+}

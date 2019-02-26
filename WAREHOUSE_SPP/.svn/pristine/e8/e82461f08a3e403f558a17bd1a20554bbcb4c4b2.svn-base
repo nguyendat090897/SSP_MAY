@@ -1,0 +1,252 @@
+using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Resources;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Windows;
+using System.Windows.Input;
+using System.Windows.Data;
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    /// Interaction logic for frmLoaiNguoiDung.xaml
+    /// </summary>
+    public partial class frm_UserType : ControlBase
+    {
+
+        GridHelper GridControlHelper = null;
+        DataTable iDataSource = null;
+        IUserTypeManagerBussiness _usertypeManagerBussiness;
+        bool FlagSave = true;
+        public frm_UserType()
+        {
+            InitializeComponent();
+            InitGridControl();
+            _usertypeManagerBussiness = new UserTypeManagerBussiness(string.Empty);
+            this.iDataSource = this.TableSchemaDefineBingding();
+            this.DataContext = this.iDataSource;
+            LoadData_UserType();
+            this.iDataSource.Rows[0]["UserTypeGroup"] = 1;
+            //Enabled(false);
+        }
+
+        public void LoadData_UserType()
+        {
+            try
+            {
+                DataSet ds = _usertypeManagerBussiness.GetList();
+                if (ds != null && ds.Tables.Count > 0)
+                {
+                    gridControl.ItemsSource = ds.Tables[0];
+                }
+            }
+            catch (Exception ex)
+            {
+                base.ShowMessage(MessageType.Error, ex.Message);
+            }
+        }
+
+        public void Enabled (bool x)
+        {
+            txtMaLoaiNguoiDung.IsEnabled = txtTenLoaiNguoiDung.IsEnabled = txtGhiChu.IsEnabled = rdbAdmin.IsEnabled = rdbNhanVien.IsEnabled = rdbQuanLyCang.IsEnabled = rdbTruongCa.IsEnabled = rdbVanPhong.IsEnabled = x;
+            //btnDelete.IsEnabled = x;
+            //btnRefresh.IsEnabled = btnSave.IsEnabled = x;
+            //btnNew.IsEnabled = !x;
+        }
+
+    private void InitGridControl()
+        {
+            try
+            {
+                this.GridControlHelper = new GridHelper(this.gridControl, this.tableView, false);
+                Column xColumn = new Column();
+
+                xColumn = new Column("ID", "STT");
+                xColumn.Visible = false;
+                this.GridControlHelper.Add(xColumn);
+
+                xColumn = new Column("UserTypeCode", Convert.ToString(UtilLanguage.ApplyLanguage()["lblMaLoaiNguoiDung"]));
+                xColumn.Width = 70;
+                xColumn.Visible = true;
+                xColumn.AllowSorting = false;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.GridControlHelper.Add(xColumn);
+
+                xColumn = new Column("UserTypeName", Convert.ToString(UtilLanguage.ApplyLanguage()["lblTenLoaiNguoiDung"]));
+                xColumn.Width = 120;
+                xColumn.Visible = true;
+                xColumn.AllowSorting = false;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.GridControlHelper.Add(xColumn);
+
+                xColumn = new Column("UserTypeGroup", Convert.ToString(UtilLanguage.ApplyLanguage()["lblTenNhomLoaiNguoiDung"]));
+                xColumn.Width = 120;
+                xColumn.Visible = true;
+                xColumn.AllowSorting = false;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.GridControlHelper.Add(xColumn);
+
+                xColumn = new Column("UserTypeDescription", Convert.ToString(UtilLanguage.ApplyLanguage()["lblGhiChu"]));
+                xColumn.Width = 130;
+                xColumn.Visible = true;
+                xColumn.AllowSorting = false;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.GridControlHelper.Add(xColumn);
+
+                this.GridControlHelper.Initialize();
+                this.tableView.AutoWidth = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool Validate()
+        {
+            if (string.IsNullOrEmpty(this.iDataSource.Rows[0]["UserTypeCode"].ToString()))
+            {
+                base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["msMaLoaiNguoiDung"]));
+                this.txtMaLoaiNguoiDung.Focus();
+                return false;
+            }
+            if (string.IsNullOrEmpty(this.iDataSource.Rows[0]["UserTypeName"].ToString()))
+            {
+                base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["msTenLoaiNguoiDung"]));
+                this.txtTenLoaiNguoiDung.Focus();
+                return false;
+            }
+            if (string.IsNullOrEmpty(this.iDataSource.Rows[0]["UserTypeGroup"].ToString()) || this.iDataSource.Rows[0]["UserTypeGroup"].ToString() == "0")
+            {
+                base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["msNhomLoaiNguoiDung"]));
+                return false;
+            }
+            return true;
+        }
+        private DataTable TableSchemaDefineBingding()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("ID", typeof(string));
+                xDicUser.Add("UserTypeCode", typeof(string));
+                xDicUser.Add("UserTypeName", typeof(string));
+                xDicUser.Add("UserTypeGroup", typeof(int));
+                xDicUser.Add("UserTypeDescription", typeof(string));
+                xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return xDt;
+        }
+
+        public void Refresh()
+        {
+            this.iDataSource.Rows[0]["UserTypeCode"] = this.iDataSource.Rows[0]["UserTypeName"] = this.iDataSource.Rows[0]["UserTypeDescription"] = string.Empty;
+            this.iDataSource.Rows[0]["UserTypeGroup"] = 1;
+        }
+
+        private void btnNew_Click(object sender, RoutedEventArgs e)
+        {
+            //Enabled(true);
+            Refresh();  
+            LoadData_UserType();
+            txtMaLoaiNguoiDung.Focus();
+            FlagSave = false;
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                DataSet ds = new DataSet(); ;
+                ds.Tables.Add(iDataSource.Copy());
+                bool t = base.ShowMessage(MessageType.OkCancel, UtilLanguage.ApplyLanguage()["Confirm"].ToString());
+                if(t)
+                {
+                    if (_usertypeManagerBussiness.DeleteUserType(ds))
+                    {
+                        base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblThongBaoXoa"]));
+                        Refresh();
+                        LoadData_UserType();
+                    }
+                }
+            }
+            catch (Exception)
+            {
+
+                base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblThatBai"]));
+            }
+        }
+
+     
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            Refresh();
+            LoadData_UserType();
+            txtMaLoaiNguoiDung.Focus();
+            FlagSave = false;
+        }
+
+        private void gridControl_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (gridControl.SelectedItem != null)
+            {
+                FlagSave = true;
+                DataRowView dtr = (DataRowView)gridControl.SelectedItem;
+                var row = dtr.Row;
+                foreach (DataColumn item in iDataSource.Columns)
+                {
+                    if (row.Table.Columns.Contains(item.ColumnName))
+                    {
+                        this.iDataSource.Rows[0][item.ColumnName] = row[item.ColumnName];
+                    }
+                }
+            }
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (Validate())
+            {
+                try
+                {
+                    DataSet ds = new DataSet();
+                    ds.Tables.Add(iDataSource.Copy());
+                    if (!FlagSave)
+                    {
+                        if (_usertypeManagerBussiness.InsertUserType(ds))
+                        {
+                            base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["frm_Giamsat_lblThongbaothemmoi"]));
+                            Refresh();
+                            LoadData_UserType();
+                        }
+                        else base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblThongBaoTrung_LoaiNguoiDung"]));
+                    }
+                    else
+                    {
+                        if (_usertypeManagerBussiness.UpdateUserType(ds))
+                        {
+                            base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["frm_Giamsat_lblThongbaocapnhat"]));
+                            LoadData_UserType();
+                        }
+                        else base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblThongBaoTrung_LoaiNguoiDung"]));
+                    }    
+                }
+                catch (Exception)
+                {
+                    base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblThatBai"]));
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,208 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Data;
+using System.Windows;
+using System.Windows.Input;
+using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Resources;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Framework.UICore;
+using DSofT.Framework.UIControl;
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    /// Interaction logic for frm_dm_LoaiKichThuoc.xaml
+    /// </summary>
+    public partial class frm_dm_LoaiKichThuoc_Popup : PopupBase
+    {
+        DataTable iDataSource = null;
+        GridHelper iGridHelper = null;
+        DataTable iGridDataSource = null;
+        IDM_LOAI_KTHUOCBussiness _DM_LOAI_KTHUOCBussiness;
+        DataRow iRowSelGb = null;
+        public frm_dm_LoaiKichThuoc_Popup()
+        {
+            InitializeComponent();
+            _DM_LOAI_KTHUOCBussiness = new DM_LOAI_KTHUOCBussiness(string.Empty);
+            this.iDataSource = this.TableSchemaDefineBingding();
+            this.DataContext = this.iDataSource;
+            loadCheckBox();
+        }
+
+
+        public override void OnPopupShown()
+        {
+            if (this.Parameter != null && this.Parameter.Count() > 0)
+            {
+                iRowSelGb = this.Parameter[0] as DataRow;
+                DispalayRequest();
+            }
+        }
+
+        public void DispalayRequest()
+        {
+            try
+            {
+                foreach (DataColumn item in this.iRowSelGb.Table.Columns)
+                {
+                    if (this.iDataSource.Columns[item.ColumnName] != null)
+                    {
+                        this.iDataSource.Rows[0][item.ColumnName] = iRowSelGb[item.ColumnName];
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "DispalayRequest()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        /// <summary>
+        /// Lưu dữ liệu vào db
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (float.Parse(txtD.Text.ToString()) <float.Parse(txtR.Text.ToString()))
+                {
+                    base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblCDCR"]));
+                    return;
+                }
+                else
+                {
+                    SaveData();
+                    KiemTraCheckBox();
+                    bool result = _DM_LOAI_KTHUOCBussiness.InsertOrUpdateDM_LOAI_KTHUOC(this.iDataSource.Copy());
+                    if (!result)
+                    {
+
+                        base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageFailed"]));
+                        return;
+                    }
+                    else
+                    {
+                        ToastMessage.ShowToastMessage(Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessage"]), Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageSuccess"]), notificationService);
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnSave.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+        private DataTable TableSchemaDefineBingding()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("MA_DVIQLY", typeof(string));
+                xDicUser.Add("LOAI_KTHUOC_ID", typeof(decimal));
+                xDicUser.Add("MA_SIZE", typeof(string));
+                xDicUser.Add("DAI", typeof(decimal));
+                xDicUser.Add("RONG", typeof(decimal));
+                xDicUser.Add("CAO", typeof(decimal));
+                xDicUser.Add("THETICH", typeof(decimal));
+                xDicUser.Add("TINH_TRANG", typeof(Int16));
+                xDicUser.Add("GHI_CHU", typeof(string));
+                xDicUser.Add("RowVersion", typeof(long));
+                xDicUser.Add("IsDelete", typeof(bool));
+                xDicUser.Add("CreateBy", typeof(string));
+                xDicUser.Add("CreateDate", typeof(DateTime));
+
+                xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "TableSchemaDefineBingding()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            return xDt;
+        }
+
+        /// <summary>
+        /// Đóng Popup
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        public void KiemTraCheckBox()
+        {
+            if(chkTinhTrang.IsChecked == true)
+            {
+                this.iDataSource.Rows[0]["TINH_TRANG"] = 1;
+            }
+            else
+            {
+                this.iDataSource.Rows[0]["TINH_TRANG"] = 0;
+            }
+        }
+
+        public void loadCheckBox()
+        {
+            if(this.iDataSource.Rows[0]["TINH_TRANG"].ToString() == "1")
+            {
+                chkTinhTrang.IsChecked = false;
+            }else
+            {
+                chkTinhTrang.IsChecked = true;
+            }
+
+        }
+        string m1,m2,m3;
+        private void txtD_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
+        {
+            m1 = txtD.Text + 'x';
+            txtMaKT.Text = m1 + m2 + m3;
+        }
+
+        private void txtR_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
+        {
+            m2 = txtR.Text + 'x';
+            txtMaKT.Text = m1 + m2 + m3;
+        }
+
+        private void txtC_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
+        {
+            m3 = txtC.Text;
+            txtMaKT.Text = m1 + m2 + m3;
+        }
+
+
+        decimal V;
+        private void btnTT_Click(object sender, RoutedEventArgs e)
+        {
+            V = Convert.ToDecimal(txtD.Text) * Convert.ToDecimal(txtR.Text) * Convert.ToDecimal(txtC.Text);
+            txtV.Text = V.ToString();
+        }
+
+        /// <summary>
+        /// Load du lieu vao db
+        /// </summary>
+        public void SaveData()
+        {
+            this.iDataSource.Rows[0]["MA_SIZE"] = m1 + m2 + m3;
+            this.iDataSource.Rows[0]["THETICH"] = txtV.Text;
+        }
+    }
+}
+
+
+

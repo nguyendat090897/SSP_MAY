@@ -1,0 +1,104 @@
+﻿<uicore:PopupBase x:Class="DSofT.Warehouse.UI.frm_dm_donvitinh_popup"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"  
+             xmlns:uicore="clr-namespace:DSofT.Framework.UICore;assembly=DSofT.Framework.UICore"
+             xmlns:resText="clr-namespace:DSofT.Warehouse.Resources;assembly=DSofT.Warehouse.Resources"
+             xmlns:cntr="clr-namespace:DSofT.Framework.UIControl;assembly=DSofT.Framework.UIControl" 
+             xmlns:dxn="http://schemas.devexpress.com/winfx/2008/xaml/navbar" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:Controls="clr-namespace:DSofT.Framework.Metro.UIControls;assembly=DSofT.Framework.Metro.UIControls" 
+             Height="265" Width="700" >
+    <uicore:PopupBase.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Warehouse.Resources;component/CommonResource.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </uicore:PopupBase.Resources>
+    <Grid Background="Transparent">
+        <Grid.Resources>
+            <cntr:ConverterStringDateTime x:Key="ConverterStringDateTime"/>
+        </Grid.Resources>
+        <dxmvvm:Interaction.Behaviors>
+            <dxmvvm:NotificationService x:Name="notificationService" ApplicationId="DxToastTest" UseWin8NotificationsIfAvailable="True" 
+                                  PredefinedNotificationTemplate="{Binding ElementName=notificationStyle, Path=SelectedItem}"
+                                  CustomNotificationTemplate="{StaticResource CustomNotificationTemplate}"
+                                  Sound="Notification_Looping_Alarm8"
+                                  CustomNotificationPosition="BottomRight" CustomNotificationVisibleMaxCount="5" CustomNotificationDuration="0:0:3"/>
+        </dxmvvm:Interaction.Behaviors>
+        <Grid>
+            <!--Main Layout RowDefinition-->
+            <Grid.RowDefinitions>
+                <!--Button Area-->
+                <RowDefinition Height="auto"/>
+                <!--Blank-->
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!--Selection Area Style : row=2-->
+            <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource Sdk.Brd.BtnArea}">
+                <StackPanel Style="{StaticResource Sdk.Spnl.CommBtn.Right}">
+                    <Button Tag="{StaticResource btnNew}" HorizontalAlignment="Right" Name="btnNew" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center" Click="btnNew_Click"/>
+                    <Button Tag="{StaticResource btnSave}" HorizontalAlignment="Right" Name="btnSave" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center"/>
+                    <Button Tag="{StaticResource btnClose}" HorizontalAlignment="Right" Name="btnClose" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center" Click="btnClose_Click"/>
+                </StackPanel>
+            </Border>
+            <Border x:Name="nbcSearch" Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource Sdk.Brd.BtnArea}">
+                <Grid x:Name="Selection_Area">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                                <RowDefinition Height="25"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="0.5*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="0.5*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock  Grid.Row="0"   Grid.Column="0" Name="lblMaDonViTinh" VerticalAlignment="Center"><Run Text="{DynamicResource lblMaDonViTinh}"/></TextBlock>
+                            <dxe:TextEdit Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3" Name="txtMaDonViTinh" Text="{Binding MaDonViTinh}"/>
+                           
+                            <TextBlock  Grid.Row="1"   Grid.Column="0" Name="lblTenDonViTinh" VerticalAlignment="Center"><Run Text="{DynamicResource lblTenDonViTinh}"/></TextBlock>
+                            <dxe:TextEdit Grid.Row="1" Grid.Column="1"  Grid.ColumnSpan="3" Name="txtTenDonViTinh" Text="{Binding TenDonViTinh}"/>
+
+                            <TextBlock  Grid.Row="2"   Grid.Column="0" Name="lblQuyDoiCap2" VerticalAlignment="Center"><Run Text="{DynamicResource lblQuyDoiCap2}"/></TextBlock>
+                            <dxe:TextEdit Grid.Row="2" Grid.Column="1"  Grid.ColumnSpan="2" Name="txtQuyDoiCap2" Text="{Binding QuyDoiCap2}"/>
+                            <dxe:ComboBoxEdit Grid.Row="2" Grid.Column="3" Name="cboQuyDoiCap2"/>
+
+
+                            <TextBlock  Grid.Row="3"   Grid.Column="0" Name="lblQuyDoiCap3" VerticalAlignment="Center"><Run Text="{DynamicResource lblQuyDoiCap3}"/></TextBlock>
+                            <dxe:TextEdit Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2"  Name="txtQuyDoiCap3"  Text="{Binding QuyDoiCap3}"/>
+                            <dxe:ComboBoxEdit Grid.Row="3" Grid.Column="3" Name="cboQuyDoiCap3"/>
+
+
+                            <TextBlock  Grid.Row="4"   Grid.Column="0" Name="lblQuyDoiCap4" VerticalAlignment="Center"><Run Text="{DynamicResource lblQuyDoiCap4}"/></TextBlock>
+                            <dxe:TextEdit Grid.Row="4" Grid.Column="1"  Grid.ColumnSpan="2" Name="txtQuyDoiCap4" Text="{Binding QuyDoiCap4}"/>
+                            <dxe:ComboBoxEdit Grid.Row="4" Grid.Column="3" Name="cboQuyDoiCap4"/>
+
+
+                            <TextBlock  Grid.Row="5"   Grid.Column="0" Name="lblQuyDoiCap5" VerticalAlignment="Center"><Run Text="{DynamicResource lblQuyDoiCap5}"/></TextBlock>
+                            <dxe:TextEdit Grid.Row="5" Grid.Column="1"  Grid.ColumnSpan="2" Name="txtQuyDoiCap5" Text="{Binding QuyDoiCap5}"/>
+                            <dxe:ComboBoxEdit Grid.Row="5" Grid.Column="3" Name="cboQuyDoiCap5"/>
+
+                            <TextBlock  Grid.Row="6"   Grid.Column="0" Name="lblConSuDung" VerticalAlignment="Center"><Run Text="{DynamicResource lblConSuDung}"/></TextBlock>
+                            <RadioButton Grid.Row="6" Grid.Column="1"  Name="rdbConSuDung"  Content="Đang sử dụng" IsChecked="True"/>
+                            <RadioButton Grid.Row="6" Grid.Column="2" Name="rdbKhongSuDung" Content="Không sử dụng"/>
+
+                            <TextBlock  Grid.Row="7"   Grid.Column="0" Name="lblGhiChuThem" VerticalAlignment="Center"><Run Text="{DynamicResource lblGhiChuThem}"/></TextBlock>
+                            <dxe:TextEdit Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" Name="txtGhiChuThem" Text="{Binding GhiChuThem}"/>
+                        </Grid>
+                    </Border>
+        </Grid>
+    </Grid>
+</uicore:PopupBase>
+

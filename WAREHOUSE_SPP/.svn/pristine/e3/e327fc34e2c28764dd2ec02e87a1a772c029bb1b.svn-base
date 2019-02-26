@@ -1,0 +1,57 @@
+using DSofT.Warehouse.Provider;
+using System.Data;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface IMaterialBussiness
+    {
+        DataTable GetAllMaterial(DataTable dtInput);
+        DataTable GetAllMaterialFood(string foodId);
+        bool InsertOrUpdateMaterial(DataTable dtInput);
+        bool DeleteMaterial(DataTable dtInput);
+    }
+    public class MaterialBussiness : IMaterialBussiness
+    {
+        IMaterialProvider _MaterialProvider;
+        /// <summary>
+        /// Hàm khởi tạo bắt buộc
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <param name="userId"></param>
+        public MaterialBussiness(string appId, string userId = "0")
+        {
+            _MaterialProvider = new MaterialProvider(appId, userId);
+        }
+        /// <summary>
+        /// GetAllMaterial
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetAllMaterial(DataTable dtInput)
+        {
+            return _MaterialProvider.GetAllMaterial(dtInput);
+        }
+        /// <summary>
+        /// GetAllMaterialFood
+        /// </summary>
+        /// <param name="foodId"></param>
+        /// <returns></returns>
+        public DataTable GetAllMaterialFood(string foodId)
+        {
+            return _MaterialProvider.GetAllMaterialFood(foodId);
+        }
+
+        public bool InsertOrUpdateMaterial( DataTable dtInput)
+        {
+            return _MaterialProvider.InsertOrUpdateMaterial(dtInput);
+        }
+        /// <summary>
+        /// DeleteMaterial
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public bool DeleteMaterial(DataTable dtInput)
+        {
+            return _MaterialProvider.DeleteMaterial(dtInput);
+        }
+    }
+}

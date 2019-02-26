@@ -1,0 +1,75 @@
+using DSofT.Warehouse.Domain.Model;
+using DSofT.Warehouse.Provider;
+using System.Data;
+using System;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface IFoodBussiness
+    {
+        DataTable GetAllFood(DataTable dtInput);
+        bool InsertOrUpdateFood(DataTable dtInput, DataTable dtInputDetail);
+        bool DeleteFood(DataTable dtInput);
+        DataTable GetAllFoodDetail(string foodId);
+        DataTable GetAllFoodByFoodTypeId(string foodTypeId);
+    }
+    public class FoodBussiness : IFoodBussiness
+    {
+        IFoodProvider _foodProvider;
+        /// <summary>
+        /// Hàm khởi tạo bắt buộc
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <param name="userId"></param>
+        public FoodBussiness(string appId, string userId = "0")
+        {
+            _foodProvider = new FoodProvider(appId, userId);
+        }
+        /// <summary>
+        /// GetAllFood
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetAllFood(DataTable dtInput)
+        {
+            return _foodProvider.GetAllFood(dtInput);
+        }
+        /// <summary>
+        /// InsertOrUpdateFood
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <param name="dtInputDetail"></param>
+        /// <returns></returns>
+        public bool InsertOrUpdateFood(DataTable dtInput, DataTable dtInputDetail)
+        {
+            return _foodProvider.InsertOrUpdateFood(dtInput, dtInputDetail);
+        }
+        /// <summary>
+        /// DeleteFood
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public bool DeleteFood(DataTable dtInput)
+        {
+            return _foodProvider.DeleteFood(dtInput);
+        }
+        /// <summary>
+        /// GetAllFoodDetail
+        /// </summary>
+        /// <param name="foodId"></param>
+        /// <returns></returns>
+        public DataTable GetAllFoodDetail(string foodId)
+        {
+            return _foodProvider.GetAllFoodDetail(foodId);
+        }
+        /// <summary>
+        /// GetAllFoodByFoodTypeId
+        /// </summary>
+        /// <param name="foodTypeId"></param>
+        /// <returns></returns>
+        public DataTable GetAllFoodByFoodTypeId(string foodTypeId)
+        {
+            return _foodProvider.GetAllFoodByFoodTypeId(foodTypeId);
+        }
+
+    }
+}

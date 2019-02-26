@@ -1,0 +1,365 @@
+﻿using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Warehouse.Resources;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Input;
+
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    /// Interaction logic for frm_PhieuYeuCauXuatKho_popup.xaml
+    /// </summary>
+    public partial class frm_lapphieu_yeucau_nhapkho_popup : PopupBase
+    {
+        DataTable iDataSource = null;
+        DataRow iRowSelGb = null;
+        GridHelper iGridHelper = null;
+        IYEUCAU_NHAPKHOBussiness Yeucauxuatkho_bus;
+        public frm_lapphieu_yeucau_nhapkho_popup()
+        {
+            InitializeComponent();
+            this.iDataSource = this.TableSchemaDefineBingding();
+            this.DataContext = this.iDataSource;
+            Yeucauxuatkho_bus = new YEUCAU_NHAPKHOBussiness(string.Empty);
+            BuildCombobox();
+            Initialize_Grid();
+
+        }
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+
+        private void BuildCombobox()
+        {
+            try
+            {
+                DataTable dtNCC = Yeucauxuatkho_bus.GetData_For_Cbo_KhachHang_Ncc(ConstCommon.DonViQuanLy);
+                if (dtNCC != null && dtNCC.Rows.Count > 0)
+                {
+                    ComboBoxUtil.SetComboBoxEdit(cboNCC, "TEN_KH", "KHACHHANG_NCC_ID", dtNCC, SelectionTypeEnum.Native);
+                    ComboBoxUtil.InsertItem(cboNCC, Convert.ToString(UtilLanguage.ApplyLanguage()["lblChonAll"]), "0", 0);
+                    this.iDataSource.Rows[0]["KHACHHANG_NCC_ID"] = cboNCC.GetKeyValue(0);
+                }
+
+
+
+
+
+                DataTable dtHinhhthucnhap = Yeucauxuatkho_bus.getDM_HINHTHU_NHAPXUAT("N");
+
+                if (dtHinhhthucnhap != null && dtHinhhthucnhap.Rows.Count > 0)
+                {
+                    ComboBoxUtil.SetComboBoxEdit(cbohinhthucnhap, "TEN_HINHTHU_NHAPXUAT", "MA_HINHTHU_NHAPXUAT", dtHinhhthucnhap, SelectionTypeEnum.Native);
+                    ComboBoxUtil.InsertItem(cbohinhthucnhap, Convert.ToString(UtilLanguage.ApplyLanguage()["lblChonAll"]), "0", 0);
+                    this.iDataSource.Rows[0]["MA_HINHTHU_NHAPXUAT"] = cbohinhthucnhap.GetKeyValue(0);
+                }
+
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "BuildCombobox()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            //something
+        }
+
+        public override void OnPopupShown()
+        {
+            if (this.Parameter != null && this.Parameter.Count() > 0)
+            {
+                iRowSelGb = this.Parameter[0] as DataRow;
+                DispalayRequest();
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public void DispalayRequest()
+        {
+            try
+            {
+                foreach (DataColumn item in this.iRowSelGb.Table.Columns)
+                {
+                    if (this.iDataSource.Columns[item.ColumnName] != null)
+                    {
+                        this.iDataSource.Rows[0][item.ColumnName] = iRowSelGb[item.ColumnName];
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "DispalayRequest()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+        /// <summary>
+        /// TableSchemaDefineBingding
+        /// </summary>
+        /// <returns></returns>
+        private DataTable TableSchemaDefineBingding()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("MA_DVIQLY", typeof(string));
+                xDicUser.Add("KHACHHANG_NCC_ID", typeof(decimal));
+                xDicUser.Add("HOPDONG_ID", typeof(decimal));
+                xDicUser.Add("KHACHHANG_NCC_DONVI_VANCHUYEN_ID", typeof(decimal));
+                xDicUser.Add("KHACHHANG_NCC_NOI_XUATHANG_ID", typeof(decimal));
+                xDicUser.Add("NGUOILIENHE_A", typeof(string));
+                xDicUser.Add("NGUOILIENHE_B", typeof(string));
+                xDicUser.Add("SO_CHUNGTU", typeof(string));
+                xDicUser.Add("NGAY_CHUNGTU", typeof(string));
+                xDicUser.Add("MA_HINHTHU_NHAPXUAT", typeof(string));
+                xDicUser.Add("SOPHIEU", typeof(string));
+                xDicUser.Add("NGAYLAP", typeof(string));
+                xDicUser.Add("TEN_TAIXE", typeof(string));
+                xDicUser.Add("SO_DIENTHOAI", typeof(string));
+                xDicUser.Add("SO_XE", typeof(string));
+                xDicUser.Add("SO_CONT", typeof(string));
+                xDicUser.Add("GHI_CHU", typeof(string));
+                xDicUser.Add("RowVersion", typeof(long));
+                xDicUser.Add("IsDelete", typeof(bool));
+                xDicUser.Add("CreateBy", typeof(string));
+                xDicUser.Add("CreateDate", typeof(string));
+                xDicUser.Add("ModifiedBy", typeof(string));
+                xDicUser.Add("ModifiedDate", typeof(string));
+                xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "TableSchemaDefineBingding()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            return xDt;
+        }
+
+
+        /// <summary>
+        /// btnNew_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnNew_Click(object sender, RoutedEventArgs e)
+        {
+            this.iDataSource = this.TableSchemaDefineBingding();
+            this.DataContext = this.iDataSource;
+        }
+        private void Initialize_Grid()
+        {
+            try
+            {
+                this.iGridHelper = new GridHelper(this.grd, this.grdView, false);
+                Column xColumn;
+
+                xColumn = new Column("ROWNUM", Convert.ToString(UtilLanguage.ApplyLanguage()["lblOrderNo"]));
+                xColumn.Width = 50;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+
+
+                xColumn = new Column("kho", Convert.ToString("Kho"));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("khuvuc", Convert.ToString("Khu vực"));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+
+                xColumn = new Column("MaThuoc", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_MaThuoc"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("TenThuoc", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_TenThuoc"]));
+                xColumn.Width = 120;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("SoLo", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_SoLo"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("HanDung", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_HanDung"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("DonViTinh", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_DonViTinh"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("SoLuong", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_SoLuong"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("GiaNhap", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_GiaNhap"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("ThanhTien", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_ThanhTien"]));
+                xColumn.Width = 120;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("GiaBan", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_GiaBan"]));
+                xColumn.Width = 120;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("SDK", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_SDK"]));
+                xColumn.Width = 120;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("SoPalletChan", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_SoPalletChan"]));
+                xColumn.Width = 120;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("SoLuongPalletLe", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_SoLuongPalletLe"]));
+                xColumn.Width = 120;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                this.iGridHelper.Initialize();
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "Initialize_Grid()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        private void btnImport_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                object xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_lapphieu_yeucau_nhapkho_importexcel", null);
+                //LoadData();
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnImport.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+        private void cboNCC_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
+        {
+            try
+            {
+
+                DataTable dtDDXH = Yeucauxuatkho_bus.getDIADIEM_XUATHANG_BY_NCC(ConstCommon.DonViQuanLy, ConstCommon.NVL_NUM_LONG_NEW(this.iDataSource.Rows[0]["KHACHHANG_NCC_ID"]));
+
+                if (dtDDXH != null && dtDDXH.Rows.Count > 0)
+                {
+                    ComboBoxUtil.SetComboBoxEdit(cboDiadiemxuathang, "DIADIEM_GIAO", "KHACHHANG_NCC_NOI_XUATHANG_ID", dtDDXH, SelectionTypeEnum.Native);
+                    ComboBoxUtil.InsertItem(cboDiadiemxuathang, Convert.ToString(UtilLanguage.ApplyLanguage()["lblChonAll"]), "0", 0);
+                    this.iDataSource.Rows[0]["KHACHHANG_NCC_NOI_XUATHANG_ID"] = cboDiadiemxuathang.GetKeyValue(0);
+                }
+                else
+                {
+                    cboDiadiemxuathang.ItemsSource = null;
+                }
+
+                DataTable dtHopdong = Yeucauxuatkho_bus.getSO_HOPDONG_BY_NCC(ConstCommon.DonViQuanLy, ConstCommon.NVL_NUM_LONG_NEW(this.iDataSource.Rows[0]["KHACHHANG_NCC_ID"]));
+
+                if (dtHopdong != null && dtHopdong.Rows.Count > 0)
+                {
+                    ComboBoxUtil.SetComboBoxEdit(cbosohopdong, "SO_HOPDONG", "HOPDONG_ID", dtHopdong, SelectionTypeEnum.Native);
+                    ComboBoxUtil.InsertItem(cbosohopdong, Convert.ToString(UtilLanguage.ApplyLanguage()["lblChonAll"]), "0", 0);
+                    this.iDataSource.Rows[0]["HOPDONG_ID"] = cbosohopdong.GetKeyValue(0);
+                }
+                else
+                {
+                    cbosohopdong.ItemsSource = null;
+                }
+
+
+
+                DataTable dtDonvivanchuyen = Yeucauxuatkho_bus.getDONVIVANCHUYEN_BY_NCC(ConstCommon.DonViQuanLy, ConstCommon.NVL_NUM_LONG_NEW(this.iDataSource.Rows[0]["KHACHHANG_NCC_ID"]));
+
+                if (dtDonvivanchuyen != null && dtDonvivanchuyen.Rows.Count > 0)
+                {
+                    ComboBoxUtil.SetComboBoxEdit(cboDonvivanchuyen, "TEN_DONVI_VANCHUYEN", "KHACHHANG_NCC_DONVI_VANCHUYEN_ID", dtDonvivanchuyen, SelectionTypeEnum.Native);
+                    ComboBoxUtil.InsertItem(cboDonvivanchuyen, Convert.ToString(UtilLanguage.ApplyLanguage()["lblChonAll"]), "0", 0);
+                    this.iDataSource.Rows[0]["KHACHHANG_NCC_DONVI_VANCHUYEN_ID"] = cboDonvivanchuyen.GetKeyValue(0);
+                }
+                else
+                {
+                    cboDonvivanchuyen.ItemsSource = null;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnImport.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+
+        }
+    }
+}

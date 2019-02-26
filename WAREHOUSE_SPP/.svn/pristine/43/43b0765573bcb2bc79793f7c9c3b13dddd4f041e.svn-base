@@ -1,0 +1,47 @@
+using DSofT.Warehouse.Provider;
+using System.Data;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface IFoodTypesBussiness
+    {
+        DataTable GetAllFoodTypes();
+        bool InsertOrUpdateFoodTypes(DataTable dtInput);
+        bool DeleteFoodTypes(DataTable dtInput);
+    }
+    public class FoodTypesBussiness : IFoodTypesBussiness
+    {
+        IFoodTypesProvider _FoodTypesProvider;
+        /// <summary>
+        /// Hàm khởi tạo bắt buộc
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <param name="userId"></param>
+        public FoodTypesBussiness(string appId, string userId = "0")
+        {
+            _FoodTypesProvider = new FoodTypesProvider(appId, userId);
+        }
+        /// <summary>
+        /// GetAllFoodTypes
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetAllFoodTypes()
+        {
+            return _FoodTypesProvider.GetAllFoodTypes();
+        }
+
+        public bool InsertOrUpdateFoodTypes( DataTable dtInput)
+        {
+            return _FoodTypesProvider.InsertOrUpdateFoodTypes(dtInput);
+        }
+        /// <summary>
+        /// DeleteFoodTypes
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public bool DeleteFoodTypes(DataTable dtInput)
+        {
+            return _FoodTypesProvider.DeleteFoodTypes(dtInput);
+        }
+    }
+}

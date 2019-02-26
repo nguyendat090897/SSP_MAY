@@ -1,0 +1,261 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{BDA58BB6-7C7E-4C26-960C-466AA332BE1A}</ProjectGuid>
+    <OutputType>library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DSofT.Warehouse.UI</RootNamespace>
+    <AssemblyName>DSofT.Warehouse.UI</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\..\..\Application.Release\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\..\DownloadAssemblies\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Aspose.Cells, Version=7.3.0.0, Culture=neutral, PublicKeyToken=6df9b8117ff94198, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DSofT.Warehouse.DLL\Libs\Aspose.Cells.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Data.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DataAccess.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.DataAccess.v14.2.UI, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Mvvm.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Printing.v14.2.Core, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Controls.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Core.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.NavBar.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Printing.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Grid.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Grid.v14.2.Core, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Grid.v14.2.Extensions, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Layout.v14.2.Core, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.LayoutControl.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.Xpf.Themes.DXStyle.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DevExpress.XtraReports.v14.2, Version=14.2.5.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL" />
+    <Reference Include="DSofT.Framework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DSofT.Warehouse.DLL\BaseFramework\DSofT.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.Client, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DSofT.Warehouse.DLL\BaseFramework\DSofT.Framework.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.Environments, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DSofT.Warehouse.DLL\Application\DSofT.Framework.Environments.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.Internal, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DSofT.Warehouse.DLL\BaseFramework\DSofT.Framework.Internal.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.Metro.UIControls">
+      <HintPath>..\..\DSofT.Warehouse.DLL\Application\DSofT.Framework.Metro.UIControls.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.Presentation">
+      <HintPath>..\..\DSofT.Warehouse.DLL\BaseFramework\DSofT.Framework.Presentation.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.Shared, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\DSofT.Warehouse.DLL\Application\DSofT.Framework.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.Styles">
+      <HintPath>..\..\DSofT.Warehouse.DLL\Application\DSofT.Framework.Styles.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.UIControl">
+      <HintPath>..\..\DSofT.Warehouse.DLL\Application\DSofT.Framework.UIControl.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.UICore">
+      <HintPath>..\..\DSofT.Warehouse.DLL\Application\DSofT.Framework.UICore.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="UIAutomationTypes" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="frm_Warehouse.xaml.cs">
+      <DependentUpon>frm_Warehouse.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="popupWarehouse.xaml.cs">
+      <DependentUpon>popupWarehouse.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_Menu.xaml.cs">
+      <DependentUpon>frm_Menu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_UserRole.xaml.cs">
+      <DependentUpon>frm_UserRole.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="popup_ChangePassword.xaml.cs">
+      <DependentUpon>popup_ChangePassword.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="popup_Menu.xaml.cs">
+      <DependentUpon>popup_Menu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PrintDialogShift.xaml.cs">
+      <DependentUpon>PrintDialogShift.xaml</DependentUpon>
+    </Compile>
+    <Page Include="frm_Warehouse.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="popupWarehouse.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_Menu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="frm_UserRole.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="popup_ChangePassword.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_User.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="frm_UserType.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="popup_Menu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PrintDialogModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PrintDialogShift.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Properties\DesignTimeResources.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="frm_User.xaml.cs">
+      <DependentUpon>frm_User.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="frm_UserType.xaml.cs">
+      <DependentUpon>frm_UserType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PrintDialogModel.xaml.cs">
+      <DependentUpon>PrintDialogModel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="Documents\Lic\Aspose.Cells.lic">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Content Include="Documents\ReportTemplate\RP_FoodMenu.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Documents\ReportTemplate\RP_MaterialWeek.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Documents\ReportTemplate\RP_DeliveryBill.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Documents\ReportTemplate\RP_VegetablesQuatitative.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Documents\ReportTemplate\RP_DeliveryVegetablesQuatitative.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\DSofT.Warehouse.Business\DSofT.Warehouse.Business.csproj">
+      <Project>{e6db43d7-5bb5-42db-9ab9-191308905624}</Project>
+      <Name>DSofT.Warehouse.Business</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DSofT.Warehouse.Domain\DSofT.Warehouse.Domain.csproj">
+      <Project>{b61d0ccb-084c-4581-af41-ed2c26029e2c}</Project>
+      <Name>DSofT.Warehouse.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DSofT.Warehouse.Log\DSofT.Warehouse.Log.csproj">
+      <Project>{c5d8a503-e807-40b0-9139-92d5456dae35}</Project>
+      <Name>DSofT.Warehouse.Log</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DSofT.Warehouse.Resources\DSofT.Warehouse.Resources.csproj">
+      <Project>{e708ac99-605b-42a0-8d20-abca8fe42dd2}</Project>
+      <Name>DSofT.Warehouse.Resources</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DanhMuc\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

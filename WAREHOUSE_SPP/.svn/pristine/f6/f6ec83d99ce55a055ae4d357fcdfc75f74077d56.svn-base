@@ -1,0 +1,117 @@
+
+using DSofT.Warehouse.Provider;
+using System.Data;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface IWarehousingMaterialsBussiness
+    {
+        DataTable WarehousingMaterialsGetByFoodMenuCode(DataTable dtInput);
+        DataTable ImPortWarehousingMaterialsGetAll(DataTable dtInput);
+        bool InsertOrUpdateImportWarehousingMaterials(DataTable dtInput, DataTable dtInputDetail);
+
+        DataTable WarehousingMaterialsGetByDateAndSchool(DataTable dtInput);
+        bool InsertOrUpdateExportWarehousingMaterials(DataTable dtInput, DataTable dtInputDetail);
+        DataTable ExportWarehousingMaterialsGetAll(DataTable dtInput);
+        DataTable ImportWarehousingMaterialsById(DataTable dtInput);
+        DataTable ExportWarehousingMaterialsById(DataTable dtInput);
+        DataTable ExportWarehousingMaterialsByIdExcel(string strInput);
+        DataTable MaterialsFifoGetAll(DataTable dtInput);
+    }
+    public class WarehousingMaterialsBussiness : IWarehousingMaterialsBussiness
+    {
+        IWarehousingMaterialsProvider _WarehousingMaterialsProvider;
+        /// <summary>
+        /// Hàm khởi tạo bắt buộc
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <param name="userId"></param>
+        public WarehousingMaterialsBussiness(string appId, string userId = "0")
+        {
+            _WarehousingMaterialsProvider = new WarehousingMaterialsProvider(appId, userId);
+        }
+        /// <summary>
+        /// WarehousingMaterialsGetByFoodMenuCode
+        /// </summary>
+        /// <returns></returns>
+        public DataTable WarehousingMaterialsGetByFoodMenuCode(DataTable dtInput)
+        {
+            return _WarehousingMaterialsProvider.WarehousingMaterialsGetByFoodMenuCode(dtInput);
+        }
+        public DataTable ImPortWarehousingMaterialsGetAll(DataTable dtInput)
+        {
+            return _WarehousingMaterialsProvider.ImPortWarehousingMaterialsGetAll(dtInput);
+        }
+        /// <summary>
+        /// ImportWarehousingMaterialsById
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public DataTable ImportWarehousingMaterialsById(DataTable dtInput)
+        {
+            return _WarehousingMaterialsProvider.ImportWarehousingMaterialsById(dtInput);
+        }
+        /// <summary>
+        /// ExportWarehousingMaterialsById
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public DataTable ExportWarehousingMaterialsById(DataTable dtInput)
+        {
+            return _WarehousingMaterialsProvider.ExportWarehousingMaterialsById(dtInput);
+        }
+
+        public DataTable ExportWarehousingMaterialsByIdExcel(string strInput)
+        {
+            return _WarehousingMaterialsProvider.ExportWarehousingMaterialsByIdExcel(strInput);
+        }
+        /// <summary>
+        /// InsertOrUpdateImportWarehousingMaterials
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <param name="dtInputDetail"></param>
+        /// <returns></returns>
+        public bool InsertOrUpdateImportWarehousingMaterials(DataTable dtInput, DataTable dtInputDetail)
+        {
+            return _WarehousingMaterialsProvider.InsertOrUpdateImportWarehousingMaterials(dtInput, dtInputDetail);
+        }
+        /// <summary>
+        /// WarehousingMaterialsGetByDateAndSchool
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public DataTable WarehousingMaterialsGetByDateAndSchool(DataTable dtInput)
+        {
+            return _WarehousingMaterialsProvider.WarehousingMaterialsGetByDateAndSchool(dtInput);
+        }
+        /// <summary>
+        /// InsertOrUpdateExportWarehousingMaterials
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <param name="dtInputDetail"></param>
+        /// <returns></returns>
+        public bool InsertOrUpdateExportWarehousingMaterials(DataTable dtInput, DataTable dtInputDetail)
+        {
+            return _WarehousingMaterialsProvider.InsertOrUpdateExportWarehousingMaterials(dtInput, dtInputDetail);
+        }
+        /// <summary>
+        /// ExportWarehousingMaterialsGetAll
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public DataTable ExportWarehousingMaterialsGetAll(DataTable dtInput)
+        {
+            return _WarehousingMaterialsProvider.ExportWarehousingMaterialsGetAll(dtInput);
+        }
+        /// <summary>
+        /// MaterialsFifoGetAll
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public DataTable MaterialsFifoGetAll(DataTable dtInput)
+        {
+            return _WarehousingMaterialsProvider.MaterialsFifoGetAll(dtInput);
+        }
+    }
+}
+

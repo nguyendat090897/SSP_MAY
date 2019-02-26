@@ -1,0 +1,92 @@
+﻿using DSofT.Framework.Internal.Data;
+using DSofT.Framework.UIControl;
+using System.Collections.Generic;
+using System.Data;
+
+namespace DSofT.Warehouse.Provider
+{
+    public interface IYEUCAU_NHAPKHOProvider
+    {
+        DataTable GetData_For_Cbo_KhachHang_Ncc(string pMA_DVIQLY);
+        DataTable getDIADIEM_XUATHANG_BY_NCC(string pMA_DVIQLY, long pKHACHHANG_NCC_ID);
+        DataTable getSO_HOPDONG_BY_NCC(string pMA_DVIQLY, long pKHACHHANG_NCC_ID);
+        DataTable getDM_HINHTHU_NHAPXUAT(string pMA_DVIQLY);
+        DataTable getDONVIVANCHUYEN_BY_NCC(string pMA_DVIQLY, long pKHACHHANG_NCC_ID);
+
+    }
+    public class YEUCAU_NHAPKHOProvider : BaseSqlExecute, IYEUCAU_NHAPKHOProvider
+    {
+        public YEUCAU_NHAPKHOProvider(string appId, string userId) :
+         base(DbCommon.WarehouseDbConnstr, appId, userId)
+        { }
+
+
+        public DataTable GetData_For_Cbo_KhachHang_Ncc(string pMA_DVIQLY)
+        {
+            var sqlParams = new object[] { pMA_DVIQLY };
+            var result = base.ExecuteDataSet("DM_SPHAM_GET_KHACHHANG_NCC", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+
+        }
+
+
+        public DataTable getDIADIEM_XUATHANG_BY_NCC(string pMA_DVIQLY, long pKHACHHANG_NCC_ID)
+        {
+            var sqlParams = new object[] { pMA_DVIQLY, pKHACHHANG_NCC_ID };
+            var result = base.ExecuteDataSet("getDIADIEM_XUATHANG_BY_NCC", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+
+        }
+
+
+        public DataTable getSO_HOPDONG_BY_NCC(string pMA_DVIQLY, long pKHACHHANG_NCC_ID)
+        {
+            var sqlParams = new object[] { pMA_DVIQLY, pKHACHHANG_NCC_ID };
+            var result = base.ExecuteDataSet("getSO_HOPDONG_BY_NCC", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+
+
+        public DataTable getDM_HINHTHU_NHAPXUAT(string pN_OR_X)
+        {
+            var sqlParams = new object[] { pN_OR_X };
+            var result = base.ExecuteDataSet("getDM_HINHTHU_NHAPXUAT", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+
+        }
+
+
+        public DataTable getDONVIVANCHUYEN_BY_NCC(string pMA_DVIQLY, long pKHACHHANG_NCC_ID)
+        {
+
+            var sqlParams = new object[] { pMA_DVIQLY, pKHACHHANG_NCC_ID };
+            var result = base.ExecuteDataSet("getDONVIVANCHUYEN_BY_NCC", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+
+
+        }
+
+
+
+    }
+}

@@ -1,0 +1,98 @@
+﻿using System;
+using System.Drawing;
+using System.Collections;
+using System.ComponentModel;
+using DevExpress.XtraReports.UI;
+
+namespace DSofT.Warehouse.UI
+{
+    public partial class Rpt_Thuchi : DevExpress.XtraReports.UI.XtraReport
+    {
+        private TopMarginBand topMarginBand1;
+        private DetailBand detailBand1;
+        private XRBarCode pBarCodeVịtri;
+        private XRControlStyle xrControlStyle1;
+        private XRLabel xrLabel1;
+        private DevExpress.XtraReports.Parameters.Parameter txtTieude;
+        private BottomMarginBand bottomMarginBand1;
+
+        public Rpt_Thuchi()
+        {
+            InitializeComponent();
+        }
+
+        private void InitializeComponent()
+        {
+            DevExpress.XtraPrinting.BarCode.Code128Generator code128Generator1 = new DevExpress.XtraPrinting.BarCode.Code128Generator();
+            this.topMarginBand1 = new DevExpress.XtraReports.UI.TopMarginBand();
+            this.detailBand1 = new DevExpress.XtraReports.UI.DetailBand();
+            this.pBarCodeVịtri = new DevExpress.XtraReports.UI.XRBarCode();
+            this.bottomMarginBand1 = new DevExpress.XtraReports.UI.BottomMarginBand();
+            this.xrControlStyle1 = new DevExpress.XtraReports.UI.XRControlStyle();
+            this.txtTieude = new DevExpress.XtraReports.Parameters.Parameter();
+            this.xrLabel1 = new DevExpress.XtraReports.UI.XRLabel();
+            ((System.ComponentModel.ISupportInitialize)(this)).BeginInit();
+            // 
+            // topMarginBand1
+            // 
+            this.topMarginBand1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.xrLabel1});
+            this.topMarginBand1.HeightF = 100F;
+            this.topMarginBand1.Name = "topMarginBand1";
+            // 
+            // detailBand1
+            // 
+            this.detailBand1.Controls.AddRange(new DevExpress.XtraReports.UI.XRControl[] {
+            this.pBarCodeVịtri});
+            this.detailBand1.HeightF = 100F;
+            this.detailBand1.Name = "detailBand1";
+            // 
+            // pBarCodeVịtri
+            // 
+            this.pBarCodeVịtri.LocationFloat = new DevExpress.Utils.PointFloat(191.6667F, 25.99999F);
+            this.pBarCodeVịtri.Name = "pBarCodeVịtri";
+            this.pBarCodeVịtri.Padding = new DevExpress.XtraPrinting.PaddingInfo(10, 10, 0, 0, 100F);
+            this.pBarCodeVịtri.SizeF = new System.Drawing.SizeF(273.9584F, 40.70834F);
+            this.pBarCodeVịtri.Symbology = code128Generator1;
+            // 
+            // bottomMarginBand1
+            // 
+            this.bottomMarginBand1.HeightF = 100F;
+            this.bottomMarginBand1.Name = "bottomMarginBand1";
+            // 
+            // xrControlStyle1
+            // 
+            this.xrControlStyle1.Name = "xrControlStyle1";
+            this.xrControlStyle1.Padding = new DevExpress.XtraPrinting.PaddingInfo(0, 0, 0, 0, 100F);
+            // 
+            // txtTieude
+            // 
+            this.txtTieude.Description = "Parameter1";
+            this.txtTieude.Name = "txtTieude";
+            // 
+            // xrLabel1
+            // 
+            this.xrLabel1.DataBindings.AddRange(new DevExpress.XtraReports.UI.XRBinding[] {
+            new DevExpress.XtraReports.UI.XRBinding(this.txtTieude, "Text", "")});
+            this.xrLabel1.LocationFloat = new DevExpress.Utils.PointFloat(110.4167F, 34.33334F);
+            this.xrLabel1.Name = "xrLabel1";
+            this.xrLabel1.Padding = new DevExpress.XtraPrinting.PaddingInfo(2, 2, 0, 0, 96F);
+            this.xrLabel1.SizeF = new System.Drawing.SizeF(278.125F, 23F);
+            this.xrLabel1.Text = "xrLabel1";
+            // 
+            // Rpt_Thuchi
+            // 
+            this.Bands.AddRange(new DevExpress.XtraReports.UI.Band[] {
+            this.topMarginBand1,
+            this.detailBand1,
+            this.bottomMarginBand1});
+            this.Parameters.AddRange(new DevExpress.XtraReports.Parameters.Parameter[] {
+            this.txtTieude});
+            this.StyleSheet.AddRange(new DevExpress.XtraReports.UI.XRControlStyle[] {
+            this.xrControlStyle1});
+            this.Version = "14.2";
+            ((System.ComponentModel.ISupportInitialize)(this)).EndInit();
+
+        }
+    }
+}

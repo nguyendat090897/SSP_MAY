@@ -1,0 +1,44 @@
+
+using DSofT.Warehouse.Provider;
+using System.Data;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface IDM_LOAI_KTHUOCBussiness
+    {
+        bool InsertOrUpdateDM_LOAI_KTHUOC(DataTable dst);
+        bool DeleteDM_LOAI_KTHUOC(string pMA_DVIQLY, long pLOAI_KTHUOC_ID, string pModifiedBy);
+        DataTable GetListDM_LOAI_KTHUOC(string pMA_DVIQLY);
+        DataTable GetListDM_LOAI_KTHUOC_MA(string pMA_DVIQLY, string pMA_SIZE);
+        DataTable GetListDM_LOAI_KTHUOC_DRC(string pMA_DVIQLY, decimal pDAI, decimal pRONG, decimal pCAO);
+
+    }
+    public class DM_LOAI_KTHUOCBussiness : IDM_LOAI_KTHUOCBussiness
+    {
+        IDM_LOAI_KTHUOCProvider _DM_LOAI_KTHUOCProvider;
+        public DM_LOAI_KTHUOCBussiness(string appId, string userId = "0")
+        {
+            _DM_LOAI_KTHUOCProvider = new DM_LOAI_KTHUOCProvider(appId, userId);
+        }
+        public bool InsertOrUpdateDM_LOAI_KTHUOC(DataTable dst)
+        {
+            return _DM_LOAI_KTHUOCProvider.InsertOrUpdateDM_LOAI_KTHUOC(dst);
+        }
+        public bool DeleteDM_LOAI_KTHUOC(string pMA_DVIQLY, long pLOAI_KTHUOC_ID, string pModifiedBy)
+        {
+            return _DM_LOAI_KTHUOCProvider.DeleteDM_LOAI_KTHUOC(pMA_DVIQLY, pLOAI_KTHUOC_ID, pModifiedBy);
+        }
+        public DataTable GetListDM_LOAI_KTHUOC(string pMA_DVIQLY)
+        {
+            return _DM_LOAI_KTHUOCProvider.GetListDM_LOAI_KTHUOC(pMA_DVIQLY);
+        }
+        public DataTable GetListDM_LOAI_KTHUOC_MA(string pMA_DVIQLY, string pMA_SIZE)
+        {
+            return _DM_LOAI_KTHUOCProvider.GetListDM_LOAI_KTHUOC_MA(pMA_DVIQLY, pMA_SIZE);
+        }
+        public DataTable GetListDM_LOAI_KTHUOC_DRC(string pMA_DVIQLY, decimal pDAI, decimal pRONG, decimal pCAO)
+        {
+            return _DM_LOAI_KTHUOCProvider.GetListDM_LOAI_KTHUOC_DRC(pMA_DVIQLY, pDAI, pRONG, pCAO);
+        }
+    }
+}

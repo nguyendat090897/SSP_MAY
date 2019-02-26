@@ -1,0 +1,113 @@
+﻿using DSofT.Framework.Internal.Data;
+using DSofT.Framework.UIControl;
+using System.Collections.Generic;
+using System.Data;
+
+namespace DSofT.Warehouse.Provider
+{
+    public interface ISupplierProvider
+    {
+        DataTable GetAllSupplier();
+        bool InsertOrUpdateSupplier(DataTable dtInput);
+        bool DeleteSupplier(DataTable dtInput);
+        DataTable SupplierGetAllList(DataTable dtInput);
+    }
+    public class SupplierProvider : BaseSqlExecute, ISupplierProvider
+    {
+
+        public SupplierProvider(string appId, string userId)
+            : base(DbCommon.WarehouseDbConnstr, appId, userId)
+        {
+        }
+        /// <summary>
+        /// Get danh sách nhà cung cấp
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetAllSupplier()
+        {
+            var sqlParams = new object[] { };
+            var result = base.ExecuteDataSet("Supplier_GetAll", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+        /// <summary>
+        /// Insert hoặc Update loại món ăn
+        /// </summary>
+        /// <returns></returns>
+        public bool InsertOrUpdateSupplier(DataTable dtInput)
+        {
+            //thuc hien update
+            if (NumberHelper.ConvertStringToLong(dtInput.Rows[0]["Id"].ToString()) > 0)
+            {
+                var sqlParams = new object[] { dtInput.Rows[0]["Id"]
+                                             ,dtInput.Rows[0]["SupplierCode"]
+                                             ,dtInput.Rows[0]["SupplierName"]
+                                             ,dtInput.Rows[0]["Address"]
+                                             ,dtInput.Rows[0]["Phone"]
+                                             ,dtInput.Rows[0]["Fax"]
+                                             ,dtInput.Rows[0]["Email"]
+                                             ,dtInput.Rows[0]["Representative"]
+                                             ,dtInput.Rows[0]["TaxCode"]
+                                             , CommonDataHelper.UserName
+                                             };
+                var result = base.ExecScalar("Supplier_Update", sqlParams);
+                if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                var sqlParams = new object[] {
+                                              dtInput.Rows[0]["SupplierCode"]
+                                             ,dtInput.Rows[0]["SupplierName"]
+                                             ,dtInput.Rows[0]["Address"]
+                                             ,dtInput.Rows[0]["Phone"]
+                                             ,dtInput.Rows[0]["Fax"]
+                                             ,dtInput.Rows[0]["Email"]
+                                             ,dtInput.Rows[0]["Representative"]
+                                             ,dtInput.Rows[0]["TaxCode"]
+                                             , CommonDataHelper.UserName
+                                             };
+                var result = base.ExecScalar("Supplier_Insert", sqlParams);
+                if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        /// <summary>
+        /// DeleteSupplier
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public bool DeleteSupplier(DataTable dtInput)
+        {
+                var sqlParams = new object[] { dtInput.Rows[0]["Id"]
+                                             , CommonDataHelper.UserName
+                                             };
+                var result = base.ExecScalar("Supplier_Delete", sqlParams);
+                if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+                {
+                    return true;
+                }
+            return false;
+        }
+
+        public DataTable SupplierGetAllList(DataTable dtInput)
+        {
+            var sqlParams = new object[] {dtInput.Rows[0]["SupplierCode"]
+                                         ,dtInput.Rows[0]["SupplierName"] };
+            var result = base.ExecuteDataSet("Supplier_GetAllList", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+    }
+}

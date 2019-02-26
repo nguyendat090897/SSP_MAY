@@ -1,0 +1,1139 @@
+  <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="applicationTitleName">Hệ thống quản lý Kho-SSP</sys:String>
+    <sys:String x:Key="application_login">Đăng nhập</sys:String>
+    <sys:String x:Key="application_changepass">Đổi mật khẩu</sys:String>
+    <sys:String x:Key="application_logout">Thoát</sys:String>
+    <sys:String x:Key="application_list_function">Danh sách chức năng</sys:String>
+    <sys:String x:Key="application_confirm_logout">Bạn có chắc chắn thoát</sys:String>
+    <sys:String x:Key="application_username_not_null">Tên đăng nhập không được để trống</sys:String>
+    <sys:String x:Key="application_pass_not_null">Mật khẩu không được để trống</sys:String>
+    <sys:String x:Key="application_login_false">Tên đăng nhập hoặc mật khẩu không đúng! \r\n Hoặc không có quyền cho chức năng này</sys:String>
+    <sys:String x:Key="application_connect_sql_false">"Kết nối tới server thất bại! Vui lòng kiểm tra kết nối! "</sys:String>
+    <sys:String x:Key="application_message_change_language_success">Thay đổi ngôn ngữ thành công\r\nĐăng nhập lại hệ thống để hiển thị thay đổi</sys:String>
+    <sys:String x:Key="application_message_change_language_info">Ngôn ngữ phần mềm sẽ được đổi sau khi tắt chương trình</sys:String>
+    <sys:String x:Key="lblTenLoaiNguoiDung">Tên loại người dùng</sys:String>
+    <sys:String x:Key="lblMaLoaiNguoiDung">Loại người dùng</sys:String>
+    <sys:String x:Key="lblTenNhomLoaiNguoiDung">Nhóm loại người dùng</sys:String>
+    <sys:String x:Key="lblthongtinloainguoidung">Thông tin loại người dùng</sys:String>
+    <sys:String x:Key="lblDanhSachLoaiNguoiDung">Danh sách loại người dùng</sys:String>
+    <sys:String x:Key="tblNhanVien_frmUserType">Nhân viên</sys:String>
+    <sys:String x:Key="tblTruongCa_frmUserType">Trưởng ca</sys:String>
+    <sys:String x:Key="tblQuanLyCang_frmUserType">Quản lý cảng</sys:String>
+    <sys:String x:Key="tblVanPhong_frmUserType">Văn phòng</sys:String>
+    <sys:String x:Key="GroupPanelBackgroundBrush">Images/LoginDefault.png</sys:String>
+    
+
+    <sys:String x:Key="tblAdmin_frmUserType">Admin</sys:String>
+    <sys:String x:Key="lblNoteNull">Tên loại pallet hoặc kích thước phải được điền đầy đủ thông tin</sys:String>
+    <sys:String x:Key="btnOK">Đồng ý</sys:String>
+    <sys:String x:Key="btnCancel">Bỏ qua</sys:String>
+    <sys:String x:Key="btnSave">Lưu</sys:String>
+    <sys:String x:Key="btnCopy">Copy định lượng</sys:String>
+    <sys:String x:Key="btnExcel">Xuất Excel</sys:String>
+    <sys:String x:Key="btnUpdate">Cập nhật</sys:String>
+    <sys:String x:Key="btnRefresh">Refresh</sys:String>
+    <sys:String x:Key="btnDelete">Xóa</sys:String>
+    <sys:String x:Key="btnSearch">Tìm kiếm</sys:String>
+    <sys:String x:Key="btnConfirm">Xác nhận</sys:String>
+    <sys:String x:Key="btnClose">Đóng</sys:String>
+    <sys:String x:Key="btnPrint">In</sys:String>
+    <sys:String x:Key="btnNew">Thêm mới</sys:String>
+    <sys:String x:Key="btnImage">Ảnh minh họa</sys:String>
+    <sys:String x:Key="lblUserName">Tên đăng nhập</sys:String>
+    <sys:String x:Key="lblPassWord">Mật khẩu</sys:String>
+    <sys:String x:Key="tbntinhkhoiluong">Tính</sys:String>
+    <sys:String x:Key="lblMessageSuccess">Thành công</sys:String>
+    <sys:String x:Key="lblMessageFailed">Thất bại</sys:String>
+    <sys:String x:Key="lblDauSao">*</sys:String>
+    <sys:String x:Key="lblOrderNo">STT</sys:String>
+    <sys:String x:Key="lblMessage">Thông báo</sys:String>
+    <sys:String x:Key="lblcomfrimDelete">Bạn có muốn xóa không?</sys:String>
+    <sys:String x:Key="lblChangeStatus">Trạng thái</sys:String>
+    <sys:String x:Key="tblAddRow">Thêm dòng</sys:String>
+    <sys:String x:Key="tblDeleteRow">Xóa dòng</sys:String>
+    <sys:String x:Key="btnVegetablesQuatitative">Định lượng rau</sys:String>
+    <sys:String x:Key="btnExcelFoodMenu">Xuất thực đơn</sys:String>
+    <sys:String x:Key="btnExcelDelivery">Xuất phiếu giao rau</sys:String>
+    <sys:String x:Key="btnCalculated">Tính tồn kho</sys:String>
+    <sys:String x:Key="lblCheckInventory">Không có số lượng tồn kho để lưu</sys:String>
+    <!--frmMenu-->
+    <sys:String x:Key="frmMenu_TitleGridView">Danh sách menu</sys:String>
+    <sys:String x:Key="frmMenu_TitleMenu">Thông tin chi tiết</sys:String>
+    <sys:String x:Key="frmMenu_MenuCode">Mã menu</sys:String>
+    <sys:String x:Key="frmMenu_MenuName">Tên menu</sys:String>
+    <sys:String x:Key="frmMenu_MenuClassNamespace">Class Namespace</sys:String>
+    <sys:String x:Key="frmMenu_MenuClassName">Class Name</sys:String>
+    <sys:String x:Key="frmMenu_MenuRemark">Ghi chú</sys:String>
+    <sys:String x:Key="frmMenu_MenuIcon">Icon</sys:String>
+    <sys:String x:Key="frmMenu_MenuParent">Menu Parent</sys:String>
+    <!--End frmMenu-->
+    
+    <!--From User-->
+    <sys:String x:Key="frmUser_Info">Thông tin người dùng</sys:String>
+    <sys:String x:Key="frmUser_Detail">Thông tin chi tiết</sys:String>
+    <sys:String x:Key="frmUser_FullName">Người dùng</sys:String>
+    <sys:String x:Key="frmUser_UserName">Tên đăng nhập</sys:String>
+    <sys:String x:Key="frmUser_Password">Mật khẩu</sys:String>
+    <sys:String x:Key="frmUser_GroupUser">Nhóm người dùng</sys:String>
+    <sys:String x:Key="frmUser_UserNameIsNotEmpty">Tên người dùng không bỏ trống</sys:String>
+    <sys:String x:Key="frmUser_PasswordIsNotEmpty">Mật khẩu không bỏ trống</sys:String>
+    <sys:String x:Key="frmUser_FullNameIsNotEmpty">Người dùng không bỏ trống</sys:String>
+    <sys:String x:Key="frmUser_GroupUserNotEmpty">Nhóm người dùng không bỏ trống</sys:String>
+    <sys:String x:Key="frmUser_UserNameAvailable">Người dùng đã tồn tại trong hệ thống</sys:String>
+    <sys:String x:Key="frmUserRole_ListGroup">Nhóm quyền</sys:String>
+    <sys:String x:Key="frmUserRole_UserTypeCode">Mã User</sys:String>
+    <sys:String x:Key="frmUserRole_UserTypeName">Loại User</sys:String>
+    <sys:String x:Key="frmPassword_PassOld">Mật khẩu cũ</sys:String>
+    <sys:String x:Key="frmPassword_PassNew">Mật khẩu mới</sys:String>
+    <sys:String x:Key="frmPassword_PasswordRetype">Nhập lại mật khẩu</sys:String>
+    <!--End From User-->
+    
+    <!--From QuantitativeFood-->
+    <sys:String x:Key="frmQuantitativeFood_MaterialCode">Mã nguyên liệu</sys:String>
+    <sys:String x:Key="frmQuantitativeFood_MaterialName">Tên nguyên liệu</sys:String>
+    <sys:String x:Key="frmQuantitativeFood_QuantitativeOne">Định lượng 1</sys:String>
+    <sys:String x:Key="frmQuantitativeFood_QuantitativeTwo">Định lượng 2</sys:String>
+    <sys:String x:Key="frmQuantitativeFood_QuantitativeOrther">Khác</sys:String>
+    <sys:String x:Key="frmQuantitativeFood_UnitName">Đơn vị tính</sys:String>
+    <sys:String x:Key="frmQuantitativeFood_Price">Đơn giá</sys:String>
+    <!--End From QuantitativeFood-->
+    
+    <!--From FoodTypes-->
+    <sys:String x:Key="frmFoodTypes_FoodTypesCode">Mã loại món ăn</sys:String>
+    <sys:String x:Key="frmFoodTypes_FoodTypesName">Loại món ăn</sys:String>
+    <sys:String x:Key="frmFoodTypes_Remark">Ghi chú</sys:String>
+    <!--End From FoodTypes-->
+
+    <!--From GroupMaterial-->
+    <sys:String x:Key="frmGroupMaterial_GroupMaterialCode">Mã Nhóm nguyên liệu</sys:String>
+    <sys:String x:Key="frmGroupMaterial_GroupMaterialName">Nhóm nguyên liệu</sys:String>
+    <sys:String x:Key="frmGroupMaterial_Remark">Ghi chú</sys:String>
+    <!--End From GroupMaterial-->
+    
+    <!--From Material-->
+    <sys:String x:Key="frmMaterial_MaterialCode">Mã nguyên liệu</sys:String>
+    <sys:String x:Key="frmMaterial_MaterialName">Tên nguyên liệu</sys:String>
+    <sys:String x:Key="frmMaterial_Price">Giá mua</sys:String>
+    <sys:String x:Key="frmMaterial_VAT">VAT</sys:String>
+    <sys:String x:Key="frmMaterial_Remark">Ghi chú</sys:String>
+    <sys:String x:Key="frmMaterial_IsVegetables">Rau xanh</sys:String>
+    <!--End From Material-->
+    
+    <!--From UnitName-->
+    <sys:String x:Key="frmUnit_UnitName">Đơn vị tính</sys:String>
+    <sys:String x:Key="frmUnit_UnitCode">Mã Đơn vị tính</sys:String>
+    <sys:String x:Key="frmUnit_Remark">Ghi chú</sys:String>
+    <!--End From UnitName-->
+    <!--From Supplier-->
+    <sys:String x:Key="frmMaterial_SupplierName">Nhà cung cấp</sys:String>
+    <sys:String x:Key="frmMaterial_SupplierCode">Mã nhà cung cấp</sys:String>
+    <sys:String x:Key="frmSupplier_SupplierCode">Mã nhà cung cấp</sys:String>
+    <sys:String x:Key="frmSupplier_SupplierName">Nhà cung cấp</sys:String>
+    <sys:String x:Key="frmSupplier_Representative">Người đại diện</sys:String>
+    <sys:String x:Key="frmSupplier_Address">Địa chỉ</sys:String>
+    <sys:String x:Key="frmSupplier_Phone">Điện thoại</sys:String>
+    <sys:String x:Key="frmSupplier_Email">Email</sys:String>
+    <sys:String x:Key="frmSupplier_TaxCode">Mã số thuế</sys:String>
+    <sys:String x:Key="frmSupplier_Fax">Số Fax</sys:String>
+    <!--End From Supplier-->
+    
+    <!--From Food-->
+    <sys:String x:Key="frmFood_FoodCode">Mã món ăn</sys:String>
+    <sys:String x:Key="frmFood_FoodName">Tên món ăn</sys:String>
+    <sys:String x:Key="frmFood_Remark">Ghi chú</sys:String>
+    <!--End From Food-->
+    
+    <!--From FoodMenu-->
+    <sys:String x:Key="frmFood_DateMenu">Ngày thực đơn</sys:String>
+    <sys:String x:Key="frmFood_FromDate">Từ ngày</sys:String>
+    <sys:String x:Key="frmFood_ToDate">Đến ngày</sys:String>
+    <sys:String x:Key="frmFood_DayChoose">Chọn ngày</sys:String>
+    <sys:String x:Key="frmFood_NumberFood">Số phần ăn</sys:String>
+    <sys:String x:Key="frmFoodMenu_Note">Thực đơn được lên danh sách trong vòng 1 tuần</sys:String>
+    <sys:String x:Key="frmFoodMenu_FoodMenuCode">Số phiếu</sys:String>
+    <sys:String x:Key="frmFoodMenu_SchoolsName">Tên trường</sys:String>
+    <sys:String x:Key="frmFoodMenu_NumberFood">Số phần ăn</sys:String>
+    <sys:String x:Key="frmFoodMenu_NumberFoodStudent">Số HS</sys:String>
+    <sys:String x:Key="frmFoodMenu_NumberFoodTeacher">Số GV</sys:String>
+    <sys:String x:Key="frmFoodMenu_MessageMetarial">Chưa chọn nguyên liệu cho món ăn</sys:String>
+    <!--End From FoodMenu-->
+    
+    <!--From School-->
+    <sys:String x:Key="frmSchool_SchoolsCode">Mã trường</sys:String>
+    <sys:String x:Key="frmSchool_SchoolsName">Tên trường</sys:String>
+    <sys:String x:Key="frmSchool_Address">Địa chỉ</sys:String>
+    <sys:String x:Key="frmSchool_Phone">Điện thoại</sys:String>
+    <sys:String x:Key="frmSchool_Fax">Số Fax</sys:String>
+    <sys:String x:Key="frmSchool_Email">Email</sys:String>
+    <sys:String x:Key="frmSchool_Representative">Người đại diện</sys:String>
+    <sys:String x:Key="frmSchool_NumberStudentPrimary">Số HS tiểu học</sys:String>
+    <sys:String x:Key="frmSchool_NumberStudentJuniorHigh">Số HS trung học</sys:String>
+    <sys:String x:Key="frmSchool_NumberStudentHighSchool">Số HS phổ thông</sys:String>
+    <sys:String x:Key="frmSchool_NumberTeacher">Số giảng viên</sys:String>
+    <!--End From School-->
+    
+    <!--From ImportWarehousingMaterials-->
+    <sys:String x:Key="frmImportWarehousingMaterials_Title">Thông tin nhập kho</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_FoodMenuCode">Số phiếu</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_WarehouseId">Kho nhập</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_ImplementationDates">Ngày nhập</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_WarehousingMaterialsCode">Mã phiếu nhập kho</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_IsPay">Đã thanh toán</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_ListImportMaterial">Danh sách nguyên liệu nhập kho</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_Quantity">Số lượng</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_WarehouseName">Kho nhập</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_DatePayment">Ngày thanh toán</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_StatusName">Trạng thái</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_WarehouseCode">Mã Kho nhập</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_IsConfirm">Xác nhận nhập kho</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_ConfirmName">Xác nhận</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_PriceReceived">Đơn giá nhập</sys:String>
+    <!--End From ImportWarehousingMaterials-->
+    
+    <!-- From ExportWarehousingMaterials -->
+    <sys:String x:Key="frmExportWarehousingMaterials_IsStatus">Đã xuất kho</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_ExportDates">Ngày tạo phiếu</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_FoodMenuCode">Mã Thực đơn tuần</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_WarehousingMaterialsCode">Mã phiếu xuất kho</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_ImplementationDates">Ngày xuất kho</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_Title">Thông tin phiếu xuất kho</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_WarehouseId">Kho xuất</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_WarehouseIdTo">Kho nhận</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_StatusName">Trạng thái</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_ListImportMaterial">Danh sách nguyên liệu xuất kho</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_InfoSearch">Thông tin search</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_InfoDetail">Thông tin chi tiết</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_MessageCheck">Không tồn tại số liệu trong kho nên không thể xuất</sys:String>
+    <!--End From ExportWarehousingMaterials -->
+    
+    <!-- From frmReportMaterialWeek -->
+    <sys:String x:Key="frmReportMaterialWeek_WEEKNAMEDAY">Thứ</sys:String>
+    <sys:String x:Key="frmReportMaterialWeek_DateMenu">Ngày</sys:String>
+    <sys:String x:Key="frmReportMaterialWeek_FoodName">Tên món ăn</sys:String>
+    <sys:String x:Key="frmReportMaterialWeek_MaterialName">Nguyên liệu</sys:String>
+    <sys:String x:Key="frmReportMaterialWeek_Quantitative">Khối lượng</sys:String>
+    <sys:String x:Key="frmReportMaterialWeek_NumberFoodStudent">Số HS</sys:String>
+    <sys:String x:Key="frmReportMaterialWeek_NumberFoodTeacher">Số GV</sys:String>
+    <!--End From frmReportMaterialWeek-->
+
+
+    <!--From frmWarehouse-->
+    <sys:String x:Key="frmWarehouse_WarehouseCode">Mã kho</sys:String>
+    <sys:String x:Key="frmWarehouse_WarehouseName">Tên kho</sys:String>
+    <sys:String x:Key="frmWarehouse_Representative">Người đại diện</sys:String>
+    <sys:String x:Key="frmWarehouse_Address">Địa chỉ</sys:String>
+    <sys:String x:Key="frmWarehouse_Phone">Điện thoại</sys:String>
+    <sys:String x:Key="frmWarehouse_Email">Email</sys:String>
+    <sys:String x:Key="frmWarehouse_Remark">Ghi chú</sys:String>
+    <!--End From frmWarehouse-->
+
+    <!--From frmInventory-->
+    <sys:String x:Key="frmInventory_QuantityExport">Số lượng Xuất</sys:String>
+    <sys:String x:Key="frmInventory_QuantityImport">Số lượng nhập</sys:String>
+    <sys:String x:Key="frmInventory_QuantityInventory">Số lượng tồn</sys:String>
+    <sys:String x:Key="frmInventory_MaterialName">Nguyên liệu</sys:String>
+    <sys:String x:Key="frmInventory_MaterialCode">Mã Nguyên liệu</sys:String>
+    <sys:String x:Key="frmInventory_QuantityExist">Số lượng còn lại</sys:String>
+    <sys:String x:Key="frmInventory_InventoryCode">Mã phiếu tồn</sys:String>
+    <sys:String x:Key="frmInventory_DateInventory">Ngày tính tồn kho</sys:String>
+    <sys:String x:Key="frmInventory_IsFinish">Xác nhận chốt kết quả tính</sys:String>
+    <sys:String x:Key="frmInventory_WarehouseCode">Mã kho</sys:String>
+    <sys:String x:Key="frmInventory_WarehouseName">Tên kho</sys:String>
+    <sys:String x:Key="frmInventory_StatusName">Trạng thái</sys:String>
+    <!--End From frmInventory-->
+    
+    <!--From frmFoodReality-->
+    <sys:String x:Key="frmFoodReality_SessionName">Xuất ăn</sys:String>
+    <sys:String x:Key="frmFoodReality_NumberFoodStudent">Số phần ăn HS</sys:String>
+    <sys:String x:Key="frmFoodReality_NumberFoodTeacher">Số phần ăn GV</sys:String>
+    <sys:String x:Key="frmFoodReality_NumberFoodStudentReality">Số Thực tế HS</sys:String>
+    <sys:String x:Key="frmFoodReality_NumberFoodTeacherReality">Số Thực tế GV</sys:String>
+    <sys:String x:Key="frmFoodReality_PriceTeacherReality">Đơn giá GV</sys:String>
+    <sys:String x:Key="frmFoodReality_PriceStudentReality">Đơn giá HS</sys:String>
+    <sys:String x:Key="frmFoodReality_IsConfirm">Trạng thái</sys:String>
+    <!--End From frmFoodReality-->
+
+    <!--From danh muc vat tu y te-->
+    <sys:String x:Key="lblMaVatTu">Mã vật tư</sys:String>
+    <sys:String x:Key="lblTenVatTu">Tên vật tư</sys:String>
+    <sys:String x:Key="lblNhomVatTu">Nhóm vật tư</sys:String>
+    <sys:String x:Key="lblDVT">Đơn vị tính</sys:String>
+    <sys:String x:Key="lblNSX">Nước sản xuất</sys:String>
+    <sys:String x:Key="lblNhaSX">Nhà sản xuất</sys:String>
+    <sys:String x:Key="lblQuyCach">Quy cách</sys:String>
+    <sys:String x:Key="lblGiaMua">Giá mua</sys:String>
+    <sys:String x:Key="lblGhiChu">Ghi Chú</sys:String>
+    <!--End From danh muc vat tu  y te-->
+
+    <!--From danh muc nguyen lieu-->
+    <sys:String x:Key="frmDMNguyenLieu_MaNguyenLieu">Mã nguyên liệu</sys:String>
+    <sys:String x:Key="frmDMNguyenLieu_TenNguyenLieu">Tên nguyên liệu</sys:String>
+    <sys:String x:Key="frmDMNguyenLieu_NhomNguyenLieu">Nhóm nguyên liệu</sys:String>
+    <sys:String x:Key="frmDMNguyenLieu_TieuChuan">Tiêu chuẩn dược chất</sys:String>
+    <sys:String x:Key="frmDMNguyenLieu_DiaChiNhaSX">Địa chỉ nhà sản xuất</sys:String>
+    <!--End From danh muc nguyen lieu-->
+
+
+    <!--End From frmThuocDieuTri-->
+    <sys:String x:Key="lblDanhMucThuocTPCN">Danh mục sản phẩm, TPCN theo</sys:String>
+    <sys:String x:Key="lblDanhMucThuocDieuTriTPCN">Danh mục sản phẩm điều trị, TPCN</sys:String>
+    <sys:String x:Key="lblMaThuoc">Mã sản phẩm</sys:String>
+    <sys:String x:Key="lblMaPhu">Mã phụ(KH)</sys:String>
+    <sys:String x:Key="lblChuThich">Lưu ý:Mã sản phẩm theo quy tắc   Mã Quốc gia + Mã NCC+ Mã Nhóm SP + NAM_HHSD+ Số thứ tự sản phẩm</sys:String>
+    <sys:String x:Key="lblTenThuoc">Tên sản phẩm</sys:String>
+    <sys:String x:Key="lblMaVach">Mã vạch/QR Code</sys:String>
+    <sys:String x:Key="lblThanhPhan">Thành phần</sys:String>
+    <sys:String x:Key="lblThuocKSDB">Thuộc KSBĐ</sys:String>
+    <sys:String x:Key="lblNhomSP">Nhóm SP</sys:String>
+    <sys:String x:Key="lblHoatChatChinh">Hoạt chất chính</sys:String>
+    <sys:String x:Key="lblTonKho">Tồn kho tối thiểu</sys:String>
+    <sys:String x:Key="lblTuThuoc">Tủ sản phẩm</sys:String>
+    <sys:String x:Key="lblDKBQ">ĐKBQ(=oC)</sys:String>
+    <sys:String x:Key="lblGiaBanLe">Giá bán lẻ</sys:String>
+    <sys:String x:Key="lblGiaBanLuon">Giá bán luôn</sys:String>
+    <sys:String x:Key="lblTrongLuong">Trọng lượng/ Kích thước</sys:String>
+    <sys:String x:Key="lblNuocSX">Nước sản xuất</sys:String>
+    <sys:String x:Key="lblNhaCC">Nhà cung cấp</sys:String>
+    <sys:String x:Key="lblThue">Thuế VAT</sys:String>
+    <sys:String x:Key="lblChietKhau">Chiết khấu</sys:String>
+    <sys:String x:Key="lblThuong">Thưởng DS</sys:String>
+    <sys:String x:Key="lblAnh">Ảnh đại diện</sys:String>
+    <sys:String x:Key="lblConSD">Còn sử dụng</sys:String>
+    <sys:String x:Key="lblDangSD">Đang sử dụng</sys:String>
+    <sys:String x:Key="lblKhongSD">Không còn sử dụng</sys:String>
+    <sys:String x:Key="btnBrowser">...</sys:String>
+    <sys:String x:Key="lblDVT1">Đơn vị tính</sys:String>
+
+    <!--End From frmThuocDieuTri-->
+
+    <!--From danh muc kho-->
+    <sys:String x:Key="frmDMKho_LoaiKho">Loại kho</sys:String>
+    <sys:String x:Key="frmDMKho_SucChua">Sức chứa</sys:String>
+    <sys:String x:Key="frmDMKho_TonToiThieu">Tồn tối thiểu</sys:String>
+    <sys:String x:Key="btnKhaiBaoViTri">Khai báo vị trí</sys:String>
+    <sys:String x:Key="btnKhaiBaoKV">Khai báo khu vực</sys:String>
+    <sys:String x:Key="btnThem">Thêm</sys:String>
+    <sys:String x:Key="lblKhuVuc">Khu vực</sys:String>
+    <sys:String x:Key="lblNCC">Tên nhà cung cấp</sys:String>
+    <sys:String x:Key="lblKhaiBaoVTNCC">Khai báo vị trí NCC</sys:String>
+    <sys:String x:Key="lblInMaVach">In mã vạch</sys:String>
+    <sys:String x:Key="lblSoLuongMIN">Số lượng MIN</sys:String>
+    <sys:String x:Key="lblSoLuongMAX">Số lượng MAX</sys:String>
+    <sys:String x:Key="lblNote">Ghi chú - cho phép trùng sản phẩm nhưng phải khác vị trí</sys:String>
+    <sys:String x:Key="lblChiLaySPChoPhep">Chỉ lấy sản phẩm đã được cho phép</sys:String>
+    <!--End From danh muc kho-->
+
+    <!--From danh muc don vi tinh-->
+    <sys:String x:Key="lblMaDonViTinh">Mã đơn vị tính</sys:String>
+    <sys:String x:Key="lblTenDonViTinh">Tên đơn vị tính</sys:String>
+    <sys:String x:Key="lblCap1">Cấp 1(cao nhất)</sys:String>
+    <sys:String x:Key="lblCap2">Cấp 2</sys:String>
+    <sys:String x:Key="lblCap3">Cấp 3</sys:String>
+    <sys:String x:Key="lblCap4">Cấp 4</sys:String>
+    <sys:String x:Key="lblCap5">Cấp 5</sys:String>
+    <sys:String x:Key="lblQuyDoiCap2">Quy đổi cấp 2</sys:String>
+    <sys:String x:Key="lblQuyDoiCap3">Quy đổi cấp 3</sys:String>
+    <sys:String x:Key="lblQuyDoiCap4">Quy đổi cấp 4</sys:String>
+    <sys:String x:Key="lblQuyDoiCap5">Quy đổi cấp 5</sys:String>
+    <sys:String x:Key="lblConSuDung">Còn sử dụng</sys:String>
+    <sys:String x:Key="lblTinhTrangSuDung">Tình trạng sử dụng</sys:String>
+    <sys:String x:Key="lblGhiChuThem">Ghi chú thêm</sys:String>
+    <sys:String x:Key="lblDonVi">Đơn vị</sys:String>
+    <sys:String x:Key="btnKhaiBaoCDDVT">Khai báo chuyển đổi ĐVT</sys:String>
+    <sys:String x:Key="tbl_QuyDoiDVT">Quy đổi ĐVT</sys:String>
+    <sys:String x:Key="tbl_CacSPQuyDoi">Các sản phẩm đã quy đổi</sys:String>
+    <sys:String x:Key="lblTuDVT">Từ DVT</sys:String>
+    <sys:String x:Key="lblDenDVT">Đến DVT</sys:String>
+    <sys:String x:Key="lblDVTMD">ĐVT mặc định</sys:String>
+    <sys:String x:Key="lblDonViTu">ĐVT Từ</sys:String>
+    <sys:String x:Key="lblDonViDen">ĐVT Đến</sys:String>
+    <sys:String x:Key="lblSLQuyDoi">Số lượng quy đổi</sys:String>
+    <sys:String x:Key="lblDVBQ">ĐVBQ</sys:String>
+    <!--End From danh muc don vi tinh-->
+    
+      <!--From frmThietBi-->
+    <sys:String x:Key="frmThietBi_LoaiTB">Loại thiết bị</sys:String>
+    <sys:String x:Key="frmThietBi_TenTB">Tên thiết bị</sys:String>
+    <sys:String x:Key="frmThietBi_ThongSo">Thông số</sys:String>
+    <sys:String x:Key="frmThietBi_NamSX">Năm sản xuất</sys:String>
+    <sys:String x:Key="frmThietBi_NhaSX">Nhà sản xuất</sys:String>
+    <sys:String x:Key="frmThietBi_NuocSX">Nước sản xuất</sys:String>
+    <sys:String x:Key="rdbPDA">PDA</sys:String>
+    <sys:String x:Key="rdbXeNang">Xe nâng</sys:String>
+    <sys:String x:Key="lblMaThietBi">Mã thiết bị</sys:String>
+
+    <!--End From frmThietBi-->
+
+    <!--From frm_dm_pallet-->
+    <sys:String x:Key="lblMaPallet">Mã pallet</sys:String>
+    <sys:String x:Key="lblTenPallet">Tên pallet</sys:String>
+    <sys:String x:Key="lblLoaiPallet">Loại pallet</sys:String>
+    <sys:String x:Key="btnLoaiKichThuoc">Loại kích thước</sys:String>
+    <sys:String x:Key="btnThongKePallet">Thống kê pallet</sys:String>
+    <sys:String x:Key="btnCapNhatPallet">Cập nhật trạng thái pallet</sys:String>
+    <sys:String x:Key="btnDieuChuyenPallet">Điều chuyển pallet</sys:String>
+    <!--End From_dm_pallet-->
+
+    <!--From danh muc trang thiet bi y te-->
+    <sys:String x:Key="frmDMTTBYT_Ma">Mã TTBYT</sys:String>
+    <sys:String x:Key="frmDMTTBYT_Ten">Tên TTBYT</sys:String>
+    <sys:String x:Key="frmDMTTBYT_Loai">Loại TTBYT</sys:String>
+    <!--End From danh muc trang thiet bi y te-->
+
+
+    <!--From frmThuocTheoNhomSP-->
+    <sys:String x:Key="lblThuocNSP">Danh mục nhóm sản phẩm</sys:String>
+    <sys:String x:Key="lblThuocNSPA">Danh mục sản phẩm theo nhóm sản phẩm A</sys:String>
+    <!--End From frmThuocTheoNhomSP-->
+
+    <!--From frmThuocTheoDKBQ-->
+    <sys:String x:Key="lblThuocBQ">Danh mục bảo quản sản phẩm</sys:String>
+    <sys:String x:Key="lblThuocDKBQ">Danh mục sản phẩm theo điều kiện bảo quản ở nhiệt độ 8 độ C</sys:String>
+    <!--End From frmThuocTheoDKBQ-->
+
+    <!--From frmThuocTheoKSDB-->
+    <sys:String x:Key="lblThuocNhomDB">Danh mục nhóm sản phẩm kiểm soát đặc biệt</sys:String>
+    <sys:String x:Key="lblDMThuocKSDB">Danh mục sản phẩm theo nhóm kiểm soát đặc biệt A</sys:String>
+    <!--End From frmThuocTheoKSDB-->
+
+    <!--From frmThuocTheoNhaSX-->
+    <sys:String x:Key="lblThuocNhaSX">Danh mục sản phẩm theo nhà sản xuất</sys:String>
+    <sys:String x:Key="lblThuocNhaSX1">Danh mục sản phẩm theo nhà sản xuất 1</sys:String>
+    <!--End From frmThuocTheoNhaSX-->
+
+    <!--From frmThuocTheoNhaCC-->
+    <sys:String x:Key="lblThuocNhaCC">Danh mục sản phẩm theo nhà cung cấp</sys:String>
+    <sys:String x:Key="lblThuocNhaCC1">Danh mục sản phẩm theo nhà cung cấp 1</sys:String>
+    <!--End From frmThuocTheoNhaCC-->
+
+    <!--From frmThuocTheoQuocGia-->
+    <sys:String x:Key="lblThuocQuocGia">Danh mục sản phẩm theo quốc gia</sys:String>
+    <sys:String x:Key="lblThuocQuocGia1">Danh mục sản phẩm theo quốc gia 1</sys:String>
+    <!--End From frmThuocTheoQuocGia-->
+
+    <!--From frmThuocTheoKho-->
+    <sys:String x:Key="lblThuocKho">Danh mục sản phẩm theo kho</sys:String>
+    <sys:String x:Key="lblThuocKho1">Danh mục sản phẩm theo kho 1</sys:String>
+    <sys:String x:Key="lblThuocTonKho">Tồn kho</sys:String>
+    <!--End From frmThuocTheoKho-->
+    <!--From frm_dm_khachhang_ncc-->
+    <sys:String x:Key="frm_dm_khachhang_ncc_txt_DanhMuc1">Danh mục KH/NCC</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_txt_DanhMuc2">Danh mục Khách hàng</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_txt_STT">STT</sys:String>
+
+    <sys:String x:Key="frm_dm_khachhang_ncc_TieuDe">Sửa danh mục Khách hàng/NCC</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_MaKH_NCC">Mã KH/NCC</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_MST">MST</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_TenKH">Tên KH/NCC</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_DiaChi_KH">Địa chỉ</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_TinhTP">Thuộc Tỉnh/TP</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_TK_NganHang">TK ngân hàng</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_TenNganHang">Tên ngân hàng</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_DienThoai">Điện thoại</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_Fax">Fax</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_LoaiKH_NCC">Loại KH/NCC</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_NguoiLienHe">Người liên hệ</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_GioiTinh">Giới tính</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_ChucDanh">Chức danh</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_DienThoai_CQ">Điện thoại CQ</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_NR">NR</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_Mobile">Mobile</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_CMND">Số CMND</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_NgayCap">Ngày cấp</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_NoiCap">Nơi cấp</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_Email">Email</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_DiaChi">Địa chỉ</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_TinhTrang">Tình trạng</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_GhiChu">Ghi chú thêm</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_Huy">Hủy</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_DangHoatDong">Đang hoạt động</sys:String>
+    <sys:String x:Key="frm_dm_khachhang_ncc_NgungHoatDong">Ngừng hoạt động</sys:String>
+    <sys:String x:Key="btnDiaDiemXuatHang">Địa điểm xuất hàng</sys:String>
+    <sys:String x:Key="lblXuatHet">Xuất hết</sys:String>
+    <sys:String x:Key="btnDonViVanChuyen">Đơn vị vận chuyển</sys:String>
+    <!--End From frm_dm_khachhang_ncc-->
+
+    <!--From frmDanhMucNhaSanXuat-->
+    <sys:String x:Key="lblTenNhaSX">Tên nhà sản xuất</sys:String>
+    <sys:String x:Key="lblMaNhaSX">Mã nhà sản xuất</sys:String>
+    <sys:String x:Key="lblDiaChiNhaSX">Địa chỉ</sys:String>
+    <sys:String x:Key="lblTinhTrangNhaSX">Không sử dụng</sys:String>
+    <!--End From frmDanhMucNhaSanXuat-->
+
+
+    <!--From frmQuocGia-->
+    <sys:String x:Key="frmDMQG_Ma">Mã quốc gia</sys:String>
+    <sys:String x:Key="frmDMQG_Ten">Tên quốc gia</sys:String>
+    <sys:String x:Key="frmDMQG_TenVT">Tên viết tắt</sys:String>
+    <!--End From frmQuocGia-->
+
+
+    <!--From frmDanhMucSanPhamKhac-->
+    <sys:String x:Key="lblMaSanPham">Mã sản phẩm</sys:String>
+    <sys:String x:Key="lblTenSanPham">Tên sản phẩm</sys:String>
+    <sys:String x:Key="lblLoaiSanPham">Loại sản phẩm</sys:String>
+    <!--End From frmDanhMucSanPhamKhac-->
+    <!--From frm_dm_sua-->
+    <sys:String x:Key="frm_dm_sua_txt_TieuDe">Danh mục sữa</sys:String>
+    <sys:String x:Key="frm_dm_sua_MaSua">Mã sữa</sys:String>
+    <sys:String x:Key="frm_dm_sua_TenSua">Tên sữa</sys:String>
+    <sys:String x:Key="frm_dm_sua_LoaiSua">Loại sữa</sys:String>
+    <sys:String x:Key="frm_dm_sua_GhiChu">Ghi chú</sys:String>
+    <sys:String x:Key="frm_dm_sua_Sua">Sửa</sys:String>
+    <!--End From frm_dm_sua-->
+
+    <!--From frmThietLapQuyTacHangBanCham-->
+    <sys:String x:Key="lblThoiGianChoPhep">Thời gian cho phép lưu kho (ngày)</sys:String>
+    <sys:String x:Key="lblChonSanPham">Chọn sản phẩm</sys:String>
+    <sys:String x:Key="lblNguyenVatLieu">Nguyên vật liệu</sys:String>
+    <!--End From frmThietLapQuyTacHangBanCham-->
+
+    <!--From frmThietLapTonKhoTT-->
+    <sys:String x:Key="lblMaKho">Mã kho</sys:String>
+    <sys:String x:Key="lblTenKho">Tên kho</sys:String>
+    <sys:String x:Key="lblTonTT">Tồn tối thiểu</sys:String>
+    <!--End From frmThietLapTonKhoTT-->
+    
+     <!--From frm_NhapKho-->
+    <sys:String x:Key="lblHinhThucNhap">Hình thức nhập</sys:String>
+    <sys:String x:Key="lblHangHoa">Hàng hóa</sys:String>
+    <sys:String x:Key="lblSoLuong">Số Lượng</sys:String>
+    <sys:String x:Key="lblTongTien">Tổng tiền</sys:String>
+    <sys:String x:Key="lblSoChungTu">Số chứng từ</sys:String>
+    <sys:String x:Key="lblNgayCT">Ngày CT</sys:String>
+    <sys:String x:Key="lblLoaiNhap">Loại nhập</sys:String>
+    <sys:String x:Key="lblLoaiHang">Loại hàng</sys:String>
+    <sys:String x:Key="lblHangDung">Hạn dùng</sys:String>
+    <sys:String x:Key="lblQuyCachDongGoi">Quy cách đóng gói</sys:String>
+    <sys:String x:Key="lblPYC">PYC</sys:String>
+    <sys:String x:Key="lblNCCKH">NCC/KH</sys:String>
+    <sys:String x:Key="cbKH">KH</sys:String>
+    <sys:String x:Key="btnInMaVachDanPallet">In mã vạch dán Pallet</sys:String>
+    <sys:String x:Key="lblLoaiNhap1">Loại nhập(QA)</sys:String>
+    <sys:String x:Key="lblGiaNhap">Giá nhập</sys:String>
+    <sys:String x:Key="lblThanhTien">Thành tiền</sys:String>
+    <sys:String x:Key="lblGiaBan">Giá bán</sys:String>
+    <sys:String x:Key="lblSoDK">Số ĐK</sys:String>
+ 
+    <sys:String x:Key="lblTonPallet">Tồn pallet</sys:String>
+    <sys:String x:Key="lblTaoMaVach">Tạo mã vạch</sys:String>
+    <sys:String x:Key="lblViTriPallet">Vị trí pallet</sys:String>
+    <sys:String x:Key="lblNgaySanXuat">Ngày sản xuất</sys:String>
+    <!--End From frm_NhapKho-->
+
+    <!--From frmKhoiTaoTonKho-->
+    <sys:String x:Key="lblViTri">Vị trí</sys:String>
+    <sys:String x:Key="lblHangGhep">Hàng ghép</sys:String>
+    <sys:String x:Key="lblSoHangGhep">Số mặt hàng ghép</sys:String>
+    <sys:String x:Key="lblpallet">Pallet</sys:String>
+    <sys:String x:Key="lblSoThung">Số thùng</sys:String>
+    <sys:String x:Key="lblSoLe">Số lẻ</sys:String>
+    <sys:String x:Key="lblSoLo">Số lô</sys:String>
+    <sys:String x:Key="lblMaHeThong">Mã hệ thống</sys:String>
+    <sys:String x:Key="lblChonKho">Chọn kho</sys:String>
+    <sys:String x:Key="lblNguoiNhap">Người nhập</sys:String>
+    <sys:String x:Key="lblChonLoaiHang">Chọn loại hàng</sys:String>
+    <!--End From frmKhoiTaoTonKho-->
+
+
+    <!--From frmThietLapHSDThuoc-->
+    <sys:String x:Key="lblHSD">Cảnh báo trước hạn sử dụng (ngày)</sys:String>
+    <!--End From frmThietLapHSDThuoc-->
+
+    <!--From frm_thietlap_quytac_xuathang-->
+    <sys:String x:Key="frm_thietlap_quytac_xuathang_TieuDe">Thiết lập quy tắc xuất hàng kho chấp nhận</sys:String>
+    <sys:String x:Key="frm_thietlap_quytac_xuathang_FIFO">FIFO</sys:String>
+    <sys:String x:Key="frm_thietlap_quytac_xuathang_FEFO">FEFO</sys:String>
+    <!--End From frm_thietlap_quytac_xuathang-->
+
+
+    <!--From frmKhachHangHopDong-->
+    <sys:String x:Key="lblMaKH">Mã khách hàng</sys:String>
+    <sys:String x:Key="lblTenKH">Tên khách hàng</sys:String>
+    <sys:String x:Key="rdbKH">Khách hàng</sys:String>
+    <sys:String x:Key="lblDiaChi">Địa chỉ</sys:String>
+    <sys:String x:Key="lblSDT">SĐT</sys:String>
+    <sys:String x:Key="lblEmail">Email</sys:String>
+    <sys:String x:Key="lblHopDong">Hợp đồng</sys:String>
+    <sys:String x:Key="lblma">Mã KH/NCC</sys:String>
+    <sys:String x:Key="lblten">Tên KH/NCC</sys:String>
+    <sys:String x:Key="lblSoHD">Sô hợp đồng</sys:String>
+    <sys:String x:Key="lblNgayKy">Ngày ký</sys:String>
+    <sys:String x:Key="lblGiaTri">Giá trị</sys:String>
+    <sys:String x:Key="lblGiaTriTT">Giá trị đã thanh toán</sys:String>
+    <sys:String x:Key="lblTienDo">Tiến độ</sys:String>
+    <sys:String x:Key="btnAdd">Add</sys:String>
+    <!--End From frmKhachHangHopDong-->
+
+
+    <!--From frmQuanLyThu-->
+    <sys:String x:Key="lblSoPhieuThu">Số phiếu thu</sys:String>
+    <sys:String x:Key="lblNgayPhieu">Ngày lập phiếu</sys:String>
+    <sys:String x:Key="lblSoTien">Sô tiền</sys:String>
+    <!--End From frmQuanLyThu-->
+
+
+    <!--From frmQuanLyChi-->
+    <sys:String x:Key="lblSoPhieuChi">Số phiếu chi</sys:String>
+    <!--End From frmQuanLyChi-->
+
+    <!--From frm_phanquyen_quanlykho-->
+    <sys:String x:Key="frm_phanquyen_quanlykho_User">User</sys:String>
+    <sys:String x:Key="frm_phanquyen_quanlykho_TenUser">Tên user</sys:String>
+    <sys:String x:Key="frm_phanquyen_quanlykho_KhoQuanLy">Kho quản lý</sys:String>
+    <sys:String x:Key="frm_phanquyen_quanlykho_MaKho">Mã kho</sys:String>
+    <sys:String x:Key="frm_phanquyen_quanlykho_TenKho">Tên kho</sys:String>
+    <sys:String x:Key="frm_phanquyen_quanlykho_Chon">Chọn</sys:String>
+    <!--End From frm_phanquyen_quanlykho-->
+
+    <!--From frmKiemKeHangHoa-->
+    <sys:String x:Key="lblKhoKiemKe">Kho kiểm kê</sys:String>
+    <sys:String x:Key="lblViTriKiemKe">Vị trí kiểm kê</sys:String>
+    <sys:String x:Key="lblPalletKK">Pallet kiểm kê</sys:String>
+    <sys:String x:Key="lblTonHTPallet">Tồn hệ thống Pallet</sys:String>
+    <sys:String x:Key="lblTonKhoHT">Tồn kho hệ thống</sys:String>
+    <sys:String x:Key="lblSoLuongKK">Số lượng kiểm kê trên pallet</sys:String>
+    <sys:String x:Key="lblChenhLech">Chênh lệch</sys:String>
+    <sys:String x:Key="lblDaDieuChinh">Đã điều chỉnh</sys:String>
+    <sys:String x:Key="lblHanDung">Hạn dùng</sys:String>
+    <sys:String x:Key="lblNgayKK">Ngày kiểm kê</sys:String>
+    <sys:String x:Key="lblLyDo">Lý do</sys:String>
+    <sys:String x:Key="btnXuatDC">Xuất điều chỉnh</sys:String>
+    <sys:String x:Key="btnNhapDC">Nhập điều chỉnh</sys:String>
+    <sys:String x:Key="btnInmavach">In mã vạch dán pallet</sys:String>
+    <sys:String x:Key="lbLoaiHang">Loại hàng</sys:String>
+    <sys:String x:Key="lbNgayXuat">Ngày xuất</sys:String>
+    <sys:String x:Key="lbLoaiXuat">Loại xuất</sys:String>
+    <sys:String x:Key="lbLoaiNhap">Loại nhập</sys:String>
+    <sys:String x:Key="frmXuatDieuChinh">Phiếu xuất kho điều chỉnh số lượng kiểm kê</sys:String>
+    <sys:String x:Key="frmNhapDieuChinh">Phiếu nhập kho điều chỉnh số lượng kiểm kê</sys:String>
+    <sys:String x:Key="lbGiaNhap">Giá nhập</sys:String>
+    <sys:String x:Key="lbGiaBan">Giá bán</sys:String>
+    <sys:String x:Key="lbThanhTien">Thành tiền</sys:String>
+    <sys:String x:Key="lbSDK">SĐK</sys:String>
+    <sys:String x:Key="lbTonPallet">Tồn pallet</sys:String>
+    <sys:String x:Key="lbTaoMaVach">Tạo mã vạch</sys:String>
+    <sys:String x:Key="lbViTriPallet">Vị trí pallet</sys:String>
+    <sys:String x:Key="btnInphieu">In Phiếu</sys:String>
+    <!--End From frmKiemKeHangHoa-->
+
+    <!--From frmDieuChuyenNoiBo-->
+    <sys:String x:Key="lblLoaiChuyen">Loại chuyển nội bộ</sys:String>
+    <sys:String x:Key="lblLoaiC">Loại chuyển</sys:String>
+    <sys:String x:Key="lblNgayChuyen">Ngày chuyển</sys:String>
+    <sys:String x:Key="lblLyDoChuyen">Lý do chuyển</sys:String>
+    <sys:String x:Key="frmChuyenCungDC">Phiếu chuyển kho cùng địa chỉ</sys:String>
+    <sys:String x:Key="frmChuyenKhacDC">Phiếu chuyển kho khác địa chỉ</sys:String>
+    <sys:String x:Key="frmChuyenChoDuyet">Phiếu chuyển kho chờ duyệt</sys:String>
+    <sys:String x:Key="lblNguoiChuyen">Người chuyển</sys:String>
+    <sys:String x:Key="lblNguoiNhan">Người nhận</sys:String>
+    <sys:String x:Key="lblPalletChuyen">Pallet chuyển</sys:String>
+    <sys:String x:Key="lblTonPalletChuyen">Tồn Pallet chuyển</sys:String>
+    <sys:String x:Key="lblPalletNhan">Pallet nhận</sys:String>
+    <sys:String x:Key="lblTonPalletNhan">Tồn Pallet nhận</sys:String>
+    <sys:String x:Key="lblVTPalletNhan">Vị trí Pallet nhận</sys:String>
+    <sys:String x:Key="lblVTPalletChuyen">Vị trí Pallet chuyển</sys:String>
+    <sys:String x:Key="btnChapNhan">Chấp nhận</sys:String>
+    <sys:String x:Key="lblPhieuNhan">Phiếu nhận</sys:String>
+    <sys:String x:Key="lblNgayNhan">Ngày nhận</sys:String>
+    <!--End From frmDieuChuyenNoiBo-->
+
+    <!--From frmDSHBT_Duoc_Xuat-->
+    <sys:String x:Key="lblKhoBietTru">Kho biệt trữ</sys:String>
+    <sys:String x:Key="lblXuat">Xuất</sys:String>
+    <sys:String x:Key="lblMaThuocKH">Mã sản phẩm (KH)</sys:String>
+    <sys:String x:Key="lblSLDuocXuat">Số lượng được phép xuất</sys:String>
+    <sys:String x:Key="lblKho">Kho</sys:String>
+    <!--End From frmDSHBT_Duoc_Xuat-->
+
+    <!--From frm_DS_Phieu_Lam_Dich_Vu-->
+    <sys:String x:Key="lblLoaiPhieu">Loại phiếu</sys:String>
+    <sys:String x:Key="lblChonPhieu">Chọn phiếu xuất</sys:String>
+    <sys:String x:Key="lblMaSPDG">Mã SP đóng gói</sys:String>
+    <sys:String x:Key="lblTenSPDG">Tên sản phẩm đóng gói</sys:String>
+    <!--End From frm_DS_Phieu_Lam_Dich_Vu-->
+
+    <!--From frmDSSPDong_Goi-->
+    <sys:String x:Key="lblDinhMuc">Định mức</sys:String>
+    <sys:String x:Key="lblChiPhiDichVu">Chi phí dịch vụ</sys:String>
+    <sys:String x:Key="lblTyLe">Tỷ lệ</sys:String>
+    <sys:String x:Key="lblNhanThemTyLe">Nhân thêm tỷ lệ %</sys:String>
+    <sys:String x:Key="lblKhaiBaoChiPhiDichVu">Khai báo chi phí dịch vụ</sys:String>
+    <sys:String x:Key="lblDichVu">Dịch vụ</sys:String>
+    <sys:String x:Key="lblChiPhiVND">Chi phí (VNĐ)</sys:String>
+    <sys:String x:Key="lblHaoHut">Hao hụt(%)</sys:String>
+    <!--End From frmDSSPDong_Goi-->
+
+
+    <!--From frm_DanhMucSanPham-->
+    <sys:String x:Key="lblChonLoaiSP">Chọn loại sản phẩm</sys:String>
+    <sys:String x:Key="lblDanhMucSP">Danh mục sản phẩm </sys:String>
+    <sys:String x:Key="lblMaSanPhamKH">Mã sản phẩm (KH)</sys:String>
+    <sys:String x:Key="lblNguonNhap">Nguồn nhập</sys:String>
+    <sys:String x:Key="lblGPNK">GPNK</sys:String>
+    <sys:String x:Key="btnEdit">Sửa</sys:String>
+    <sys:String x:Key="btnGPNK">Khai báo GPNK</sys:String>
+    <sys:String x:Key="btnQCSP">Khai báo quy cách sản phẩm trên pallet</sys:String>
+    <sys:String x:Key="lblViTriKeDX">Vị trí kệ đề xuất</sys:String>
+    <sys:String x:Key="lblQuyCachDG">Quy cách đóng gói</sys:String>
+    <sys:String x:Key="lblDVTDG">Đơn vị tính (đóng gói)</sys:String>
+    <sys:String x:Key="lblNgayHH">Ngày HH</sys:String>
+    <sys:String x:Key="lblSoXN">Số XN công bố</sys:String>
+    <sys:String x:Key="lblcanhbao">Cảnh cáo trước (ngày)</sys:String>
+    <sys:String x:Key="lbltrongluong">Trọng lượng (kg)</sys:String>
+    <sys:String x:Key="lblthetich">Thể tích (m3)</sys:String>
+    <sys:String x:Key="lblsothung">Số thùng/pallet</sys:String>
+    <sys:String x:Key="lblsolo">Số lô</sys:String>
+    <sys:String x:Key="lbltrongluongthung">Trọng lượng thùng(kg)</sys:String>
+    <sys:String x:Key="lblloaithung">Loại thùng</sys:String>
+    <sys:String x:Key="lblchieudaithung">Chiều dài thùng(mm)</sys:String>
+    <sys:String x:Key="lblchieurongthung">Chiều rộng thùng(mm)</sys:String>
+    <sys:String x:Key="lblchieucaothung">Chiều cao thùng(mm)</sys:String>
+    <sys:String x:Key="lblthetichthung">Thể tích thùng(mm)</sys:String>
+    <!--End From frm_DanhMucSanPham-->
+
+    <!--From frmCanhBaoHangBanCham-->
+    <sys:String x:Key="lblKhoLuuTru">Kho lưu trữ</sys:String>
+    <sys:String x:Key="lblTonViTri">Tồn vị trí</sys:String>
+    <sys:String x:Key="lblThoiGianLuuKho">Thời gian lưu kho</sys:String>
+    <!--End From frmCanhBaoHangBanCham-->
+
+    <!-- frm_canh_bao_hang_sap_het_han_su_dung-->
+    <sys:String x:Key="lblHanSuDung">Hạn sử dụng</sys:String>
+    <sys:String x:Key="lblSoNgayCanhBao">Số ngày cảnh báo trước</sys:String>
+    <sys:String x:Key="lblSoNgayConHSD">Số ngày còn HSD</sys:String>
+    <sys:String x:Key="lblChuyenSangBT">Chuyển sang BT</sys:String>
+    <sys:String x:Key="lblKhoChuyen">Kho chuyển</sys:String>
+    <sys:String x:Key="lblKhoNhan">Kho nhận</sys:String>
+    <sys:String x:Key="lblKhuVucNhan">Khu vực nhận</sys:String>
+    <sys:String x:Key="lblPCKHHH">Phiếu chuyển kho hàng sắp hết hạn</sys:String>
+    <!--End frm_canh_bao_hang_sap_het_han_su_dung-->
+
+    <!--From frm_PhieuYeuCauXuatKho-->
+
+    <sys:String x:Key="lblHinhThucXuat">Hình thức xuất</sys:String>
+    <sys:String x:Key="lblNgayXuat">Ngày xuất</sys:String>
+    <sys:String x:Key="lblMaThuoc1">Mã sản phẩm(KH)</sys:String>
+    <sys:String x:Key="lblSoDK1">SĐK</sys:String>
+    <sys:String x:Key="lblSoPalletChan">Số pallet chẵn</sys:String>
+    <sys:String x:Key="lblSoLuongPalletLe">Số lượng pallet lẽ</sys:String>
+    <sys:String x:Key="btnImportExcel">Import Excel</sys:String>
+    <!--End From frm_PhieuYeuCauXuatKho-->
+
+    <!--From frm_ImportExcel_PhieuYeuCauXuatKho-->
+    <sys:String x:Key="lblChonFileExcel">Chọn file Excel</sys:String>
+    <sys:String x:Key="lblCotMaSP">Cột mã sản phẩm</sys:String>
+    <sys:String x:Key="lblCotSoLuong">Cột số lượng</sys:String>
+    <sys:String x:Key="lblCotDonGia">Cột đơn giá</sys:String>
+    <sys:String x:Key="lblTuDong">Từ dòng</sys:String>
+    <sys:String x:Key="lblDenDong">Đến dòng</sys:String>
+    <sys:String x:Key="lblTongLuong">Tổng lượng</sys:String>
+    <sys:String x:Key="btnXemTruoc">Xem trước</sys:String>
+    <sys:String x:Key="btnImport">Import</sys:String>
+    <sys:String x:Key="btnChonFile">...</sys:String>
+    <!--End From frm_ImportExcel_PhieuYeuCauXuatKho-->
+
+
+    <!--From frm_lapphieu_xacnhan_hanghuhong-->
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_InPhieu">In phiếu</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_LapPhieuXuat_SP">Lập phiếu xuất SP</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_LapPhieuXuat_NVL">Lập phiếu xuất NVL</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_SoPhieu">Số phiếu</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_popup_NgayXN">Ngày XN</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_popup_SoChungTu">Số chứng từ</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_popup_NgayCT">Ngày CT</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_GhiChu">Ghi chú</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_popup_ChonKho">Chọn kho</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_popup_LoaiHang">Loại hàng</sys:String>
+
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_NgayXacNhan">Ngày xác nhận</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_KhoKiemTra">Kho kiểm tra</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_HangHoa">Hàng hóa</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_SoLuong">Số lượng</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_TongTien">Tổng tiền</sys:String>
+
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_MaThuoc">Mã sản phẩm</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_TenThuoc">Tên sản phẩm</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_SoLo">Số lô</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_HanDung">Hạn dùng</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_DonViTinh">Đơn vị tính</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_LyDo">Lý do</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_KhoChua">Kho chứa</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_Pallet">Pallet</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_ViTriPallet">Vị trí pallet</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_GiaNhap">Giá nhập</sys:String>
+    <sys:String x:Key="frm_lapphieu_xacnhan_hanghuhong_ThanhTien">Thành tiền</sys:String>
+    <!--End From frm_lapphieu_xacnhan_hanghuhong-->
+
+    <!--From frm_lapphieu_yeucau_nhapkho-->
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_InPhieu">In phiếu</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_NCC">Nhà cung cấp</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_SoPhieu">Số phiếu</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_NgayNhap">Ngày nhập</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_KhoNhap">kho nhập</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_HangHoa">Hàng hóa</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_SoLuong">Số lượng</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_TongTien">Tổng tiền</sys:String>
+    <sys:String x:Key="lblChonBieTru">Chọn biệt trữ</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_HinhThucNhap">hình thức nhập</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_NgayCT">Ngày CT</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_LoaiHang">Loại hàng</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_GhiChu">Ghi chú</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_SoChungTu">Số chứng từ</sys:String>
+
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_popup_MaThuoc">Mã sản phẩm</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_popup_TenThuoc">Tên sản phẩm</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_popup_SoLo">Số lô</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_popup_HanDung">hạn dùng</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_popup_DonViTinh">Đơn vị tính</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_popup_SoLuong">Số lượng</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_popup_GiaNhap">Giá nhập</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_popup_ThanhTien">Thành tiền</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_popup_GiaBan">Giá bán</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_popup_SDK">SDK</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_popup_SoPalletChan">Số pallet chẵn</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_popup_SoLuongPalletLe">Số lượng pallet lẽ</sys:String>
+
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_importexcel_TenCungCap">Tên cung cấp</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_importexcel_TuDong">Từ dòng</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_importexcel_TongTien">Tổng tiền</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_importexcel_SoXe">Số xe</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_importexcel_LienHe">Liên hệ</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_importexcel_CotNhanDang">Cột nhận dạng</sys:String>
+    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_importexcel_TongLuong">Tổng lượng</sys:String>
+    <!--End From frm_lapphieu_yeucau_nhapkho-->
+
+    <!--From frm_phancong_thietbi-->
+    <sys:String x:Key="frm_phancong_thietbi_User">User</sys:String>
+    <sys:String x:Key="frm_phancong_thietbi_TenUser">Tên user</sys:String>
+    <sys:String x:Key="frm_phancong_thietbi_LoaiThietBi">Loại thiết bị</sys:String>
+    <sys:String x:Key="frm_phancong_thietbi_MaThietBi">Mã thiết bị</sys:String>
+    <sys:String x:Key="frm_phancong_thietbi_TenThietBi">Tên thiết bị</sys:String>
+    <sys:String x:Key="frm_phancong_thietbi_TuNgay">Từ ngày</sys:String>
+    <sys:String x:Key="frm_phancong_thietbi_DenNgay">Đến ngày</sys:String>
+
+    <sys:String x:Key="frm_phancong_thietbi_popup_DuocPhepSuDungTuNgay">Được phép sử dụng từ ngày</sys:String>
+    <sys:String x:Key="frm_phancong_thietbi_popup_DenNgay">Đến ngày</sys:String>
+    <sys:String x:Key="frm_phancong_thietbi_popup_User">User</sys:String>
+    <sys:String x:Key="frm_phancong_thietbi_popup_LoaiThietBi">Loại thiết bị</sys:String>
+    <sys:String x:Key="frm_phancong_thietbi_popup_Chon">Chọn</sys:String>
+    <sys:String x:Key="frm_phancong_thietbi_popup_MaThietBi">Mã thiết bị</sys:String>
+    <sys:String x:Key="frm_phancong_thietbi_popup_TenThietBi">Tên thiết bị</sys:String>
+    <!--End From frm_phancong_thietbi-->
+
+    <!--From frm_quytac_makytudau_sanpham-->
+    <sys:String x:Key="frm_quytac_makytudau_sanpham_LoaiSanPham">Loại sản phẩm</sys:String>
+    <sys:String x:Key="frm_quytac_makytudau_sanpham_QuyDinhKyTuDauCuaSanPham">Quy định ký tự đầu sản phẩm</sys:String>
+    <!--End From frm_quytac_makytudau_sanpham-->
+
+    <!--From frm_ChiTietTonPallet-->
+    <sys:String x:Key="lblDiaDiem">Địa điểm</sys:String>
+    <sys:String x:Key="lblSoLuongTong">Số lượng tổng(cái)</sys:String>
+    <sys:String x:Key="lblSoLuongSD">Số lượng sử dụng(cái)</sys:String>
+    <sys:String x:Key="lblSoLuongChuaSD">Số lượng chưa sử dụng(cái)</sys:String>
+    <sys:String x:Key="lblKichThuoc">Kích thước</sys:String>
+    <!--End From frm_ChiTietTonPallet-->
+
+
+
+    <!--From frm_dm_pallet_capnhat-->
+    <sys:String x:Key="lblMaVach1">Mã vạch</sys:String>
+    <sys:String x:Key="lblNhom">Nhóm</sys:String>
+    <sys:String x:Key="lblLoai">Loại</sys:String>
+    <sys:String x:Key="lblKichThuoc1">Kích thước(DxRxC)mm</sys:String>
+    <sys:String x:Key="lblNguoiCapNhat">Người cập nhật</sys:String>
+    <sys:String x:Key="rdbHuHong">Hư hỏng</sys:String>
+    <sys:String x:Key="lblTinhTrangPallet">Tình trạng pallet</sys:String>
+    <sys:String x:Key="rdbThanhLy">Thanh lý</sys:String>
+    <sys:String x:Key="lblNgay">Ngày</sys:String>
+    <sys:String x:Key="lblMaTheoNSX">Mã theo NSX</sys:String>
+    <sys:String x:Key="lblTenTheoNSX">Tên theo NSX</sys:String>
+    <!--End From frm_dm_pallet_capnhat-->
+
+    <!--From frm_dm_pallet_dieuchuyen-->
+    <sys:String x:Key="rdbInSLTong">Chỉ in số lượng tổng</sys:String>
+    <sys:String x:Key="lblChonDD">Chọn điểm đến</sys:String>
+    <sys:String x:Key="lblNgayDC">Ngày điều chuyển</sys:String>
+    <sys:String x:Key="lblChonPL">Chọn pallet</sys:String>
+    <sys:String x:Key="lblSLChoPhep">Số lượng cho phép</sys:String>
+    <sys:String x:Key="lblSOLUONG_CHOPHEP">SL cho phép chuyển</sys:String>
+    <sys:String x:Key="lblSOLUONG_CHUYEN">SL chuyển</sys:String>
+    <sys:String x:Key="lblTenTieuDe">Danh sách pallet điều chuyển</sys:String>
+    <sys:String x:Key="lblMA_DVIQLY_NHAN">Đơn vị quản lý nhận</sys:String>
+    <sys:String x:Key="lblChoPhepXuat">Cho phép xuất</sys:String>
+    <!--End From frm_dm_pallet_dieuchuyen-->
+
+    <!--From frm_dm_pallet_tiepnhandieuchuyen-->
+    <sys:String x:Key="lblDiemGiao">Điểm giao</sys:String>
+    <sys:String x:Key="lblDiemNhan">Điểm nhận</sys:String>
+    <sys:String x:Key="lblNgayTiepNhan">Ngày tiếp nhận</sys:String>
+    <sys:String x:Key="lblNguoiTiepNhan">Người tiếp nhận</sys:String>
+    <sys:String x:Key="lblNguoiThucHien">Người thực hiện</sys:String>
+    <sys:String x:Key="lblTenTieuDe1">Danh sách pallet tiếp nhận</sys:String>
+    <sys:String x:Key="lblDSPL">Danh sách pallet</sys:String>
+    <!--End From frm_dm_pallet_tiepnhandieuchuyen-->
+
+    <!--From frm_danhsach_loaipallet-->
+    <sys:String x:Key="frm_danhsach_loaipallet_ThongKePallet">Thống kê Pallet</sys:String>
+    <sys:String x:Key="frm_danhsach_loaipallet_LoaiPallet">Loại Pallet</sys:String>
+    <sys:String x:Key="frm_danhsach_loaipallet_GhiChu">Ghi chú</sys:String>
+    <sys:String x:Key="frm_danhsach_loaipallet_KichThuoc">Kích thước</sys:String>
+    <sys:String x:Key="frm_danhsach_loaipallet_SoLuongTong">Số lượng tổng</sys:String>
+    <sys:String x:Key="frm_danhsach_loaipallet_SLDangSuDung">SL đang sử dụng</sys:String>
+
+    <sys:String x:Key="frm_danhsach_loaipallet_SLChuaSuDung">SL chưa sử dụng</sys:String>
+    <sys:String x:Key="btnSua">Sửa</sys:String>
+    <sys:String x:Key="lblTenLoaiPallet">Tên loại pallet</sys:String>
+    <!--End From frm_danhsach_loaipallet-->
+
+    <!--From frm_dm_ThongKePallet-->
+    <sys:String x:Key="lblSoLuongHH">Số lượng hư hỏng</sys:String>
+    <sys:String x:Key="lblTongCong">Tổng cộng</sys:String>
+    <!--End From frm_dm_ThongKePallet-->
+
+    <!--From frm_dm_pallet_khaibao_nhompallet-->
+    <sys:String x:Key="btnKhaiBaoNhomPL">Khai báo nhóm Pallet</sys:String>
+    <sys:String x:Key="lblMaPLTheoNSX">Mã PL theo NSX</sys:String>
+    <sys:String x:Key="lblTenPLTheoNSX">Tên PL theo NSX</sys:String>
+    <!--End From frm_dm_pallet_khaibao_nhompallet-->
+
+    <!--From frm_lap_yeu_cau_dich_vu-->
+    <sys:String x:Key="lblTrangThaiQA">Trạng thái QA</sys:String>
+    <sys:String x:Key="lblSoPhieuPYC">Số phiếu PYC</sys:String>
+    <sys:String x:Key="lblLoaiDichVu">Loại dịch vụ</sys:String>
+    <sys:String x:Key="lblThoiGianHoanTat">Thời gian hoàn tất</sys:String>
+    <sys:String x:Key="lblDKThucHien">ĐK thực hiện</sys:String>
+    <sys:String x:Key="lblDuyet">Duyệt</sys:String>
+    <sys:String x:Key="lblTuChoi">Từ chối</sys:String>
+    <sys:String x:Key="lblPYCDV">PYC DV</sys:String>
+    <sys:String x:Key="btnTaoVatTuNhapKho">Tạo vật tư nhập kho</sys:String>
+    <sys:String x:Key="lblViTriKe">Vị trí kệ</sys:String>
+    <sys:String x:Key="lblTongXuat">Tổng xuất</sys:String>
+    <sys:String x:Key="lblTongDaSDung">Tổng đã sử dụng</sys:String>
+    <sys:String x:Key="lblSLChuaSD">Số lượng chưa sử dụng</sys:String>
+    <sys:String x:Key="lblSLHuHong">Số lượng hư hỏng</sys:String>
+    <!--End From frm_lap_yeu_cau_dich_vu-->
+
+    <!--From frm_dm_LoaiKichThuoc-->
+    <sys:String x:Key="lblD">D(mm)</sys:String>
+    <sys:String x:Key="lblR">R(mm)</sys:String>
+    <sys:String x:Key="lblC">C(mm)</sys:String>
+    <sys:String x:Key="lblV">Thể tích(mm3)</sys:String>
+    <sys:String x:Key="lblMaKT">Mã kích thước</sys:String>
+    <sys:String x:Key="btnTT">Tính thể tích</sys:String>
+    <!--End From frm_dm_LoaiKichThuoc-->
+
+    <!--From frm_PhieuNhap_SanPhamDichVu_Popup-->
+    <sys:String x:Key="btnTaoMoiPhieu">Tạo mới phiếu</sys:String>
+    <sys:String x:Key="lblDSPhieuNhap">Danh sách phiếu nhập hàng bổ sung thông tin tiếng việt</sys:String>
+    <sys:String x:Key="lblDSPhieuXuat">Danh sách phiếu xuất hàng bổ sung thông tin tiếng việt</sys:String>
+    <!--End From frm_PhieuNhap_SanPhamDichVu_Popup-->
+
+    <!--From frm_lapphieuxuat_tuPYC-->
+    <sys:String x:Key="frm_lapphieuxuat_tuPYC_SoPhieu">Số phiếu</sys:String>
+    <sys:String x:Key="frm_lapphieuxuat_tuPYC_NgayLap">Ngày lập</sys:String>
+    <sys:String x:Key="frm_lapphieuxuat_tuPYC_SanPham">Sản phẩm</sys:String>
+    <sys:String x:Key="frm_lapphieuxuat_tuPYC_TyLe">Tỷ lệ</sys:String>
+    <sys:String x:Key="frm_lapphieuxuat_tuPYC_ChiPhiDichVu">Chi phí dịch vụ</sys:String>
+    <sys:String x:Key="frm_lapphieuxuat_tuPYC_GiaBan">Giá bán</sys:String>
+    <sys:String x:Key="frm_lapphieuxuat_tuPYC_GhiChu">Ghi chú</sys:String>
+    <sys:String x:Key="frm_lapphieuxuat_tuPYC_GiaNhap">Giá nhập</sys:String>
+
+    <sys:String x:Key="btnTaoPhieuXuatSP">Tạo phiếu xuất SP</sys:String>
+    <sys:String x:Key="btnTaoPhieuXuatNVL">Tạo phiếu xuất NVL</sys:String>
+    <sys:String x:Key="lblSoPhieuYC">Sản phẩm</sys:String>
+    <sys:String x:Key="lblNgayLap">Tỷ lệ</sys:String>
+    <sys:String x:Key="frm_lapphieuxuat_tuPYC_MaThuoc">Giá bán</sys:String>
+    <sys:String x:Key="frm_lapphieuxuat_tuPYC_TenThuoc">Ghi chú</sys:String>
+    <sys:String x:Key="frm_lapphieuxuat_tuPYC_DonViTinh">Giá nhập</sys:String>
+
+    <sys:String x:Key="frm_lapphieuxuat_tuPYC_SoLuong">Số lượng</sys:String>
+    <sys:String x:Key="frm_lapphieuxuat_tuPYC_MaNL">Mã NL</sys:String>
+    <sys:String x:Key="frm_lapphieuxuat_tuPYC_ThanhTien">Thành tiền</sys:String>
+    <sys:String x:Key="frm_lapphieuxuat_tuPYC_TenNL">Tên NL</sys:String>
+    <sys:String x:Key="frm_lapphieuxuat_tuPYC_HaoHut">Hao hụt</sys:String>
+
+    <sys:String x:Key="lblTuPhieuYeuCauDV">Từ phiếu yêu cầu DV</sys:String>
+    <sys:String x:Key="lblSoPhieu">Số phiếu</sys:String>
+    <sys:String x:Key="lblKhoXuat">Kho xuất</sys:String>
+    <sys:String x:Key="lblDanhSachPhieuXuatHangBoSung">Danh sách phiếu xuất hàng bổ sung</sys:String>
+    <sys:String x:Key="frm_lapphieu_xuatkho_sanpham_dichvu_MaSanPham">Mã sản phẩm</sys:String>
+    <sys:String x:Key="frm_lapphieu_xuatkho_sanpham_dichvu_TenSanPham">Tên sản phẩm</sys:String>
+    <sys:String x:Key="frm_lapphieu_xuatkho_sanpham_dichvu_SoLo">Số lô</sys:String>
+    <sys:String x:Key="frm_lapphieu_xuatkho_sanpham_dichvu_HanDung">Hạn dùng</sys:String>
+    <sys:String x:Key="frm_lapphieu_xuatkho_sanpham_dichvu_DonViTinh">Đơn vị tính</sys:String>
+    <sys:String x:Key="frm_lapphieu_xuatkho_sanpham_dichvu_SoLuongtong">Số lượng tổng</sys:String>
+    <sys:String x:Key="frm_lapphieu_xuatkho_sanpham_dichvu_Thung">Thùng</sys:String>
+    <sys:String x:Key="frm_lapphieu_xuatkho_sanpham_dichvu_Le">Lẻ</sys:String>
+    <sys:String x:Key="frm_lapphieu_xuatkho_sanpham_dichvu_DKBQ">DKBQ</sys:String>
+    <sys:String x:Key="frm_lapphieu_xuatkho_sanpham_dichvu_TaoMaVach">Tạo mã vạch</sys:String>
+    <sys:String x:Key="frm_lapphieu_xuatkho_sanpham_dichvu_ViTriPallet">Vị trí pallet</sys:String>
+    <sys:String x:Key="lblDanhSachPhieuVatTu">Danh sách phiếu xuất vật tư</sys:String>
+
+    <sys:String x:Key="btnTaoMoiPhieuXuat">Tạo mới phiếu xuất</sys:String>
+    <sys:String x:Key="frm_lapphieu_xuatkho_vattu_dichvu_MaVatTu">Mã vật tư</sys:String>
+    <sys:String x:Key="frm_lapphieu_xuatkho_vattu_dichvu_TenVatTu">Tên vật tư</sys:String>
+    <sys:String x:Key="frm_lapphieu_xuatkho_vattu_dichvu_DonViTinh">Đơn vị tính</sys:String>
+    <sys:String x:Key="frm_lapphieu_xuatkho_vattu_dichvu_SoLuong">Số lượng</sys:String>
+    <sys:String x:Key="frm_lapphieu_xuatkho_vattu_dichvu_TrangThai">Trạng thái</sys:String>
+    <sys:String x:Key="frm_lapphieu_xuatkho_vattu_dichvu_ViTriKe">Vị trí kệ</sys:String>
+    <sys:String x:Key="frm_lapphieu_xuatkho_vattu_dichvu_TaoMaVach">Tạo mã vạch</sys:String>
+    <sys:String x:Key="frm_lapphieu_xuatkho_vattu_dichvu_SoPhieu">Số phiếu</sys:String>
+    <sys:String x:Key="frm_lapphieu_xuatkho_vattu_dichvu_NgayXuat">Ngày xuất</sys:String>
+    <sys:String x:Key="lblKhongSuDung">Không sử dụng</sys:String>
+    <!--End From frm_lapphieuxuat_tuPYC-->
+
+
+    <!--From frm_dm_LoaiSanPham-->
+    <sys:String x:Key="lblMaLoaiSanPham">Mã loại sản phẩm</sys:String>
+    <sys:String x:Key="lblTenLoaiSanPham">Tên loại sản phẩm</sys:String>
+    <sys:String x:Key="lblNhomSanPham">Nhóm sản phẩm</sys:String>
+    <sys:String x:Key="lblNoteSP">Mã sản phẩm hoặc tên sản phẩm không được trống!</sys:String>
+    <sys:String x:Key="lblNotekeySP">Trùng mã sản phẩm</sys:String>
+    <!--End From frm_dm_LoaiSanPham-->
+
+    <!--From frm_dm_LoaiKichThuoc-->
+    <sys:String x:Key="lblDai">Chiều dài</sys:String>
+    <sys:String x:Key="lblRong">Chiều rộng</sys:String>
+    <sys:String x:Key="lblCao">Chiều cao</sys:String>
+    <sys:String x:Key="lblCDCR">Chiều dài phải lớn hơn hoặc bằng chiều rộng</sys:String>
+    <sys:String x:Key="lblNullCD">Chiều dài không được bỏ trống!</sys:String>
+    <sys:String x:Key="lblNullCR">Chiều rộng không được bỏ trống!</sys:String>
+    <sys:String x:Key="lblNullCC">Chiều cao không được bỏ trống!</sys:String>
+    <sys:String x:Key="lblIDLoaiKT">Mời bạn chọn vào vùng có giá trị!</sys:String>
+    <sys:String x:Key="lblKT">Mã kích thước đã tồn tại!</sys:String>
+    <!--End From frm_dm_LoaiKichThuoc-->
+      
+    <!--From frm_dm_nhom_pallet-->
+    <sys:String x:Key="lblTEN_NHOM_PALLET">Tên nhóm pallet</sys:String>
+    <sys:String x:Key="lblMA_PL_THEO_NSX">Mã pallet theo nhà sản xuất</sys:String>
+    <sys:String x:Key="lblTEN_PL_THEO_NSX">Tên pallet theo nhà sản xuất</sys:String>
+    <!--End From frm_dm_nhom_pallet-->
+
+    <!--From frm_DanhMucLoaiKho-->
+    <sys:String x:Key="lblNull">Loại kho không được bỏ trống!</sys:String>
+    <sys:String x:Key="lblNoteFull">Vui lòng điền đầy đủ thông tin trước khi lưu!</sys:String>
+    <sys:String x:Key="lblKTLoaiKho">Loại kho đã tồn tại!</sys:String>
+    <sys:String x:Key="lblNoteKey">Dữ liệu này đã có rồi!</sys:String>
+    <!--End From frm_DanhMucLoaiKho-->
+
+    <!--From frm_DanhMucNhomSPham-->
+    <sys:String x:Key="lblMaNhomSPham">Mã nhóm sản phẩm</sys:String>
+    <sys:String x:Key="lblTenNhomSPham">Tên nhóm sản phẩm</sys:String>
+    <sys:String x:Key="lblItemType">Item type</sys:String>
+    <sys:String x:Key="lblGhiChuNhomSP">Ghi chú</sys:String>
+    <sys:String x:Key="lblTinhTrang">Tình trạng</sys:String>
+    <!--End From frm_DanhMucNhomSPham-->
+
+    <!--From frm_DanhMuc_SanPham-->
+    <sys:String x:Key="lbl_MaSanPham">Mã sản phẩm</sys:String>
+    <sys:String x:Key="lbl_TenSPham">Tên sản phẩm</sys:String>
+    <sys:String x:Key="tbl_ThongTinCoBan">Thông tin cơ bản</sys:String>
+    <sys:String x:Key="tbl_KinhDoanh">Kinh doanh</sys:String>
+    <sys:String x:Key="tbl_QuyCach">Quy cách</sys:String>
+    <sys:String x:Key="tbl_QA">QA</sys:String>
+    <sys:String x:Key="tbl_ThongTinKhac">Thông tin khác</sys:String>
+      <!--    -->
+    <sys:String x:Key="lbl_Remove">Remove</sys:String>
+    <sys:String x:Key="lbl_MaSanPhamKhachHang">Mã sản phẩm(KH)</sys:String>
+    <sys:String x:Key="lbl_DonViTinh">Đơn vị tính(Mặc định)</sys:String>
+    <sys:String x:Key="lbl_NhomSanPham">Nhóm sản phẩm</sys:String>
+    <sys:String x:Key="lbl_LoaiSanPham">Loại sản phẩm</sys:String>
+    <sys:String x:Key="lbl_GiaBanLe">Giá bán lẻ</sys:String>
+    <sys:String x:Key="lbl_GiaBanBuon">Giá bán buôn</sys:String>
+    <sys:String x:Key="lbl_ThueVAT">Thuế(VAT)</sys:String>
+    <sys:String x:Key="lbl_ThuongDS">Thưởng DS</sys:String>
+    <sys:String x:Key="lbl_ChietKhau">Chiết khấu</sys:String>
+    <sys:String x:Key="lbl_ThanhPhan">Hoạt chất chính</sys:String>
+    <sys:String x:Key="lbl_ThuocKSDB">Thuộc KSĐB</sys:String>
+    <!--    -->
+    <sys:String x:Key="lbl_QuyCachDongGoi">Quy cách đóng gói</sys:String>
+    <sys:String x:Key="lbl_TrongLuong">Khối lượng(kg)</sys:String>
+    <sys:String x:Key="lbl_DVTDongGoi">Đơn vị tính(Đóng gói)</sys:String>
+    <sys:String x:Key="lbl_TheTich">Thể tích(m3)</sys:String>
+    <sys:String x:Key="lbl_SoThungPalete">Số thùng/pallet</sys:String>
+    <sys:String x:Key="lbl_SoDK">Số ĐK</sys:String>
+    <sys:String x:Key="lbl_NgayDK">Ngày đăng ký</sys:String>
+    <sys:String x:Key="lbl_ngayHH">Ngày hết hạn</sys:String>
+    <sys:String x:Key="lbl_NgayDKXN">Ngày đăng ký XN</sys:String>
+    <sys:String x:Key="lbl_ngayHHXN">Ngày hết hạn XN</sys:String>
+    <sys:String x:Key="lbl_SoXNCongBo">Số XN công bố</sys:String>
+    <sys:String x:Key="lbl_CanhBao">Cảnh báo trước(ngày)</sys:String>
+    <sys:String x:Key="lbl_checkQA">(QA)</sys:String>
+    <!--    -->
+    <sys:String x:Key="lbl_Hinh">Hình ảnh</sys:String>
+    <sys:String x:Key="lbl_MaVach">Mã vạch/QR Code</sys:String>
+    <sys:String x:Key="blb_NguonNhap">Nguồn nhập</sys:String>
+    <sys:String x:Key="lbl_VTKeDeXuat">Vị trí kệ đề xuất</sys:String>
+    <sys:String x:Key="lbl_NhaSX">Nhà sản xuất</sys:String>
+    <sys:String x:Key="lbl_NuocSX">Nước sản xuất</sys:String>
+    <sys:String x:Key="lbl_ConSuDung">Tình trạng</sys:String>
+    <sys:String x:Key="lbl_TonToiThieu">Tồn tối thiểu</sys:String>
+    <sys:String x:Key="lbl_NhaCungCap">Nhà cung cấp</sys:String>
+    <sys:String x:Key="lbl_NguonNhap">Nguồn nhập</sys:String>
+    <!--End From frm_DanhMuc_SPham-->
+
+    <!--Note Example-->
+    <sys:String x:Key="lblNoteSYMBOL"> không được nhập các ký tự đặc biệt!</sys:String>
+    <sys:String x:Key="lblNoteID"> đã có, vui lòng chọn mã khác!</sys:String>
+    <sys:String x:Key="lblNoteNULL"> không được trống!</sys:String>
+    <!--Note Example-->
+
+    <!--Note Tinh Trang-->
+    <sys:String x:Key="rdbSD">Sử dụng</sys:String>
+    <sys:String x:Key="rdbKSD">Không sử dụng</sys:String>
+    <!--Note Tinh Trang-->
+
+    <!--From frm_khai_bao_khuvuc_theo_kho-->
+    <sys:String x:Key="btnTTHang">Khai báo trạng thái hàng</sys:String>
+    <sys:String x:Key="btnKhachHang">Khai báo khách hàng</sys:String>
+    <sys:String x:Key="btnSLHang">Khai báo số lượng hàng</sys:String>
+    <!--End From frm_khai_bao_khuvuc_theo_kho-->
+
+
+
+    <!--From frm_dm_Tinh-->
+    <sys:String x:Key="lblMaTinh">Mã tỉnh</sys:String>
+    <sys:String x:Key="lblTenTinh">Tên tỉnh</sys:String>
+
+    <!--End From frm_dm_Tinh-->
+
+    <!--From frm_XDDinhMuc_BoSung_TTTViet-->
+    <sys:String x:Key="lblSLDThung">Số lượng đóng thùng</sys:String>
+    <sys:String x:Key="lblDVTThung">ĐVT(Thùng)</sys:String>
+    <sys:String x:Key="lblQCDThung">Quy cách đóng thùng</sys:String>
+    <sys:String x:Key="lblNVLThung">NVL Tiêu hao cho một thùng</sys:String>
+    <sys:String x:Key="lblNVLSP">NVL Tiêu hao cho 1 đơn vị sản phẩm</sys:String>
+    <sys:String x:Key="lblRemove">Remove</sys:String>
+    <sys:String x:Key="btnChonNVL">Chọn NVL</sys:String>
+    <!--End From frm_XDDinhMuc_BoSung_TTTViet-->
+
+
+    <!--From frm_XDDinhMuc_ChoSP_KhuyenMai-->
+    <sys:String x:Key="lblKhuyenMai">Hàng KM kèm</sys:String>
+    <sys:String x:Key="lblSearchPallet">Tìm kiếm pallet</sys:String>
+    <sys:String x:Key="btnChonSPDongGoi">Chọn các sản phẩm đóng gói</sys:String>
+    <!--End From frm_XDDinhMuc_ChoSP_KhuyenMai-->
+
+    <!--From frm_PhieuNhap_SanPhamDichVu-->
+    <sys:String x:Key="lblDSPN">Danh sách phiếu nhập hàng làm dịch vụ</sys:String>
+    <!--End From frm_PhieuNhap_SanPhamDichVu-->
+
+    <!--Note Lap yeu cau dich vu-->
+    <sys:String x:Key="lblSPCanBoSungTTTV">Sản phẩm cần bổ sung thông tin tiếng việt</sys:String>
+    <sys:String x:Key="lblNVLDiKem">NVL đi kèm</sys:String>
+    <sys:String x:Key="lblDuyetBoi">Duyệt bởi</sys:String>
+    <sys:String x:Key="lblTitlePSXHH">Phiếu xác nhận hàng hóa hư hỏng</sys:String>
+    <sys:String x:Key="lblChonKhoBieTru">Chọn kho biệt trữ</sys:String>
+    <sys:String x:Key="lblTitleThietLapBietTru">Thiết lập cho phép xuất biệt trữ</sys:String>
+    <!--Note Lap yeu cau dich vu-->
+
+
+    <!--From frm_DiaDiemXuatHang-->
+    <sys:String x:Key="lblDiaDiemGiao">Địa điểm giao</sys:String>
+    <sys:String x:Key="lblTenDonVi">Tên đơn vị</sys:String>
+    <!--End From frm_dm_Tinh-->
+</ResourceDictionary>
+    

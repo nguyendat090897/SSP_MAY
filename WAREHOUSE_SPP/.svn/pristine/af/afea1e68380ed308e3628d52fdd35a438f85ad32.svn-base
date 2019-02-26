@@ -1,0 +1,209 @@
+﻿using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using DSofT.Framework.UICore.TaskProxy;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Windows;
+using System.Windows.Input;
+using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Resources;
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    /// Interaction logic for frm_Supplier.xaml
+    /// </summary>
+    public partial class frm_Supplier : ControlBase
+    {
+        DataTable iDataSource = null;
+        GridHelper iGridHelper = null;
+        DataTable iGridDataSource = null;
+        ISupplierBussiness _supplierBussiness;
+        public frm_Supplier()
+        {
+            InitializeComponent();
+            _supplierBussiness = new SupplierBussiness(string.Empty);
+            Initialize_Grid();
+            this.iDataSource = this.TableSchemaDefineBingding();
+            this.DataContext = this.iDataSource;
+            LoadData();
+        }
+
+        /// <summary>
+        /// TableSchemaDefineBingding
+        /// </summary>
+        /// <returns></returns>
+        private DataTable TableSchemaDefineBingding()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("SupplierCode", typeof(string));
+                xDicUser.Add("SupplierName", typeof(string));
+                xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return xDt;
+        }
+        /// <summary>
+        /// LoadData
+        /// </summary>
+        private void LoadData()
+        {
+            try
+            {
+                using (var task = new AsyncTaskProcess(this))
+                {
+                    ServiceAction<DataTable> action = ((pd) =>
+                    {
+                        task.SetCallContext();
+                        return _supplierBussiness.SupplierGetAllList(this.iDataSource.Copy());
+                    });
+                    Action<DataTable> onComplete = (dt =>
+                    {
+                        this.Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            this.iGridDataSource = dt;
+                            this.iGridHelper.BindItemSource(this.iGridDataSource);
+                        }));
+                    });
+                    task.AsyncTaskExecute(action, onComplete);
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// Initialize_Grid
+        /// </summary>
+        private void Initialize_Grid()
+        {
+            try
+            {
+                this.iGridHelper = new GridHelper(this.grd, this.grdView, false);
+                Column xColumn;
+
+                xColumn = new Column("Id", "Id");
+                xColumn.Visible = false;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("ROWNUM", Convert.ToString(UtilLanguage.ApplyLanguage()["lblOrderNo"]));
+                xColumn.Width = 50;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("SupplierCode", Convert.ToString(UtilLanguage.ApplyLanguage()["frmSupplier_SupplierCode"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("SupplierName", Convert.ToString(UtilLanguage.ApplyLanguage()["frmSupplier_SupplierName"]));
+                xColumn.Width = 200;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("Representative", Convert.ToString(UtilLanguage.ApplyLanguage()["frmSupplier_Representative"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("Address", Convert.ToString(UtilLanguage.ApplyLanguage()["frmSupplier_Address"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+
+                xColumn = new Column("Phone", Convert.ToString(UtilLanguage.ApplyLanguage()["frmSupplier_Phone"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("Email", Convert.ToString(UtilLanguage.ApplyLanguage()["frmSupplier_Email"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("TaxCode", Convert.ToString(UtilLanguage.ApplyLanguage()["frmSupplier_TaxCode"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                this.iGridHelper.Initialize();
+                this.grdView.AutoWidth = true;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+        /// btnNew_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnNew_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                object xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "popupSupplier", null);
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// btnRefresh_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            LoadData();
+        }
+        /// <summary>
+        /// grdView_MouseDown
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void grdView_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            try
+            {
+                if (iDataSource.Rows.Count == 0) return;
+                DataRow iRowSelGb = ((DataRowView)this.grd.GetFocusedRow()).Row;               
+                object xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "popupSupplier", iRowSelGb);
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+    }
+
+}

@@ -1,0 +1,11 @@
+
+namespace DSofT.Warehouse.Domain
+{
+    public static class UrlCommon
+    {
+        public const string C_System = "System";
+        public const string U_UserManager = "U_UserManager";
+        public const string U_UserManager_CheckLogin = "U_UserManager_CheckLogin";
+
+    }
+}

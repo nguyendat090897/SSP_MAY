@@ -1,0 +1,56 @@
+
+using DSofT.Warehouse.Provider;
+using System.Data;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface IDM_LOAI_PALLETBussiness
+    {
+        bool InsertorUpdateDM_LOAI_PALLET(DataTable dst);
+        //bool UpdateDM_LOAI_PALLET(DataTable dst);
+        bool DeleteDM_LOAI_PALLET(string pMA_DVIQLY, long pDM_LOAI_PALLETID, string pModifiedBy);
+       // bool DeleteDM_LOAI_PALLET(DataTable dst);
+        DataTable GetListDM_LOAI_PALLET(string pMA_DVIQLY);
+        // DataTable GetListDM_LOAI_PALLET(DataTable dst);
+        DataTable GetListDM_LOAI_PALLET_GET_ALL_SO_LUONG(string pMA_DVIQLY);
+        DataTable GetListDM_LOAI_PALLET_GET_ALL_SO_LUONG_BY_LOAI_PALLET_ID(string pMA_DVIQLY, string pLOAI_PALLET_ID);
+        DataTable GetListDM_LOAI_KICKTHUOC_COMBOBOX(string pMA_DVIQLY);
+        DataTable GetListDM_LOAI_PALLET_KEY(string pMA_DVIQLY, string pTEN_LOAI_PALLET, long pLOAI_KTHUOC_ID);
+    }
+    public class DM_LOAI_PALLETBussiness : IDM_LOAI_PALLETBussiness
+    {
+        IDM_LOAI_PALLETProvider _DM_LOAI_PALLETProvider;
+        public DM_LOAI_PALLETBussiness(string appId, string userId = "0")
+        {
+            _DM_LOAI_PALLETProvider = new DM_LOAI_PALLETProvider(appId, userId);
+        }
+        public bool InsertorUpdateDM_LOAI_PALLET(DataTable dst)
+        {
+            return _DM_LOAI_PALLETProvider.InsertorUpdateDM_LOAI_PALLET(dst);
+        }
+        public bool DeleteDM_LOAI_PALLET(string pMA_DVIQLY, long pDM_LOAI_PALLETID, string pModifiedBy)
+        {
+            return _DM_LOAI_PALLETProvider.DeleteDM_LOAI_PALLET( pMA_DVIQLY, pDM_LOAI_PALLETID, pModifiedBy);
+        }
+        public DataTable GetListDM_LOAI_PALLET(string pMA_DVIQLY)
+        {
+            return _DM_LOAI_PALLETProvider.GetListDM_LOAI_PALLET(pMA_DVIQLY);
+        }
+        public DataTable GetListDM_LOAI_PALLET_GET_ALL_SO_LUONG(string pMA_DVIQLY)
+        {
+            return _DM_LOAI_PALLETProvider.GetListDM_LOAI_PALLET_GET_ALL_SO_LUONG(pMA_DVIQLY);
+        }
+        public DataTable GetListDM_LOAI_PALLET_GET_ALL_SO_LUONG_BY_LOAI_PALLET_ID(string pMA_DVIQLY, string pLOAI_PALLET_ID)
+        {
+            return _DM_LOAI_PALLETProvider.GetListDM_LOAI_PALLET_GET_ALL_SO_LUONG_BY_LOAI_PALLET_ID(pMA_DVIQLY, pLOAI_PALLET_ID);
+        }
+        public DataTable GetListDM_LOAI_KICKTHUOC_COMBOBOX(string pMA_DVIQLY)
+        {
+            return _DM_LOAI_PALLETProvider.GetListDM_LOAI_KICKTHUOC_COMBOBOX(pMA_DVIQLY);
+        }
+        public DataTable GetListDM_LOAI_PALLET_KEY(string pMA_DVIQLY, string pTEN_LOAI_PALLET, long pLOAI_KTHUOC_ID)
+        {
+            return _DM_LOAI_PALLETProvider.GetListDM_LOAI_PALLET_KEY(pMA_DVIQLY, pTEN_LOAI_PALLET, pLOAI_KTHUOC_ID);
+        }
+    }
+}

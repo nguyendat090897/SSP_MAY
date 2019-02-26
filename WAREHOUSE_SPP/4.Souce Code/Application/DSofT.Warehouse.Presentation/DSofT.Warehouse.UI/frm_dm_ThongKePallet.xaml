@@ -1,0 +1,107 @@
+﻿<uicore:PopupBase x:Class="DSofT.Warehouse.UI.frm_dm_ThongKePallet"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"  
+             xmlns:uicore="clr-namespace:DSofT.Framework.UICore;assembly=DSofT.Framework.UICore"
+             xmlns:resText="clr-namespace:DSofT.Warehouse.Resources;assembly=DSofT.Warehouse.Resources"
+             xmlns:cntr="clr-namespace:DSofT.Framework.UIControl;assembly=DSofT.Framework.UIControl" 
+             xmlns:dxn="http://schemas.devexpress.com/winfx/2008/xaml/navbar" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:Controls="clr-namespace:DSofT.Framework.Metro.UIControls;assembly=DSofT.Framework.Metro.UIControls" 
+             Height="600" Width="1200" >
+    <uicore:PopupBase.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Warehouse.Resources;component/CommonResource.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </uicore:PopupBase.Resources>
+    <Grid Background="Transparent">
+        <Grid.Resources>
+            <cntr:ConverterStringDateTime x:Key="ConverterStringDateTime"/>
+        </Grid.Resources>
+        <dxmvvm:Interaction.Behaviors>
+            <dxmvvm:NotificationService x:Name="notificationService" ApplicationId="DxToastTest" UseWin8NotificationsIfAvailable="True" 
+                                  PredefinedNotificationTemplate="{Binding ElementName=notificationStyle, Path=SelectedItem}"
+                                  CustomNotificationTemplate="{StaticResource CustomNotificationTemplate}"
+                                  Sound="Notification_Looping_Alarm8"
+                                  CustomNotificationPosition="BottomRight" CustomNotificationVisibleMaxCount="5" CustomNotificationDuration="0:0:3"/>
+        </dxmvvm:Interaction.Behaviors>
+        <Grid>
+
+            <Grid.RowDefinitions>
+                <!--Button Area-->
+                <RowDefinition Height="Auto"/>
+                <!--Blank-->
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="0.1*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Border x:Name="nbcSearch" Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource Sdk.Brd.BtnArea}">
+                <Grid x:Name="Selection_Area">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="25"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="25"/>
+                        <ColumnDefinition Width="0.5*"/>
+                        
+                        <ColumnDefinition Width="Auto"/>
+
+                    </Grid.ColumnDefinitions>
+
+                   
+                    <TextBlock  Grid.Row="0"   Grid.Column="0" Name="btnThongKePallet" VerticalAlignment="Center"><Run Text="{DynamicResource btnThongKePallet}"/></TextBlock>
+                    
+                    <TextBlock  Grid.Row="0"   Grid.Column="2" Name="lblLoaiPallet" VerticalAlignment="Center"><Run Text="{DynamicResource lblLoaiPallet}"/></TextBlock>
+                    <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="4"  Grid.ColumnSpan="3" Name="txtR" Text="{Binding R}"/>
+
+
+                </Grid>
+            </Border>
+            <Border x:Name="nbcgrid" Grid.Row="2" Grid.ColumnSpan="2" Style="{StaticResource Sdk.Brd.BtnArea}">
+                <Grid Grid.Row="2" x:Name="Body_Area" Grid.Column="0" Style="{StaticResource Sdk.Grd.BodyWrap.Vessel}">
+                    <dxg:GridControl AutoPopulateColumns="True" x:Name="grd"  Grid.Row="1" Grid.Column="0">
+                        <dxg:GridControl.View>
+                            <dxg:TableView AutoWidth="False"  NavigationStyle="Cell" ShowGroupPanel="False" ShowAutoFilterRow="True" SearchPanelFindFilter="Contains"  SearchPanelFindMode="FindClick"  UseAnimationWhenExpanding="False"
+                                          x:Name="grdView" />
+                        </dxg:GridControl.View>
+                    </dxg:GridControl>
+                </Grid>
+            </Border>
+            <Border x:Name="BrdBtnWrap" Grid.Row="3" Grid.ColumnSpan="2" Style="{StaticResource Sdk.Brd.BtnArea}">
+                <Grid x:Name="Selection_Area1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="0.1*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="0.1*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="0.1*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="0.1*"/>
+                        <ColumnDefinition Width="100"/>
+                        <ColumnDefinition Width="0.1*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="0.1*"/>
+                        <ColumnDefinition Width="40"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock  Grid.Row="0"   Grid.Column="0" Name="lblTongCong" VerticalAlignment="Center"><Run Text="{DynamicResource lblTongCong}"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="0" Grid.Column="7" Name="txtTongCong" Text="{Binding TongCong}"/>
+                    <dxe:TextEdit Grid.Row="0" Grid.Column="9" Name="txtTongCong1" Text="{Binding TongCong1}"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</uicore:PopupBase>

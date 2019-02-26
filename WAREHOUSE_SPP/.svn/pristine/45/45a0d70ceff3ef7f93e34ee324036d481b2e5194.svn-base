@@ -1,0 +1,225 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+    <sys:String x:Key="applicationTitleName">Hệ thống quản lý Thực phẩm</sys:String>
+    <sys:String x:Key="application_login">Đăng nhập</sys:String>
+    <sys:String x:Key="application_changepass">Đổi mật khẩu</sys:String>
+    <sys:String x:Key="application_logout">Thoát</sys:String>
+    <sys:String x:Key="application_list_function">Danh sách chức năng</sys:String>
+    <sys:String x:Key="application_confirm_logout">Bạn có chắc chắn thoát</sys:String>
+    <sys:String x:Key="application_username_not_null">Tên đăng nhập không được để trống</sys:String>
+    <sys:String x:Key="application_pass_not_null">Mật khẩu không được để trống</sys:String>
+    <sys:String x:Key="application_login_false">Tên đăng nhập hoặc mật khẩu không đúng! \r\n Hoặc không có quyền cho chức năng này</sys:String>
+    <sys:String x:Key="application_connect_sql_false">"Kết nối tới server thất bại! Vui lòng kiểm tra kết nối! "</sys:String>
+    <sys:String x:Key="application_message_change_language_success">Thay đổi ngôn ngữ thành công\r\nĐăng nhập lại hệ thống để hiển thị thay đổi</sys:String>
+    <sys:String x:Key="application_message_change_language_info">Ngôn ngữ phần mềm sẽ được đổi sau khi tắt chương trình</sys:String>
+    <sys:String x:Key="btnOK">Đồng ý</sys:String>
+    <sys:String x:Key="btnCancel">Bỏ qua</sys:String>
+    <sys:String x:Key="btnSave">Lưu</sys:String>
+    <sys:String x:Key="btnCopy">Copy định lượng</sys:String>
+    <sys:String x:Key="btnExcel">Xuất Excel</sys:String>
+    <sys:String x:Key="btnUpdate">Cập nhật</sys:String>
+    <sys:String x:Key="btnRefresh">Refresh</sys:String>
+    <sys:String x:Key="btnDelete">Xóa</sys:String>
+    <sys:String x:Key="btnSearch">Tìm kiếm</sys:String>
+    <sys:String x:Key="btnConfirm">Xác nhận</sys:String>
+    <sys:String x:Key="btnClose">Đóng</sys:String>
+    <sys:String x:Key="btnPrint">In</sys:String>
+    <sys:String x:Key="btnNew">Thêm mới</sys:String>
+    <sys:String x:Key="btnImage">Ảnh minh họa</sys:String>
+    <sys:String x:Key="lblUserName">Tên đăng nhập</sys:String>
+    <sys:String x:Key="lblPassWord">Mật khẩu</sys:String>
+    <sys:String x:Key="tbntinhkhoiluong">Tính</sys:String>
+    <sys:String x:Key="lblMessageSuccess">Thành công</sys:String>
+    <sys:String x:Key="lblMessageFailed">Thất bại</sys:String>
+    <sys:String x:Key="lblDauSao">*</sys:String>
+    <sys:String x:Key="lblOrderNo">STT</sys:String>
+    <sys:String x:Key="lblMessage">Thông báo</sys:String>
+    <sys:String x:Key="lblcomfrimDelete">Bạn có muốn xóa không?</sys:String>
+    <sys:String x:Key="lblChangeStatus">Trạng thái</sys:String>
+    <sys:String x:Key="tblAddRow">Thêm dòng</sys:String>
+    <sys:String x:Key="tblDeleteRow">Xóa dòng</sys:String>
+    <sys:String x:Key="btnVegetablesQuatitative">Định lượng rau</sys:String>
+    <sys:String x:Key="btnExcelFoodMenu">Xuất thực đơn</sys:String>
+    <sys:String x:Key="btnExcelDelivery">Xuất phiếu giao rau</sys:String>
+    <sys:String x:Key="btnCalculated">Tính tồn kho</sys:String>
+    <sys:String x:Key="lblCheckInventory">Không có số lượng tồn kho để lưu</sys:String>
+    <!--frmMenu-->
+    <sys:String x:Key="frmMenu_TitleGridView">Danh sách menu</sys:String>
+    <sys:String x:Key="frmMenu_TitleMenu">Thông tin chi tiết</sys:String>
+    <sys:String x:Key="frmMenu_MenuCode">Mã menu</sys:String>
+    <sys:String x:Key="frmMenu_MenuName">Tên menu</sys:String>
+    <sys:String x:Key="frmMenu_MenuClassNamespace">Class Namespace</sys:String>
+    <sys:String x:Key="frmMenu_MenuClassName">Class Name</sys:String>
+    <sys:String x:Key="frmMenu_MenuRemark">Ghi chú</sys:String>
+    <sys:String x:Key="frmMenu_MenuIcon">Icon</sys:String>
+    <sys:String x:Key="frmMenu_MenuParent">Menu Parent</sys:String>
+    <!--End frmMenu-->
+    <!--From User-->
+    <sys:String x:Key="frmUser_Info">Thông tin người dùng</sys:String>
+    <sys:String x:Key="frmUser_Detail">Thông tin chi tiết</sys:String>
+    <sys:String x:Key="frmUser_FullName">Người dùng</sys:String>
+    <sys:String x:Key="frmUser_UserName">Tên đăng nhập</sys:String>
+    <sys:String x:Key="frmUser_Password">Mật khẩu</sys:String>
+    <sys:String x:Key="frmUser_GroupUser">Nhóm người dùng</sys:String>
+    <sys:String x:Key="frmUser_UserNameIsNotEmpty">Tên người dùng không bỏ trống</sys:String>
+    <sys:String x:Key="frmUser_PasswordIsNotEmpty">Mật khẩu không bỏ trống</sys:String>
+    <sys:String x:Key="frmUser_FullNameIsNotEmpty">Người dùng không bỏ trống</sys:String>
+    <sys:String x:Key="frmUser_GroupUserNotEmpty">Nhóm người dùng không bỏ trống</sys:String>
+    <sys:String x:Key="frmUser_UserNameAvailable">Người dùng đã tồn tại trong hệ thống</sys:String>
+    <sys:String x:Key="frmUserRole_ListGroup">Nhóm quyền</sys:String>
+    <sys:String x:Key="frmUserRole_UserTypeCode">Mã User</sys:String>
+    <sys:String x:Key="frmUserRole_UserTypeName">Loại User</sys:String>
+    <sys:String x:Key="frmPassword_PassOld">Mật khẩu cũ</sys:String>
+    <sys:String x:Key="frmPassword_PassNew">Mật khẩu mới</sys:String>
+    <sys:String x:Key="frmPassword_PasswordRetype">Nhập lại mật khẩu</sys:String>
+
+    <!--End From User-->
+    <!--From QuantitativeFood-->
+    <sys:String x:Key="frmQuantitativeFood_MaterialCode">Mã nguyên liệu</sys:String>
+    <sys:String x:Key="frmQuantitativeFood_MaterialName">Tên nguyên liệu</sys:String>
+    <sys:String x:Key="frmQuantitativeFood_QuantitativeOne">Định lượng 1</sys:String>
+    <sys:String x:Key="frmQuantitativeFood_QuantitativeTwo">Định lượng 2</sys:String>
+    <sys:String x:Key="frmQuantitativeFood_QuantitativeOrther">Khác</sys:String>
+    <sys:String x:Key="frmQuantitativeFood_UnitName">Đơn vị tính</sys:String>
+    <sys:String x:Key="frmQuantitativeFood_Price">Đơn giá</sys:String>
+    <!--End From QuantitativeFood-->
+    <!--From FoodTypes-->
+    <sys:String x:Key="frmFoodTypes_FoodTypesCode">Mã loại món ăn</sys:String>
+    <sys:String x:Key="frmFoodTypes_FoodTypesName">Loại món ăn</sys:String>
+    <sys:String x:Key="frmFoodTypes_Remark">Ghi chú</sys:String>
+    <!--End From FoodTypes-->
+
+    <!--From GroupMaterial-->
+    <sys:String x:Key="frmGroupMaterial_GroupMaterialCode">Mã Nhóm nguyên liệu</sys:String>
+    <sys:String x:Key="frmGroupMaterial_GroupMaterialName">Nhóm nguyên liệu</sys:String>
+    <sys:String x:Key="frmGroupMaterial_Remark">Ghi chú</sys:String>
+    <!--End From GroupMaterial-->
+
+    <!--From Material-->
+    <sys:String x:Key="frmMaterial_MaterialCode">Mã nguyên liệu</sys:String>
+    <sys:String x:Key="frmMaterial_MaterialName">Tên nguyên liệu</sys:String>
+    <sys:String x:Key="frmMaterial_Price">Giá mua</sys:String>
+    <sys:String x:Key="frmMaterial_VAT">VAT</sys:String>
+    <sys:String x:Key="frmMaterial_Remark">Ghi chú</sys:String>
+    <sys:String x:Key="frmMaterial_IsVegetables">Rau xanh</sys:String>
+    <!--End From Material-->
+    <!--From UnitName-->
+    <sys:String x:Key="frmUnit_UnitName">Đơn vị tính</sys:String>
+    <sys:String x:Key="frmUnit_UnitCode">Mã Đơn vị tính</sys:String>
+    <sys:String x:Key="frmUnit_Remark">Ghi chú</sys:String>
+    <!--End From UnitName-->
+    <!--From Supplier-->
+    <sys:String x:Key="frmMaterial_SupplierName">Nhà cung cấp</sys:String>
+    <sys:String x:Key="frmMaterial_SupplierCode">Mã nhà cung cấp</sys:String>
+    <sys:String x:Key="frmSupplier_SupplierCode">Mã nhà cung cấp</sys:String>
+    <sys:String x:Key="frmSupplier_SupplierName">Nhà cung cấp</sys:String>
+    <sys:String x:Key="frmSupplier_Representative">Người đại diện</sys:String>
+    <sys:String x:Key="frmSupplier_Address">Địa chỉ</sys:String>
+    <sys:String x:Key="frmSupplier_Phone">Điện thoại</sys:String>
+    <sys:String x:Key="frmSupplier_Email">Email</sys:String>
+    <sys:String x:Key="frmSupplier_TaxCode">Mã số thuế</sys:String>
+    <sys:String x:Key="frmSupplier_Fax">Số Fax</sys:String>
+
+    <!--End From Supplier-->
+    <!--From Food-->
+    <sys:String x:Key="frmFood_FoodCode">Mã món ăn</sys:String>
+    <sys:String x:Key="frmFood_FoodName">Tên món ăn</sys:String>
+    <sys:String x:Key="frmFood_Remark">Ghi chú</sys:String>
+    <!--End From Food-->
+    <!--From FoodMenu-->
+    <sys:String x:Key="frmFood_DateMenu">Ngày thực đơn</sys:String>
+    <sys:String x:Key="frmFood_FromDate">Từ ngày</sys:String>
+    <sys:String x:Key="frmFood_ToDate">Đến ngày</sys:String>
+    <sys:String x:Key="frmFood_DayChoose">Chọn ngày</sys:String>
+    <sys:String x:Key="frmFood_NumberFood">Số phần ăn</sys:String>
+    <sys:String x:Key="frmFoodMenu_Note">Thực đơn được lên danh sách trong vòng 1 tuần</sys:String>
+    <sys:String x:Key="frmFoodMenu_FoodMenuCode">Số phiếu</sys:String>
+    <sys:String x:Key="frmFoodMenu_SchoolsName">Tên trường</sys:String>
+    <sys:String x:Key="frmFoodMenu_NumberFood">Số phần ăn</sys:String>
+    <sys:String x:Key="frmFoodMenu_NumberFoodStudent">Số HS</sys:String>
+    <sys:String x:Key="frmFoodMenu_NumberFoodTeacher">Số GV</sys:String>
+    <sys:String x:Key="frmFoodMenu_MessageMetarial">Chưa chọn nguyên liệu cho món ăn</sys:String>
+    <!--End From FoodMenu-->
+    <!--From School-->
+    <!--End From School-->
+    <sys:String x:Key="frmSchool_SchoolsCode">Mã trường</sys:String>
+    <sys:String x:Key="frmSchool_SchoolsName">Tên trường</sys:String>
+    <sys:String x:Key="frmSchool_Address">Địa chỉ</sys:String>
+    <sys:String x:Key="frmSchool_Phone">Điện thoại</sys:String>
+    <sys:String x:Key="frmSchool_Fax">Số Fax</sys:String>
+    <sys:String x:Key="frmSchool_Email">Email</sys:String>
+    <sys:String x:Key="frmSchool_Representative">Người đại diện</sys:String>
+    <sys:String x:Key="frmSchool_NumberStudentPrimary">Số HS tiểu học</sys:String>
+    <sys:String x:Key="frmSchool_NumberStudentJuniorHigh">Số HS trung học</sys:String>
+    <sys:String x:Key="frmSchool_NumberStudentHighSchool">Số HS phổ thông</sys:String>
+    <sys:String x:Key="frmSchool_NumberTeacher">Số giảng viên</sys:String>
+
+    <!--From ImportWarehousingMaterials-->
+    <sys:String x:Key="frmImportWarehousingMaterials_Title">Thông tin nhập kho</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_FoodMenuCode">Số phiếu</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_WarehouseId">Kho nhập</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_ImplementationDates">Ngày nhập</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_WarehousingMaterialsCode">Mã phiếu nhập kho</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_IsPay">Đã thanh toán</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_ListImportMaterial">Danh sách nguyên liệu nhập kho</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_Quantity">Số lượng</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_WarehouseName">Kho nhập</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_DatePayment">Ngày thanh toán</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_StatusName">Trạng thái</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_WarehouseCode">Mã Kho nhập</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_IsConfirm">Xác nhận nhập kho</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_ConfirmName">Xác nhận</sys:String>
+    <sys:String x:Key="frmImportWarehousingMaterials_PriceReceived">Đơn giá nhập</sys:String>
+    <!--End From ImportWarehousingMaterials-->
+
+    <!-- From ExportWarehousingMaterials -->
+    <sys:String x:Key="frmExportWarehousingMaterials_IsStatus">Đã xuất kho</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_ExportDates">Ngày tạo phiếu</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_FoodMenuCode">Mã Thực đơn tuần</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_WarehousingMaterialsCode">Mã phiếu xuất kho</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_ImplementationDates">Ngày xuất kho</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_Title">Thông tin phiếu xuất kho</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_WarehouseId">Kho Xuất</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_WarehouseIdTo">Kho Nhận</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_StatusName">Trạng thái</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_ListImportMaterial">Danh sách nguyên liệu xuất kho</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_InfoSearch">Thông tin search</sys:String>
+    <sys:String x:Key="frmExportWarehousingMaterials_InfoDetail">Thông tin chi tiết</sys:String>
+    <!--End From ExportWarehousingMaterials -->
+    <!-- From frmReportMaterialWeek -->
+    <sys:String x:Key="frmReportMaterialWeek_WEEKNAMEDAY">Thứ</sys:String>
+    <sys:String x:Key="frmReportMaterialWeek_DateMenu">Ngày</sys:String>
+    <sys:String x:Key="frmReportMaterialWeek_FoodName">Tên món ăn</sys:String>
+    <sys:String x:Key="frmReportMaterialWeek_MaterialName">Nguyên liệu</sys:String>
+    <sys:String x:Key="frmReportMaterialWeek_Quantitative">Khối lượng</sys:String>
+    <sys:String x:Key="frmReportMaterialWeek_NumberFoodStudent">Số HS</sys:String>
+    <sys:String x:Key="frmReportMaterialWeek_NumberFoodTeacher">Số GV</sys:String>
+    <!--End From frmReportMaterialWeek-->
+
+
+    <!--From frmWarehouse-->
+    <sys:String x:Key="frmWarehouse_WarehouseCode">Mã kho</sys:String>
+    <sys:String x:Key="frmWarehouse_WarehouseName">Tên kho</sys:String>
+    <sys:String x:Key="frmWarehouse_Representative">Người đại diện</sys:String>
+    <sys:String x:Key="frmWarehouse_Address">Địa chỉ</sys:String>
+    <sys:String x:Key="frmWarehouse_Phone">Điện thoại</sys:String>
+    <sys:String x:Key="frmWarehouse_Email">Email</sys:String>
+    <sys:String x:Key="frmWarehouse_Remark">Ghi chú</sys:String>
+    <!--End From frmWarehouse-->
+
+    <!--From frmInventory-->
+    <sys:String x:Key="frmInventory_QuantityExport">Số lượng Xuất</sys:String>
+    <sys:String x:Key="frmInventory_QuantityImport">Số lượng nhập</sys:String>
+    <sys:String x:Key="frmInventory_QuantityInventory">Số lượng tồn</sys:String>
+    <sys:String x:Key="frmInventory_MaterialName">Nguyên liệu</sys:String>
+    <sys:String x:Key="frmInventory_MaterialCode">Mã Nguyên liệu</sys:String>
+    <sys:String x:Key="frmInventory_QuantityExist">Số lượng Còn lại</sys:String>
+    <sys:String x:Key="frmInventory_InventoryCode">Mã phiếu tồn</sys:String>
+    <sys:String x:Key="frmInventory_DateInventory">Ngày tính tồn kho</sys:String>
+    <sys:String x:Key="frmInventory_IsFinish">Xác nhận chốt kết quả tính</sys:String>
+    <sys:String x:Key="frmInventory_WarehouseCode">Mã kho</sys:String>
+    <sys:String x:Key="frmInventory_WarehouseName">Tên kho</sys:String>
+    <sys:String x:Key="frmInventory_StatusName">Trạng thái</sys:String>
+    <!--End From frmInventory-->
+</ResourceDictionary>

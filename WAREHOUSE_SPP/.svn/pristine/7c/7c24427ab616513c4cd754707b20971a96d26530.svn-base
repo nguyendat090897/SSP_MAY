@@ -1,0 +1,113 @@
+﻿<uicore:PopupBase x:Class="DSofT.Warehouse.UI.frm_DSHBT_Duoc_Xuat_popup"
+       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"  
+             xmlns:uicore="clr-namespace:DSofT.Framework.UICore;assembly=DSofT.Framework.UICore"
+             xmlns:resText="clr-namespace:DSofT.Warehouse.Resources;assembly=DSofT.Warehouse.Resources"
+             xmlns:cntr="clr-namespace:DSofT.Framework.UIControl;assembly=DSofT.Framework.UIControl" 
+             xmlns:dxn="http://schemas.devexpress.com/winfx/2008/xaml/navbar" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:Controls="clr-namespace:DSofT.Framework.Metro.UIControls;assembly=DSofT.Framework.Metro.UIControls" 
+             Height="600" Width="1250" Title="{StaticResource lblTitleThietLapBietTru}" >
+    <uicore:PopupBase.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Warehouse.Resources;component/CommonResource.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </uicore:PopupBase.Resources>
+    <Grid Background="Transparent">
+        <Grid.Resources>
+            <cntr:ConverterStringDateTime x:Key="ConverterStringDateTime"/>
+        </Grid.Resources>
+        <dxmvvm:Interaction.Behaviors>
+            <dxmvvm:NotificationService x:Name="notificationService" ApplicationId="DxToastTest" UseWin8NotificationsIfAvailable="True" 
+                                  PredefinedNotificationTemplate="{Binding ElementName=notificationStyle, Path=SelectedItem}"
+                                  CustomNotificationTemplate="{StaticResource CustomNotificationTemplate}"
+                                  Sound="Notification_Looping_Alarm8"
+                                  CustomNotificationPosition="BottomRight" CustomNotificationVisibleMaxCount="5" CustomNotificationDuration="0:0:3"/>
+        </dxmvvm:Interaction.Behaviors>
+        <Grid>
+            
+            <Grid.RowDefinitions>
+                <!--Button Area-->
+                <RowDefinition Height="auto"/>
+                <!--Blank-->
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!--Selection Area Style : row=2-->
+            <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource Sdk.Brd.BtnArea}">
+                <StackPanel Style="{StaticResource Sdk.Spnl.CommBtn.Right}">
+                    <Button Tag="{StaticResource btnSave}" HorizontalAlignment="Right" Name="btnSave" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center" Click="btnSave_Click"/>
+                    <Button Tag="{StaticResource btnClose}" HorizontalAlignment="Right" Name="btnClose" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center" Click="btnClose_Click"/>
+                </StackPanel>
+            </Border>
+            <Border x:Name="nbcSearch" Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource Sdk.Brd.BtnArea}">
+                <Grid x:Name="Selection_Area_1">
+                    <Grid.RowDefinitions>
+                        <!--Blank-->
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <dxn:NavBarControl Grid.Row="0" Grid.Column="1" Name="nvbSearch" Style="{StaticResource Dx.NavBar.CommSchWrap}" Margin="6.85">
+                        <dxn:NavBarControl.View>
+                            <dxn:ExplorerBarView 
+                        Style="{StaticResource Dx.NavBar.Explorer.CommSch}" />
+                        </dxn:NavBarControl.View>
+                        <dxn:NavBarGroup x:Name="cbgSearch" >
+                            <dxn:NavBarItem x:Name="cbiSearch">
+                    <Grid x:Name="Selection_Area">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                        <RowDefinition Height="25"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="0.5*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="0.5*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock  Grid.Row="0"   Grid.Column="0" Name="lblKhoBietTru" VerticalAlignment="Center"><Run Text="{DynamicResource lblKhoBietTru}"/></TextBlock>
+                                    <dxe:ComboBoxEdit Grid.Row="0"  Grid.Column="1"   Name="cboKhoBietTru" />
+
+                                    <TextBlock  Grid.Row="0"   Grid.Column="2" Name="lblKhuVuc" VerticalAlignment="Center"><Run Text="{DynamicResource lblKhuVuc}"/></TextBlock>
+                                    <dxe:ComboBoxEdit Grid.Row="0"  Grid.Column="3"   Name="cboKhuVuc" />
+                        
+                                    <TextBlock  Grid.Row="1"   Grid.Column="0" Name="lblNGUOITHUCHIEN" VerticalAlignment="Center"><Run Text="{DynamicResource lblNguoiThucHien}"/></TextBlock>
+                                    <dxe:TextEdit Grid.Row="1"  Grid.Column="1"   Name="txtNGUOITHUCHIEN" Text="{Binding NGUOITHUCHIEN}"/>
+                                    <TextBlock  Grid.Row="1"   Grid.Column="2" Name="lblNgay" VerticalAlignment="Center" HorizontalAlignment="Center"><Run Text="{DynamicResource frmReportMaterialWeek_DateMenu}"/></TextBlock>
+                                    <dxe:DateEdit Grid.Row="1" Grid.Column="3"  MaskType="DateTime" Name="dtNgay" MaskUseAsDisplayFormat="True" EditValue="{Binding Ngay, Converter={StaticResource ConverterStringDateTime}, ConverterParameter='dd/MM/yyyy', Mode=TwoWay}" Mask="dd/MM/yyyy" ShowClearButton="False"/>
+
+                                    <TextBlock  Grid.Row="2"   Grid.Column="0" Name="lblItemType" VerticalAlignment="Center"><Run Text="{DynamicResource lblItemType}"/></TextBlock>
+                                    <dxe:ComboBoxEdit Grid.Row="2"  Grid.Column="1"   Name="cboITEMTYPE" />
+                                    <TextBlock  Grid.Row="2"   Grid.Column="2" Name="lblSOPHIEU" VerticalAlignment="Center"><Run Text="{DynamicResource lblSoPhieu}"/></TextBlock>
+                                    <dxe:TextEdit Grid.Row="2"  Grid.Column="3"   Name="txtSOPHIEU" Text="{Binding SOPHIEU}"/>
+
+                                    <TextBlock  Grid.Row="3"   Grid.Column="0" Name="lblGHICHU" VerticalAlignment="Center"><Run Text="{DynamicResource lblGhiChuNhomSP}"/></TextBlock>
+                                    <dxe:TextEdit Grid.Row="3"  Grid.Column="1" Grid.ColumnSpan="3" Grid.RowSpan="2"  Name="txtGHICHU" Height="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalContentAlignment="Top" TextWrapping="Wrap" Text="{Binding GHICHU}"/>
+                                    <Grid Grid.Row="5" Grid.Column="0" Grid.ColumnSpan="2">
+                                        <CheckBox Name="chkXUAT" Margin="5 0 0 0" Content="{DynamicResource lblChiLaySPChoPhep }" />
+                                    </Grid>
+                                </Grid>
+                            </dxn:NavBarItem>
+                        </dxn:NavBarGroup>
+                    </dxn:NavBarControl>
+                    <dxg:GridControl AutoPopulateColumns="True" x:Name="grd"  Grid.Column="0" Grid.Row="1">
+                        <dxg:GridControl.View>
+                            <dxg:TableView   NavigationStyle="Cell" ShowGroupPanel="False"  ShowAutoFilterRow="True" SearchPanelFindFilter="Contains"  SearchPanelFindMode="FindClick" UseAnimationWhenExpanding="False"
+                                          x:Name="grdView" />
+                        </dxg:GridControl.View>
+                    </dxg:GridControl>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</uicore:PopupBase>

@@ -1,0 +1,202 @@
+using DevExpress.Xpf.Docking;
+using DSofT.Framework.Helpers;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using DSofT.Framework.UICore.ControlTemplate;
+using DSofT.Framework.Metro.UIControls.Controls;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Data;
+using System.Net;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using DSofT.Warehouse.Main.Menu;
+using DSofT.Warehouse.Domain.Model;
+using DSofT.Warehouse.Resources;
+using System.Threading;
+using Microsoft.Win32;
+using DSofT.Framework.Logging;
+
+namespace DSofT.Warehouse.Main
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : MetroWindow
+    {
+        private DataTable iMenuTable = null;
+
+        public static UserModel UserInfo;
+
+        public bool iSuccessBootStrap = true;
+        public MainWindow()
+        {
+
+            string xLocalIP = "?";
+            try
+            {
+                var regKey = Registry.CurrentUser;
+                regKey = regKey.CreateSubKey("Software\\DSofT\\ControlUnion\\Warehouse\\Application");
+                InitializeComponent();
+                UIAgent.SetMemoryTabControler(this, this.dockMng, iMenuTable);
+                pnlMenu.Content = new Menu_Navgation();
+                tbMsgTime.Text = DateTime.Now.ToString("(hh:mm:ss)");
+
+                IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
+
+                string xDispTime = DateTime.Now.ToString("tt h:mm:ss");
+
+                foreach (IPAddress ip in host.AddressList)
+                {
+                    if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                    {
+                        xLocalIP = ip.ToString();
+                    }
+                }
+                this.tbLocalIp.Text = xLocalIP;
+                this.tbCnntTime.Text = xDispTime+ "   Development by DVI-SofTeam";
+
+                tbMessage.Text = DateTime.Now.ToString("dd-MM-yyyy") + " (Version:" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString() + ")";
+                txtFullName.Text = "Login by " + CommonDataHelper.FullName;                
+            }
+            catch (Exception ex)
+            {
+                CommonLogger.WriteLog(ex, SystemLogSource.SystemRuntime);
+            }
+
+        }
+
+        private void DemoDockContainer_DockItemClosed(object sender, DevExpress.Xpf.Docking.Base.DockItemClosedEventArgs e)
+        {
+            DocumentPanel closeItem = (DocumentPanel)e.Item;
+            IControlBase xControl = closeItem.Content as IControlBase;
+
+            if (xControl != null)
+            {
+                //xControl.DockItemClosed?.Invoke(sender, e);
+            }
+
+            UIAgent.ClearTabItem(closeItem.Tag.ToString());
+        }
+
+        private void DemoDockContainer_DockItemClosing(object sender, DevExpress.Xpf.Docking.Base.ItemCancelEventArgs e)
+        {
+            DocumentPanel closeItem = (DocumentPanel)e.Item;
+            IControlBase xControl = closeItem.Content as IControlBase;
+
+            if (xControl != null)
+            {
+                if (xControl.DockItemClosing != null)
+                {
+                    xControl.DockItemClosing(sender, e);
+                }
+            }
+        }
+
+        private void DemoDockContainer_DockItemActivated(object sender, DevExpress.Xpf.Docking.Base.DockItemActivatedEventArgs e)
+        {
+            if (e.Item is DocumentPanel)
+            {
+                DocumentPanel closeItem = (DocumentPanel)e.Item;
+                IControlBase xControl = closeItem.Content as IControlBase;
+
+                if (xControl != null)
+                {
+                    if (xControl.DockItemActivated != null)
+                    {
+                        xControl.DockItemActivated(sender, e);
+                    }
+                }
+            }
+        }
+
+        private void MetroWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void dangnhap_Click(object sender, RoutedEventArgs e)
+        {
+            CommonDataHelper.FullName = string.Empty;
+            CommonDataHelper.UserId = string.Empty;
+            CommonDataHelper.UserName = string.Empty;
+            this.Hide();
+            Login frmLogin = new Login();
+            frmLogin.Show();
+        }
+
+        private void thoat_Click(object sender, RoutedEventArgs e)
+        {
+            bool msg = UIAgent.ShowMessage(MessageType.OkCancel, UtilLanguage.ApplyLanguage()["application_confirm_logout"].ToString());
+            if (msg)
+            {
+                Application.Current.Shutdown();
+            }
+        }
+
+        private void StackPanel_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void btnchangepass_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                object obj = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "popup_ChangePassword");
+            }
+            catch (Exception ex)
+            {
+                UIAgent.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+        private void languageVN_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("vi-VN");
+                UtilLanguage.ApplyLanguage("vi-VN");
+                bool msg = UIAgent.ShowMessage(MessageType.OkCancel, UtilLanguage.ApplyLanguage()["application_message_change_language_success"].ToString());
+                if (msg)
+                {
+                    Application.Current.Shutdown();
+                }
+                else
+                {
+                    UIAgent.ShowMessage(MessageType.Information, UtilLanguage.ApplyLanguage()["application_message_change_language_info"].ToString());
+                }
+            }
+            catch (Exception)
+            {
+            }
+
+        }
+
+        private void languageEN_Click(object sender, RoutedEventArgs e)
+        {
+            //try
+            //{
+            //    //System.Globalization.CultureInfo.CreateSpecificCulture("en-US");
+            //    Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+            //    UtilLanguage.ApplyLanguage("en-US");
+            //    bool msg = UIAgent.ShowMessage(MessageType.OkCancel, UtilLanguage.ApplyLanguage()["application_message_change_language_success"].ToString());
+            //    if (msg)
+            //    {
+            //        Application.Current.Shutdown();
+            //    }
+            //    else {
+            //        UIAgent.ShowMessage(MessageType.Information, UtilLanguage.ApplyLanguage()["application_message_change_language_info"].ToString()); 
+            //    }
+            //}
+            //catch (Exception)
+            //{
+
+            //}
+        }
+    }
+}

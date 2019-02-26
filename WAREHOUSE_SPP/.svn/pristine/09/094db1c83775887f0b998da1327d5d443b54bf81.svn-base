@@ -1,0 +1,107 @@
+﻿using DSofT.Framework.Internal.Data;
+using DSofT.Framework.UIControl;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
+
+namespace DSofT.Warehouse.Provider
+{
+    public interface IFoodRealityProvider
+    {
+        DataTable GetAllFoodReality(DataTable dtInput);
+        bool InsertOrUpdateFoodReality(DataTable dtInput);
+        bool DeleteFoodReality(DataTable dtInput);
+    }
+    public class FoodRealityProvider : BaseSqlExecute, IFoodRealityProvider
+    {
+
+        public FoodRealityProvider(string appId, string userId)
+            : base(DbCommon.WarehouseDbConnstr, appId, userId)
+        {
+        }
+        /// <summary>
+        /// Get danh sách  món ăn theo ngay theo trường
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetAllFoodReality(DataTable dtInput)
+        {
+            var sqlParams = new object[] { dtInput.Rows[0]["SchoolId"]
+            , DateTime.ParseExact(dtInput.Rows[0]["DayChoose"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)};
+            var result = base.ExecuteDataSet("FoodReality_GetAll", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+        /// <summary>
+        /// Insert hoặc Update số phần ăn và đơn giá phần ăn thực tế
+        /// </summary>
+        /// <returns></returns>
+        public bool InsertOrUpdateFoodReality(DataTable dtInput)
+        {
+            foreach (DataRow dr in dtInput.Rows)
+            {
+                if (NumberHelper.ConvertStringToLong(dr["FoodRealityId"].ToString()) > 0)
+                {
+                    var sqlParams = new object[] { dr["FoodRealityId"]
+                                             , dr["SchoolId"]
+                                             , DateTime.ParseExact(dr["DateFoodReality"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                             , dr["NumberFoodTeacher"]
+                                             , dr["NumberFoodStudent"]
+                                             , dr["NumberFoodTeacherReality"]
+                                             , dr["NumberFoodStudentReality"]
+                                             , dr["PriceStudentReality"]
+                                             , dr["PriceTeacherReality"]
+                                             , string.IsNullOrWhiteSpace(dr["IsConfirm"].ToString())==true?"0":dr["IsConfirm"]
+                                             , CommonDataHelper.UserName
+                                             };
+                    var result = base.ExecScalar("FoodReality_Update", sqlParams);
+                    if (NumberHelper.ConvertStringToLong(result.ToString()) <= 0)
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    var sqlParams = new object[] {
+                                              dr["SchoolId"]
+                                             , DateTime.ParseExact(dr["DateFoodReality"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                             , dr["NumberFoodTeacher"]
+                                             , dr["NumberFoodStudent"]
+                                             , dr["NumberFoodTeacherReality"]
+                                             , dr["NumberFoodStudentReality"]
+                                             , dr["PriceStudentReality"]
+                                             , dr["PriceTeacherReality"]
+                                             , string.IsNullOrWhiteSpace(dr["IsConfirm"].ToString())==true?"0":dr["IsConfirm"]
+                                             , CommonDataHelper.UserName
+                                             };
+                    var result = base.ExecScalar("FoodReality_Insert", sqlParams);
+                    if (NumberHelper.ConvertStringToLong(result.ToString()) <= 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+        /// <summary>
+        /// DeleteFoodReality
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public bool DeleteFoodReality(DataTable dtInput)
+        {
+                var sqlParams = new object[] { dtInput.Rows[0]["Id"]
+                                             , CommonDataHelper.UserName
+                                             };
+                var result = base.ExecScalar("FoodReality_Delete", sqlParams);
+                if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+                {
+                    return true;
+                }
+            return false;
+        }
+    }
+}

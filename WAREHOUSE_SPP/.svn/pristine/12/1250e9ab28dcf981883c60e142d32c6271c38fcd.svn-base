@@ -1,0 +1,154 @@
+﻿using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Warehouse.Resources;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Input;
+using DSofT.Framework.UICore.TaskProxy;
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    ///  Author:	 Nguyen Van Huynh
+    ///  Create date: 23/03/2018
+    ///  Editor:      
+    ///  Modify date: 
+    ///  Description: pallet dieu chuyen popup 2
+    /// </summary>
+    public partial class frm_dm_pallet_dieuchuyen_popup_2 : PopupBase
+    {
+        DataTable iDataSource = null;
+        DataRow iRowSelGb = null;
+        GridHelper iGridHelper = null;
+        DataTable iGridDataSource = null;
+        IDM_PALLET_DIEUCHUYENBussiness _DM_PALLET_DIEUCHUYENBussiness;
+        public frm_dm_pallet_dieuchuyen_popup_2()
+        {
+            InitializeComponent();
+            _DM_PALLET_DIEUCHUYENBussiness = new DM_PALLET_DIEUCHUYENBussiness(string.Empty);
+            this.iDataSource = this.TableSchemaDefineBingding();
+            this.DataContext = this.iDataSource;
+            Initialize_Grid();
+            LoadData();
+        }
+        private DataTable TableSchemaDefineBingding()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("PALLET_DIEUCHUYEN_ID", typeof(decimal));
+                xDicUser.Add("MA_DVIQLY", typeof(string));
+                xDicUser.Add("MA_DVIQLY_NHAN", typeof(string));
+                xDicUser.Add("SO_PHIEU", typeof(string));
+                xDicUser.Add("SOLUONG_CHOPHEP", typeof(decimal));
+                xDicUser.Add("SOLUONG_CHUYEN", typeof(decimal));
+                xDicUser.Add("NGAY_CHUYEN", typeof(string));
+                xDicUser.Add("NGAY_NHAN", typeof(string));
+                xDicUser.Add("NGUOI_NHAN", typeof(string));
+                xDicUser.Add("LYDO", typeof(string));
+                xDicUser.Add("RowVersion", typeof(long));
+                xDicUser.Add("IsDelete", typeof(bool));
+                xDicUser.Add("CreateBy", typeof(string));
+                xDicUser.Add("CreateDate", typeof(DateTime));
+                xDicUser.Add("ModifiedBy", typeof(string));
+                xDicUser.Add("ModifiedDate", typeof(DateTime));
+                xDicUser.Add("PALLET_ID", typeof(decimal));
+                xDicUser.Add("MA_PALLET", typeof(string));
+                xDicUser.Add("TEN_PALLET", typeof(string));
+                xDicUser.Add("PALLET_DIEUCHUYEN_CTIET_ID", typeof(decimal));
+                xDicUser.Add("TEN_DVIQLY", typeof(string));
+                xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return xDt;
+        }
+
+        public void LoadData()
+        {
+            try
+            {
+                using (var task = new AsyncTaskProcess(this))
+                {
+                    ServiceAction<DataTable> action = ((pd) =>
+                    {
+                        task.SetCallContext();
+                        return _DM_PALLET_DIEUCHUYENBussiness.GetListDM_PALLET_DIEUCHUYEN_TEN_PALLET(ConstCommon.DonViQuanLy);
+                    });
+                    Action<DataTable> onComplete = (dt =>
+                    {
+                        this.Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            this.iGridDataSource = dt;
+                            this.iGridHelper.BindItemSource(this.iGridDataSource);
+                        }));
+                    });
+                    task.AsyncTaskExecute(action, onComplete);
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "LoadData()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        private void Initialize_Grid()
+        {
+            try
+            {
+                this.iGridHelper = new GridHelper(this.grd, this.grdView, false);
+                Column xColumn;
+
+                xColumn = new Column("ROWNUM", Convert.ToString(UtilLanguage.ApplyLanguage()["lblOrderNo"]));
+                xColumn.Width = 40;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("CHON", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_phanquyen_quanlykho_Chon"]));
+                xColumn.Width = 50;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                xColumn.ColumnType = ColumnControl.Checkbox;
+                xColumn.Binding = new System.Windows.Data.Binding("CHON") { Converter = new ConverterStringBool(), ConverterParameter = "1:0", Mode = BindingMode.TwoWay };
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("MA_PALLET", Convert.ToString(UtilLanguage.ApplyLanguage()["lblMaPallet"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("TEN_PALLET", Convert.ToString(UtilLanguage.ApplyLanguage()["lblTenPallet"]));
+                xColumn.Width = 200;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                this.iGridHelper.Initialize();
+                this.grdView.AutoWidth = true;
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "Initialize_Grid()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+        
+    }
+
+}

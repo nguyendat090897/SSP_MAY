@@ -1,0 +1,559 @@
+﻿using DevExpress.Xpf.Grid;
+using DevExpress.XtraGrid;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Net;
+using System.Text.RegularExpressions;
+using System.Windows.Controls;
+using System.Windows.Input;
+public static class PrintTemplate
+{
+    public const string MeatLabel = "MeatLabel";
+    public const string MilkLabel = "MilkLabel";
+    public const string ExtraProductLabel = "ExtraProductLabel";
+}
+public static class ConstCommon
+{
+    public const string PAGE_404 = "_404";
+    public const string PAGE_HOME = "Default";
+    public const string PAGE_SERVER_OVERLOAD = "_ServerOverload";
+    public const string PAGE_LOGIN = "/dang-nhap";
+    public static string DonViQuanLy = "PE0800";
+    public static long pKHO_ID = 0;
+    public static int pSO_NGAY_DUOC_PHEP_SUA = 30;
+    public static int pSO_VITRI_XEP_MOIDONG = 3;
+    public static string pTEN_KHO = "";
+
+    public static long NVL_NUM_LONG_NEW(object str)
+    {
+        if ((str != System.DBNull.Value) && (str != null))
+        {
+            if (str.ToString().Trim().Equals("") == false)
+            {
+                return long.Parse(str.ToString());
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+
+
+    static public bool IsValidInt(string val)
+    {
+        return Regex.IsMatch(val, @"^[0-9]\d*\.?[0]*$");
+    }
+
+    static public bool IsValidDate(string val)
+    {
+        Regex r = new Regex(@"\d{2}/\d{2}/\d{4}");
+        return r.IsMatch(val);
+
+    }
+
+    public static string getTEN_MAYTRAM()
+    {
+        try
+        {
+            String strHostName = Dns.GetHostName();
+            return strHostName;
+        }
+        catch
+        {
+            return "";
+        }
+    }
+
+
+
+
+
+    public static string getIP_MAYTRAM()
+    {
+        try
+        {
+            String listIP = "";
+            String strHostName = Dns.GetHostName();
+            IPHostEntry iphostentry = Dns.GetHostByName(strHostName);
+            // Enumerate IP addresses
+            foreach (IPAddress ipaddress in iphostentry.AddressList)
+            {
+                listIP = listIP + "," + ipaddress.ToString();
+            }
+            return listIP;
+        }
+        catch
+        {
+            return "";
+        }
+    }
+
+
+    //begin su ly ton kho viet 1 class rieng treb bus de cac phieu su dung
+
+        /*
+    Một số lưu ý khi code phần phiếu nhập và xuất
+1.	Trên phiếu nhập bổ sung thêm Button Xếp hàng vào kho(bỏ cột vị trí trên lưới), hiển thị poup vị trí
+Mỗi dòng sản phẩm trên kho tương ứng với N dòng tùy theo tham số số lượng vị trí được xếp, lúc đó người dùng chỉ cần nhập vị trí và số lượng, mặc định dòng đầu tiên là số lượng tổng, nếu nhập thêm sẽ tự động trừ
+ Người dùng cập nhật vị trí vào
+2.	Nếu chứng từ nhập và xuất kho căn cứ vào ngày tạo, nếu vượt quá số ngày cho phép sửa thì ko cho phép sửa nữa, dùng hàm KiemTraNgaySuaChungTu trong common để kiểm tra
+3.	Trên Giao diện phiếu nhập và Xuất thêm các thông tin như sau Trên
+Phiếu chung đưa vào 2 button Ghi sổ và bỏ ghi sổ, trên lưới cũng thêm 2 cột Ghi số
+Và bổ ghi sổ
+Khi ghi sổ mới cập nhật số lượng tồn vào bảng tồn online, khi ghi sổ phải kiểm tra
+Hàng xếp vào vị trí có hợp lệ không bằng cách trên mỗi dòng số lượng phải đúng với số lượng được xếp vị trí
+
+    */
+    //public static bool Ghiso(DataRow drPHIEU_NHAPXUATKHO_CTIET_ID, DateTime pCreatedDate)
+    //{
+    //    //Kiểm tra cho phép sửa chứng từ này hay không
+    //    if (KiemTraNgaySuaChungTu(pCreatedDate) == false)
+    //    {
+    //        return false;
+    //    }
+
+    //    GhisoSP(drPHIEU_NHAPXUATKHO_CTIET_ID);
+
+
+    //    return true;
+    //}
+
+
+
+
+    //public static void GhisoSP(DataRow item)
+    //{
+
+    //    //Kiểm tra dữ liệu sau khi bỏ ghi sổ có hợp lệ không
+    //    string check = "";
+    //    //neu so luong lon hon khong moi di kiem tra
+    //    if (item.Quantity > 0)
+    //    {
+    //        var error = Check(item.ProductName, item.ProductId, productInbound.WarehouseDestinationId.Value, pVitri, item.Quantity, 0);
+    //    }
+
+    //    if (string.IsNullOrEmpty(check))
+    //    {
+    //        //Khi đã hợp lệ thì mới update
+    //        Update(item.ProductName, item.ProductId, productInbound.WarehouseDestinationId.Value, pVitri, item.Quantity, 0);
+    //    }
+
+    //}
+
+
+
+    //public static string Check(string productName, int productId, int warehouseId, string pVitri, int quantityIn, int quantityOut)
+    //{
+    //    return Update(productName, productId, warehouseId, pVitri, quantityIn, quantityOut, false);
+    //}
+
+    //public static string Update(string productName, int productId, int warehouseId, string pVitri, int quantityIn, int quantityOut, bool isArchive = true)
+    //{
+    //    string error = "";
+    //    ProductInboundRepository productInboundRepository = new ProductInboundRepository(new Domain.Sale.ErpSaleDbContext());
+    //    ProductOutboundRepository productOutboundRepository = new Domain.Sale.Repositories.ProductOutboundRepository(new Domain.Sale.ErpSaleDbContext());
+    //    InventoryRepository inventoryRepository = new Domain.Sale.Repositories.InventoryRepository(new Domain.Sale.ErpSaleDbContext());
+
+    //    //đoạn này viết store lấy tất cả các phieu nhap tuong ung voi sản phẩm nhập  whre thêm vị trí
+    //    var inbound = productInboundRepository.GetAllvwProductInboundDetail()
+    //            .Where(x => x.IsArchive && x.ProductId == productId && x.WarehouseDestinationId == warehouseId)
+    //            .Sum(x => x.Quantity);
+
+    //    //đoạn này viết store lấy tất cả các phieu xuat tuong ung voi sản phẩm nhập  whre thêm vị trí
+    //    var outbound = productOutboundRepository.GetAllvwProductOutboundDetail()
+    //        .Where(x => x.IsArchive && x.ProductId == productId && x.WarehouseSourceId == warehouseId)
+    //        .Sum(x => x.Quantity);
+
+    //    //tinh ton kho
+    //    var inventory = (inbound == null ? 0 : inbound) - (outbound == null ? 0 : outbound) + quantityIn - quantityOut;
+
+    //    //đoạn này viết store  lay cac dong trong trong bang tonkho online where them vi tri
+    //    var inventoryCurrent_List = inventoryRepository.GetAllInventory().Where(x => x.WarehouseId == warehouseId && x.ProductId == productId).OrderBy(x => x.CreatedDate).ToList();
+    //    for (int i = 0; i < inventoryCurrent_List.Count(); i++)
+    //    {
+    //        if (i > 0)
+    //        {
+    //            var id = inventoryCurrent_List[i].Id;
+    //            //xoa chi du 1 dong dau
+    //            inventoryRepository.DeleteInventory(id);
+    //        }
+    //    }
+    //    //Sau khi thay đổi dữ liệu phải đảm bảo tồn kho >= 0
+    //    if (true)//inventory >= 0)
+    //    {
+    //        if (isArchive) //neu la ghi so 
+    //        {
+    //            if (inventoryCurrent_List.Count() > 0)
+    //            {
+    //                if (inventoryCurrent_List[0].Quantity != inventory)
+    //                {
+    //                    inventoryCurrent_List[0].Quantity = inventory;
+    //                    //update vao bang tonkho online
+    //                    inventoryRepository.UpdateInventory(inventoryCurrent_List[0]);
+    //                }
+    //            }
+    //            else
+    //            {
+    //                //neu chua co trong tonkho online thi insert vao
+    //                var insert = new Inventory();
+    //                insert.IsDeleted = false;
+    //                insert.CreatedUserId = WebSecurity.CurrentUserId;
+    //                insert.ModifiedUserId = WebSecurity.CurrentUserId;
+    //                insert.CreatedDate = DateTime.Now;
+    //                insert.ModifiedDate = DateTime.Now;
+    //                insert.WarehouseId = warehouseId;
+    //                insert.ProductId = productId;
+    //                insert.Quantity = inventory;
+    //                inventoryRepository.InsertInventory(insert);
+    //            }
+    //        }
+    //    }
+    //    else
+    //    {
+    //        error += string.Format("<br/>Dữ liệu tồn kho của sản phẩm \"{0}\" là {1}: không hợp lệ!", productName, inventory);
+    //    }
+
+    //    return error;
+    //}
+    ////end su ly ton kho
+
+    public static bool KiemTraNgaySuaChungTu(DateTime CreatedDate)
+    {
+        int limit_daterange_for_update_data = pSO_NGAY_DUOC_PHEP_SUA;
+        if (string.IsNullOrEmpty(limit_daterange_for_update_data.ToString()))
+        {
+            limit_daterange_for_update_data = 0;
+        }
+
+        if (CreatedDate.AddDays(Convert.ToInt32(limit_daterange_for_update_data)) > DateTime.Now)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    public static void setAutoFilterConditionGrid(GridControl grd)
+    {
+        try
+        {
+            for (int i = 0; i < grd.Columns.Count; i++)
+            {
+                grd.Columns[i].ColumnFilterMode = DevExpress.Xpf.Grid.ColumnFilterMode.DisplayText;
+                grd.Columns[i].AutoFilterCondition = AutoFilterCondition.Contains;
+
+            }
+
+        }
+        catch
+        {
+
+        }
+
+    }
+    public static void mousebusy(Control ct)
+    {
+
+        Mouse.OverrideCursor = Cursors.Wait;
+    }
+
+    public static void mousefree(Control ct)
+    {
+        Mouse.OverrideCursor = Cursors.Arrow;
+    }
+
+    public static double roundNum(double num, int place)
+    {
+        double num1 = (num + 1E-10) * Math.Pow(10.0, (double)place);
+        return (double)Math.Sign(num1) * Math.Abs(Math.Floor(num1 + 0.5)) / Math.Pow(10.0, (double)place);
+    }
+
+    public static string So_chu(double gNum)
+    {
+        if (gNum == 0.0)
+            return "Không đồng";
+        string str1 = "";
+        string tach3 = "";
+        string str2 = "";
+        double num1 = Math.Round(gNum, 0);
+        string str3 = Convert.ToString(num1);
+        int int32 = Convert.ToInt32(str3.Length / 3);
+        int startIndex = str3.Length - int32 * 3;
+        string str4 = "[+]";
+        if (gNum < 0.0)
+            str4 = "[-]";
+        string str5 = "";
+        if (startIndex.Equals((object)1))
+            tach3 = "00" + Convert.ToString(num1.ToString().Trim().Substring(0, 1)).Trim();
+        if (startIndex.Equals((object)2))
+            tach3 = "0" + Convert.ToString(num1.ToString().Trim().Substring(0, 2)).Trim();
+        if (startIndex.Equals((object)0))
+            tach3 = "000";
+        if (num1.ToString().Length > 2)
+            str2 = Convert.ToString(num1.ToString().Trim().Substring(startIndex, num1.ToString().Length - startIndex)).Trim();
+        int num2 = int32 + 1;
+        if (startIndex > 0)
+            str1 = Tach(tach3).ToString().Trim() + " " + Donvi(num2.ToString().Trim());
+        int num3 = int32;
+        int num4 = int32;
+        int num5 = 1;
+        while (num3 > 0)
+        {
+            string str6 = str2.Trim().Substring(0, 3).Trim();
+            string str7 = str6;
+            str1 = str1.Trim() + " " + Tach(str6.Trim()).Trim();
+            int num6 = num4 + 1 - num5;
+            if (!str7.Equals("000"))
+                str1 = str1.Trim() + " " + Donvi(num6.ToString().Trim()).Trim();
+            str2 = str2.Trim().Substring(3, str2.Trim().Length - 3);
+            --num3;
+            ++num5;
+        }
+        if (str1.Trim().Substring(0, 1).Equals("k"))
+            str1 = str1.Trim().Substring(10, str1.Trim().Length - 10).Trim();
+        if (str1.Trim().Substring(0, 1).Equals("l"))
+            str1 = str1.Trim().Substring(2, str1.Trim().Length - 2).Trim();
+        if (str1.Trim().Length > 0)
+            str1 = str5.Trim() + " " + str1.Trim().Substring(0, 1).Trim().ToUpper() + str1.Trim().Substring(1, str1.Trim().Length - 1).Trim() + " đồng chẵn.";
+        return str1.ToString().Trim();
+    }
+
+    private static string Tach(string tach3)
+    {
+        string str1 = "";
+        if (tach3.Equals("000"))
+            return "";
+        if (tach3.Length == 3)
+        {
+            string str2 = tach3.Trim().Substring(0, 1).ToString().Trim();
+            string str3 = tach3.Trim().Substring(1, 1).ToString().Trim();
+            string str4 = tach3.Trim().Substring(2, 1).ToString().Trim();
+            if (str2.Equals("0") && str3.Equals("0"))
+                str1 = " không trăm lẻ " + Chu(str4.ToString().Trim()) + " ";
+            if (!str2.Equals("0") && str3.Equals("0") && str4.Equals("0"))
+                str1 = Chu(str2.ToString().Trim()).Trim() + " trăm ";
+            if (!str2.Equals("0") && str3.Equals("0") && !str4.Equals("0"))
+                str1 = Chu(str2.ToString().Trim()).Trim() + " trăm lẻ " + Chu(str4.Trim()).Trim() + " ";
+            if (str2.Equals("0") && Convert.ToInt32(str3) > 1 && (Convert.ToInt32(str4) > 0 && !str4.Equals("5")))
+                str1 = " không trăm " + Chu(str3.Trim()).Trim() + " mươi " + Chu(str4.Trim()).Trim() + " ";
+            if (str2.Equals("0") && Convert.ToInt32(str3) > 1 && str4.Equals("0"))
+                str1 = " không trăm " + Chu(str3.Trim()).Trim() + " mươi ";
+            if (str2.Equals("0") && Convert.ToInt32(str3) > 1 && str4.Equals("5"))
+                str1 = " không trăm " + Chu(str3.Trim()).Trim() + " mươi lăm ";
+            if (str2.Equals("0") && str3.Equals("1") && (Convert.ToInt32(str4) > 0 && !str4.Equals("5")))
+                str1 = " không trăm mười " + Chu(str4.Trim()).Trim() + " ";
+            if (str2.Equals("0") && str3.Equals("1") && str4.Equals("0"))
+                str1 = " không trăm mười ";
+            if (str2.Equals("0") && str3.Equals("1") && str4.Equals("5"))
+                str1 = " không trăm mười lăm ";
+            if (Convert.ToInt32(str2) > 0 && Convert.ToInt32(str3) > 1 && (Convert.ToInt32(str4) > 0 && !str4.Equals("5")))
+                str1 = Chu(str2.Trim()).Trim() + " trăm " + Chu(str3.Trim()).Trim() + " mươi " + Chu(str4.Trim()).Trim() + " ";
+            if (Convert.ToInt32(str2) > 0 && Convert.ToInt32(str3) > 1 && str4.Equals("0"))
+                str1 = Chu(str2.Trim()).Trim() + " trăm " + Chu(str3.Trim()).Trim() + " mươi ";
+            if (Convert.ToInt32(str2) > 0 && Convert.ToInt32(str3) > 1 && str4.Equals("5"))
+                str1 = Chu(str2.Trim()).Trim() + " trăm " + Chu(str3.Trim()).Trim() + " mươi lăm ";
+            if (Convert.ToInt32(str2) > 0 && str3.Equals("1") && (Convert.ToInt32(str4) > 0 && !str4.Equals("5")))
+                str1 = Chu(str2.Trim()).Trim() + " trăm mười " + Chu(str4.Trim()).Trim() + " ";
+            if (Convert.ToInt32(str2) > 0 && str3.Equals("1") && str4.Equals("0"))
+                str1 = Chu(str2.Trim()).Trim() + " trăm mười ";
+            if (Convert.ToInt32(str2) > 0 && str3.Equals("1") && str4.Equals("5"))
+                str1 = Chu(str2.Trim()).Trim() + " trăm mười lăm ";
+        }
+        return str1;
+    }
+
+
+    private static string Chu(string gNumber)
+    {
+        string str = "";
+        switch (gNumber)
+        {
+            case "0":
+                str = "không";
+                break;
+            case "1":
+                str = "một";
+                break;
+            case "2":
+                str = "hai";
+                break;
+            case "3":
+                str = "ba";
+                break;
+            case "4":
+                str = "bốn";
+                break;
+            case "5":
+                str = "năm";
+                break;
+            case "6":
+                str = "sáu";
+                break;
+            case "7":
+                str = "bảy";
+                break;
+            case "8":
+                str = "tám";
+                break;
+            case "9":
+                str = "chín";
+                break;
+        }
+        return str;
+    }
+
+    private static string Donvi(string so)
+    {
+        string str = "";
+        if (so.Equals("1"))
+            str = "";
+        if (so.Equals("2"))
+            str = "nghìn";
+        if (so.Equals("3"))
+            str = "triệu";
+        if (so.Equals("4"))
+            str = "tỷ";
+        if (so.Equals("5"))
+            str = "nghìn tỷ";
+        if (so.Equals("6"))
+            str = "triệu tỷ";
+        if (so.Equals("7"))
+            str = "tỷ tỷ";
+        return str;
+    }
+    public static string So_tien_doi_ra_chu(double So_tien)
+    {
+        return So_chu(So_tien);
+    }
+
+
+    private static int checkRowExistsTable(DataTable dt, DataRow row)
+    {
+        int num = 0;
+        foreach (DataRow row1 in dt.Rows)
+        {
+            if (checkCampareRow(dt, row, row1) == 0)
+            {
+                ++num;
+                break;
+            }
+        }
+        return num == 0 ? 0 : 1;
+    }
+
+    private static int checkCampareRow(DataTable dt, DataRow row1, DataRow row2)
+    {
+        int num = 0;
+        foreach (DataColumn column in dt.Columns)
+        {
+            if (row1[column.ColumnName].ToString().Trim() != row2[column.ColumnName].ToString().Trim())
+            {
+                ++num;
+                break;
+            }
+        }
+        return num == 0 ? 0 : 1;
+    }
+
+
+
+
+
+    public static bool check_String_Unicode(string str)
+    {
+        try
+        {
+
+            char[] varChar = str.ToCharArray();
+            int i = 0;
+            while (i < varChar.Length &&
+                (((Convert.ToInt32(varChar[i]) >= 97 && Convert.ToInt32(varChar[i]) <= 122) || (Convert.ToInt32(varChar[i]) >= 65 && Convert.ToInt32(varChar[i]) <= 90)
+                || (Convert.ToInt32(varChar[i]) >= 48 && Convert.ToInt32(varChar[i]) <= 57)) || (varChar[i] == '_') || (varChar[i] == '-')))
+            {
+                i++;
+            }
+            if (i < varChar.Length)
+            {
+                return false;
+            }
+            return true;
+        }
+        catch (Exception ex)
+        {
+
+            throw ex;
+        }
+
+    }
+
+
+
+
+
+    public static double NVL_NUM_DOUBLE_NEW(object str)
+    {
+        if ((str != System.DBNull.Value) && (str != null))
+        {
+            if (str.ToString().Trim().Equals("") == false)
+            {
+                return double.Parse(str.ToString());
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+
+    public static decimal NVL_NUM_DECIMAL_NEW(object str)
+    {
+        if ((str != System.DBNull.Value) && (str != null))
+        {
+            if (str.ToString().Trim().Equals("") == false)
+            {
+                return decimal.Parse(str.ToString());
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+
+    public static int NVL_NUM_NT_NEW(object str)
+    {
+        if ((str != System.DBNull.Value) && (str != null))
+        {
+            if (str.Equals("") == false)
+            {
+                return int.Parse(str.ToString());
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+}

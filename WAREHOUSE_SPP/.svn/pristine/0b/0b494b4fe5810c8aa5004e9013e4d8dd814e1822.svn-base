@@ -1,0 +1,1 @@
+﻿<%@ Application Codebehind="Global.asax.cs" Inherits="CUCS.Warehouse.ApiListener.WebApiApplication" Language="C#" %>

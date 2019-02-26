@@ -1,0 +1,6 @@
+E:\DSoft\foodWarehouse\4.Souce Code\Application.Release\EnvironmentSettings.xml
+E:\DSoft\foodWarehouse\4.Souce Code\Application.Release\DSofT.FoodWarehouse.Main.Laucher.dll
+E:\DSoft\foodWarehouse\4.Souce Code\Application.Release\DSofT.FoodWarehouse.Main.Laucher.pdb
+E:\DSoft\foodWarehouse\4.Souce Code\Application\DSofT.FoodWarehouse.Presentation\DSofT.FoodWarehouse.Main.Laucher\obj\Debug\DSofT.FoodWarehouse.Main.Laucher.csprojResolveAssemblyReference.cache
+E:\DSoft\foodWarehouse\4.Souce Code\Application\DSofT.FoodWarehouse.Presentation\DSofT.FoodWarehouse.Main.Laucher\obj\Debug\DSofT.FoodWarehouse.Main.Laucher.dll
+E:\DSoft\foodWarehouse\4.Souce Code\Application\DSofT.FoodWarehouse.Presentation\DSofT.FoodWarehouse.Main.Laucher\obj\Debug\DSofT.FoodWarehouse.Main.Laucher.pdb

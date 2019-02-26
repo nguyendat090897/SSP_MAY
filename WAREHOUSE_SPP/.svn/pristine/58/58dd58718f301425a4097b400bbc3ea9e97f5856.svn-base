@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <startup>
+    <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.5.1"/>
+  </startup>
+  <appSettings>
+    <add key="MOSMS.AppId" value="8bb36621fab8f0ff68660ee5db9758a2"/>
+    <add key="MOSMS.AppSecret" value="EF5105BBF8B0ED3F47607387EC481F92"/>
+    <add key="MOSMS.AppPublicKey" value="PFJTQUtleVZhbHVlPjxNb2R1bHVzPnZsWXFWbDJlNUc5WnU4MVEvdVdXYlVkYksxRHFWamhiNzkzU21KdlIwY2xpQTU3WWJkY0hobEFTR2pKaUI4d0h3YmhrY3ZESmlia25UQjFzd1o0SWFxUE1LOWlIMFlqelpGQlYrWlRRRE55YWxkZjY0Qi9TUkhvYVdYSjJWVWdqa3VDeHhyQnNhdGhmb2J2UlRleVRGM0ovd1BnRk1TV3RzNFRXaGgweUNPYz08L01vZHVsdXM+PEV4cG9uZW50PkFRQUI8L0V4cG9uZW50PjwvUlNBS2V5VmFsdWU+"/>
+    <add key="MOSMS.AppHostUri" value="http://localhost:9999"/>
+    <add key="AppBasePath" value="../../../Application.Release/"/>
+
+
+    <add key="EXCEL_TEMPLATE_VITUALPATH" value="\Documents\ReportTemplate\" />
+    <add key="WORD_TEMPLATE_VITUALPATH" value="\Documents\ReportTemplate\" />
+    <add key="EXCEL_EXPORT_VERSION" value="XLSX" />
+    <add key="ASPOSE_CELL_LICENCE_VITUALPATH_FILENAME" value="\Documents\Lic\Aspose.Cells.lic" />
+    <add key="ASPOSE_WORD_LICENCE_VITUALPATH_FILENAME" value="\Documents\Lic\Aspose.Words.lic" />
+    <add key="ROW_HEIGHT_IMAGE" value="100" />
+
+    <add key="DSofT.LogSystem.Database" value="Off" />
+    <add key="DSofT.LogSystem.File" value="On" />
+    <add key="DSofT.LogSystem.Path" value="F:\Logging\Warehouse\" />
+
+  </appSettings>
+  <connectionStrings>
+    <!--<add name="DBConnection" connectionString="Data Source=dsofteam.ddns.net;Initial Catalog=Warehouse;Integrated Security=False;User ID=sa;Password=DSofT2017;" providerName="System.Data.SqlClient" />-->
+    <add name="DBConnection" connectionString="Data Source=.;Initial Catalog=FoodWarehouse;Integrated Security=False;User ID=sa;Password=123456;" providerName="System.Data.SqlClient" />
+  </connectionStrings>
+  <system.web>
+    <membership defaultProvider="ClientAuthenticationMembershipProvider">
+      <providers>
+        <add name="ClientAuthenticationMembershipProvider" type="System.Web.ClientServices.Providers.ClientFormsAuthenticationMembershipProvider, System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" serviceUri=""/>
+      </providers>
+    </membership>
+    <roleManager defaultProvider="ClientRoleProvider" enabled="true">
+      <providers>
+        <add name="ClientRoleProvider" type="System.Web.ClientServices.Providers.ClientRoleProvider, System.Web.Extensions, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" serviceUri="" cacheTimeout="86400"/>
+      </providers>
+    </roleManager>
+  </system.web>
+</configuration>

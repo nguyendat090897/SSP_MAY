@@ -1,0 +1,158 @@
+﻿<uicore:ControlBase x:Class="DSofT.Warehouse.UI.frmDieuChuyenNoiBo"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DSofT.Warehouse.UI"
+             mc:Ignorable="d" 
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"  
+             xmlns:uicore="clr-namespace:DSofT.Framework.UICore;assembly=DSofT.Framework.UICore"
+             xmlns:resText="clr-namespace:DSofT.Warehouse.Resources;assembly=DSofT.Warehouse.Resources"
+             xmlns:cntr="clr-namespace:DSofT.Framework.UIControl;assembly=DSofT.Framework.UIControl" 
+             xmlns:dxn="http://schemas.devexpress.com/winfx/2008/xaml/navbar" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:Controls="clr-namespace:DSofT.Framework.Metro.UIControls;assembly=DSofT.Framework.Metro.UIControls" 
+             d:DesignHeight="680" d:DesignWidth="1250">
+    <uicore:ControlBase.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Warehouse.Resources;component/CommonResource.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </uicore:ControlBase.Resources>
+    <Grid Background="Transparent">
+        <Grid.Resources>
+            <cntr:ConverterStringDateTime x:Key="ConverterStringDateTime"/>
+        </Grid.Resources>
+        <dxmvvm:Interaction.Behaviors>
+            <dxmvvm:NotificationService x:Name="notificationService" ApplicationId="DxToastTest" UseWin8NotificationsIfAvailable="True" 
+                                  PredefinedNotificationTemplate="{Binding ElementName=notificationStyle, Path=SelectedItem}"
+                                  CustomNotificationTemplate="{StaticResource CustomNotificationTemplate}"
+                                  Sound="Notification_Looping_Alarm8"
+                                  CustomNotificationPosition="BottomRight" CustomNotificationVisibleMaxCount="5" CustomNotificationDuration="0:0:3"/>
+        </dxmvvm:Interaction.Behaviors>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="0.5*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="430" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.Column="2" Style="{StaticResource Sdk.Brd.BtnArea}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="0.5*" />
+                </Grid.ColumnDefinitions>
+                <!-- <TextBlock Name="lblLoaiDieuChuyen" FontSize="15" Foreground="Blue" Text="{StaticResource lblCKCungDiaChi}" Grid.Column="1"></TextBlock>-->
+                <StackPanel Grid.Column="2" Width="Auto" Style="{StaticResource Sdk.Spnl.CommBtn.Right}">
+                    <Button Tag="Danh sách phiếu chuyển chờ nhận" HorizontalAlignment="Right" Name="btnDSPhieuChuyen" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center" Click="btnDSPhieuChuyen_Click"/>
+                    <Button Tag="{StaticResource btnRefresh}" HorizontalAlignment="Right" Name="btnRefresh"  Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center" Click="btnRefresh_Click"/>
+                    <Button Tag="{StaticResource btnDelete}" HorizontalAlignment="Right" Name="btnDelete"  Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center" Click="btnDelete_Click"  />
+                    <Button Tag="{StaticResource btnNew}" HorizontalAlignment="Right" Name="btnNew"  Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center" Click="btnNew_Click" />
+                </StackPanel>
+            </Grid>
+        </Border>
+        <Border x:Name="BrdGird" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3" Style="{StaticResource Sdk.Brd.BtnArea}">
+            <dxg:GridControl Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" AutoPopulateColumns="True" x:Name="grdDieuChuyenNoiBo" >
+            <dxg:GridControl.View>
+                <dxg:TableView  NavigationStyle="Cell" ShowGroupPanel="False" ShowAutoFilterRow="True" SearchPanelFindMode="FindClick" UseAnimationWhenExpanding="False"
+                                          x:Name="grdViewDieuChuyenNoiBo" SearchPanelFindFilter="Contains" FocusedRowChanged="grdViewDieuChuyenNoiBo_FocusedRowChanged" MouseDoubleClick="grdViewDieuChuyenNoiBo_MouseDoubleClick"/>
+            </dxg:GridControl.View>
+        </dxg:GridControl>
+        </Border>
+        <Border x:Name="nbcSearch" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource Sdk.Brd.BtnArea}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="10" />
+                    <ColumnDefinition Width="0.5*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <TextBlock FontSize="15" Grid.Row="0" Grid.Column="0" Text="{StaticResource lblLoaiCNB}"  HorizontalAlignment="Center" VerticalAlignment="Center" ></TextBlock>
+                <dxe:ComboBoxEdit Grid.Row="1" Grid.Column="2"  Name="cboLoaiChuyen"  VerticalAlignment="Center"  HorizontalAlignment="Right" FontSize="13" MinWidth="150"  IsTextEditable="True" ValidateOnTextInput="False"  IncrementalFiltering="True" ImmediatePopup="True" FilterCondition = "Contains" EditValueChanged="cboLoaiChuyen_EditValueChanged" SelectedIndexChanged="cboLoaiChuyen_SelectedIndexChanged"/>
+            </Grid>
+        </Border>
+        <Grid Grid.Row="2" Grid.ColumnSpan="3">
+            <TabControl x:Name="tabDuAnCT" Grid.ColumnSpan="2">
+                <!--Thông tin chung-->
+
+                <TabItem Header="Thông tin chung" x:Name="tabThongTinChung">
+                    <ScrollViewer HorizontalAlignment="Left" Height="Auto" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="20"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="125"/>
+                                <ColumnDefinition Width="250"/>
+                                <ColumnDefinition Width="125"/>
+                                <ColumnDefinition Width="250"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Grid.Row="0" Name="lblSoPhieuDC" Text="Số phiếu điều chuyển:"></TextBlock>
+                            <TextBlock Grid.Column="1" Grid.Row="0" Name="txtSoPhieuDC" Text="{Binding SOPHIEU_DC}"/>
+
+                            <TextBlock Grid.Column="0" Grid.Row="1" Name="lblNguoiDC" Text="Người điều chuyển:"></TextBlock>
+                            <TextBlock Grid.Column="1" Grid.Row="1" Name="txtNguoiDC" Text="{Binding NGUOI_DC}"/>
+
+
+                            <TextBlock Grid.Column="0" Grid.Row="2" Name="tblNgayDC" Text="Ngày điều chuyển:"  ></TextBlock>
+                            <TextBlock Grid.Column="1" Grid.Row="2" Name="txtNgayDC"    Text="{Binding NGAY_DC}"  />
+
+                            <TextBlock Grid.Column="0" Grid.Row="3" Name="tblDVQLChuyen" Text="Đơn vị quản lý chuyển:"  ></TextBlock>
+                            <TextBlock Grid.Column="1" Grid.Row="3" Name="txtDVQLChuyen"    Text="{Binding MA_DVIQLY_CHUYEN}"  />
+                            
+                            <TextBlock Grid.Column="0" Grid.Row="4" Name="tblIS_NHAP_NHIEU_LAN" Text="Loại điều chuyển:" Foreground="Red" ></TextBlock>
+                            <TextBlock Grid.Column="1" Grid.Row="4" Name="txtLOAI_DC"   Foreground="Red" Text="{Binding TENLOAI_DC}"  />
+
+                            <TextBlock Grid.Column="0" Grid.Row="5" Name="tblLYDO" Text="Lý do chuyển:" ></TextBlock>
+                            <TextBlock Grid.Column="1" Grid.Row="5" Name="txtLYDO"    Text="{Binding GHI_CHU}"  />
+
+
+                            <TextBlock Grid.Column="2" Grid.Row="0" Name="lblSoPhieuX" Text="Số phiếu nhận:"></TextBlock>
+                            <TextBlock Grid.Column="3" Grid.Row="0" Name="txtSoPhieuX" Text="{Binding SOPHIEU_NHAN}"/>
+
+                            <TextBlock Grid.Column="2" Grid.Row="1" Name="lblNguoiN" Text="Người nhận:"></TextBlock>
+                            <TextBlock Grid.Column="3" Grid.Row="1" Name="txtNguoiN" Text="{Binding NGUOI_NHAN}"/>
+
+
+                            <TextBlock Grid.Column="2" Grid.Row="2" Name="tblNgayN" Text="Ngày nhận:"  ></TextBlock>
+                            <TextBlock Grid.Column="3" Grid.Row="2" Name="txtNgayN"    Text="{Binding NGAY_NHAN}"  />
+
+                            <TextBlock Grid.Column="2" Grid.Row="3" Name="tblDVQLN" Text="Đơn vị quản lý nhận:"  ></TextBlock>
+                            <TextBlock Grid.Column="3" Grid.Row="3" Name="txtDVQLN"    Text="{Binding MA_DVIQLY_NHAN}"  />
+
+
+                        </Grid>
+                    </ScrollViewer>
+                </TabItem>
+                <!--End Thông tin chung-->
+                <!--Chi tiết-->
+                <TabItem Header="Chi tiết phiếu điều chuyển" x:Name="tabChiTiet_DieuChuyen">
+                    <Grid>
+                        <dxg:GridControl  AutoPopulateColumns="True" Height="Auto" x:Name="grdChiTiet_DieuChuyen" >
+                            <dxg:GridControl.View>
+                                <dxg:TableView AutoWidth="True" NavigationStyle="Cell" ShowGroupPanel="False" UseAnimationWhenExpanding="False"
+                                           x:Name="grdViewChiTiet_DieuChuyen"/>
+                            </dxg:GridControl.View>
+                        </dxg:GridControl>
+                    </Grid>
+                </TabItem>
+
+                <!--End Chi tiết-->
+            </TabControl>
+        </Grid>
+    </Grid>
+</uicore:ControlBase>

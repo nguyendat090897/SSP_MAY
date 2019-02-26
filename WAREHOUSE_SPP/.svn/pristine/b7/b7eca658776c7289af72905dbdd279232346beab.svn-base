@@ -1,0 +1,174 @@
+﻿using DSofT.Framework.Internal.Data;
+using DSofT.Framework.UIControl;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
+
+namespace DSofT.Warehouse.Provider
+{
+    public interface IInventoryProvider
+    {
+        DataTable InventoryGetListMetarialCalculated(DataTable dtInput);
+        bool InsertOrUpdateInventory(DataTable dtInput, DataTable dtInputDetail);
+        bool DeleteInventory(DataTable dtInput);
+        DataTable GetAllInventoryList(DataTable dtInput);
+        DataTable GetListMetarialCalculatedById(DataTable dtInput);
+    }
+    public class InventoryProvider : BaseSqlExecute, IInventoryProvider
+    {
+
+        public InventoryProvider(string appId, string userId)
+            : base(DbCommon.WarehouseDbConnstr, appId, userId)
+        {
+        }
+        /// <summary>
+        /// Get danh sách nguyên liệu tính tồn kho
+        /// </summary>
+        /// <returns></returns>
+        public DataTable InventoryGetListMetarialCalculated(DataTable dtInput)
+        {
+            var sqlParams = new object[] {
+                DateTime.ParseExact(dtInput.Rows[0]["DateInventory"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                ,dtInput.Rows[0]["WarehouseId"] };
+            var result = base.ExecuteDataSet("Inventory_GetListMetarialCalculated", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+        /// <summary>
+        /// GetAllInventoryList
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public DataTable GetAllInventoryList(DataTable dtInput)
+        {
+            var sqlParams = new object[] {
+                 string.IsNullOrWhiteSpace(dtInput.Rows[0]["FromDate"].ToString())==true? (DateTime?)null :DateTime.ParseExact(dtInput.Rows[0]["FromDate"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                ,string.IsNullOrWhiteSpace(dtInput.Rows[0]["ToDate"].ToString())==true? (DateTime?)null :DateTime.ParseExact(dtInput.Rows[0]["ToDate"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                ,dtInput.Rows[0]["InventoryCode"] };
+            var result = base.ExecuteDataSet("Inventory_GetAllInventoryList", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+
+
+        /// <summary>
+        /// InsertOrUpdateImportInventory
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <param name="dtInputDetail"></param>
+        /// <returns></returns>
+        public bool InsertOrUpdateInventory(DataTable dtInput, DataTable dtInputDetail)
+        {
+            using (var tran = new System.Transactions.TransactionScope(System.Transactions.TransactionScopeOption.Required,
+                 new System.Transactions.TransactionOptions { IsolationLevel = System.Transactions.IsolationLevel.ReadUncommitted }))
+            {
+                //thuc hien update
+                if (NumberHelper.ConvertStringToLong(dtInput.Rows[0]["Id"].ToString()) > 0)
+                {
+                    var sqlParams = new object[] { dtInput.Rows[0]["Id"]
+                                             ,DateTime.ParseExact(dtInput.Rows[0]["DateInventory"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                             ,dtInput.Rows[0]["WarehouseId"]
+                                             , CommonDataHelper.UserName
+                                             ,string.IsNullOrWhiteSpace(dtInput.Rows[0]["IsFinish"].ToString())==true?"0":dtInput.Rows[0]["IsFinish"]
+                                             };
+                    var result = base.ExecScalar("Inventory_Update", sqlParams);
+                    if (NumberHelper.ConvertStringToLong(result.ToString()) < 0)
+                    {
+                        return false;
+                    }
+                    var sqlParamsDelete = new object[] { dtInput.Rows[0]["Id"], CommonDataHelper.UserName };
+                    var resultDelete = base.ExecScalar("InventoryDetail_Delete", sqlParamsDelete);
+                    if (NumberHelper.ConvertStringToLong(resultDelete.ToString()) < 0)
+                    {
+                        return false;
+                    }
+                    foreach (System.Data.DataRow dr in dtInputDetail.Rows)
+                    {
+                        var sqlParamsDetail = new object[] {
+                                              dtInput.Rows[0]["Id"].ToString()
+                                             ,dr["MaterialId"]
+                                             ,dr["QuantityExist"]
+                                             ,CommonDataHelper.UserName
+                                             };
+                        var resultDetail = base.ExecScalar("InventoryDetail_Insert", sqlParamsDetail);
+                        if (NumberHelper.ConvertStringToLong(resultDetail.ToString()) < 0)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                else
+                {
+                    var sqlParams = new object[] {
+                                              DateTime.ParseExact(dtInput.Rows[0]["DateInventory"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                             , dtInput.Rows[0]["WarehouseId"]
+                                             , CommonDataHelper.UserName
+                                             ,string.IsNullOrWhiteSpace(dtInput.Rows[0]["IsFinish"].ToString())==true?"0":dtInput.Rows[0]["IsFinish"]
+                    };
+                    var result = base.ExecScalar("Inventory_Insert", sqlParams);
+                    if (NumberHelper.ConvertStringToLong(result.ToString()) < 0)
+                    {
+                        return false;
+                    }
+                    foreach (System.Data.DataRow dr in dtInputDetail.Rows)
+                    {
+                        var sqlParamsDetail = new object[] {
+                                              NumberHelper.ConvertStringToLong(result.ToString())
+                                             ,dr["MaterialId"]
+                                             ,dr["QuantityExist"]
+                                             ,CommonDataHelper.UserName
+                                             };
+                        var resultDetail = base.ExecScalar("InventoryDetail_Insert", sqlParamsDetail);
+                        if (NumberHelper.ConvertStringToLong(resultDetail.ToString()) < 0)
+                        {
+                            return false;
+                        }
+                    }
+                }
+                tran.Complete();
+                return true;
+            }
+        }
+        /// <summary>
+        /// DeleteInventory
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public bool DeleteInventory(DataTable dtInput)
+        {
+            var sqlParams = new object[] { dtInput.Rows[0]["Id"]
+                                             , CommonDataHelper.UserName
+                                             };
+            var result = base.ExecScalar("Inventory_Delete", sqlParams);
+            if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+        /// <summary>
+        /// GetListMetarialCalculatedById
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public DataTable GetListMetarialCalculatedById(DataTable dtInput)
+        {
+            var sqlParams = new object[] {
+                 dtInput.Rows[0]["Id"]
+                ,dtInput.Rows[0]["WarehouseId"] };
+            var result = base.ExecuteDataSet("Inventory_GetListMetarialCalculatedById", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+    }
+}

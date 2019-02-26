@@ -1,0 +1,14 @@
+E:\DSoft\foodWarehouse\4.Souce Code\Application.Release\DSofT.FoodWarehouse.Resources.dll
+E:\DSoft\foodWarehouse\4.Souce Code\Application.Release\DSofT.FoodWarehouse.Resources.pdb
+E:\DSoft\foodWarehouse\4.Souce Code\Application\DSofT.FoodWarehouse.Presentation\DSofT.FoodWarehouse.Resources\obj\Debug\DSofT.FoodWarehouse.Resources.csprojResolveAssemblyReference.cache
+E:\DSoft\foodWarehouse\4.Souce Code\Application\DSofT.FoodWarehouse.Presentation\DSofT.FoodWarehouse.Resources\obj\Debug\CommonResource.baml
+E:\DSoft\foodWarehouse\4.Souce Code\Application\DSofT.FoodWarehouse.Presentation\DSofT.FoodWarehouse.Resources\obj\Debug\English.baml
+E:\DSoft\foodWarehouse\4.Souce Code\Application\DSofT.FoodWarehouse.Presentation\DSofT.FoodWarehouse.Resources\obj\Debug\Icons.baml
+E:\DSoft\foodWarehouse\4.Souce Code\Application\DSofT.FoodWarehouse.Presentation\DSofT.FoodWarehouse.Resources\obj\Debug\Vietnamese.baml
+E:\DSoft\foodWarehouse\4.Souce Code\Application\DSofT.FoodWarehouse.Presentation\DSofT.FoodWarehouse.Resources\obj\Debug\Icons.g.cs
+E:\DSoft\foodWarehouse\4.Souce Code\Application\DSofT.FoodWarehouse.Presentation\DSofT.FoodWarehouse.Resources\obj\Debug\DSofT.FoodWarehouse.Resources_MarkupCompile.cache
+E:\DSoft\foodWarehouse\4.Souce Code\Application\DSofT.FoodWarehouse.Presentation\DSofT.FoodWarehouse.Resources\obj\Debug\DSofT.FoodWarehouse.Resources.g.resources
+E:\DSoft\foodWarehouse\4.Souce Code\Application\DSofT.FoodWarehouse.Presentation\DSofT.FoodWarehouse.Resources\obj\Debug\DSofT.FoodWarehouse.Resources.Properties.Resources.resources
+E:\DSoft\foodWarehouse\4.Souce Code\Application\DSofT.FoodWarehouse.Presentation\DSofT.FoodWarehouse.Resources\obj\Debug\DSofT.FoodWarehouse.Resources.csproj.GenerateResource.Cache
+E:\DSoft\foodWarehouse\4.Souce Code\Application\DSofT.FoodWarehouse.Presentation\DSofT.FoodWarehouse.Resources\obj\Debug\DSofT.FoodWarehouse.Resources.dll
+E:\DSoft\foodWarehouse\4.Souce Code\Application\DSofT.FoodWarehouse.Presentation\DSofT.FoodWarehouse.Resources\obj\Debug\DSofT.FoodWarehouse.Resources.pdb

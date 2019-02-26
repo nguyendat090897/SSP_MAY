@@ -1,0 +1,58 @@
+
+using DSofT.Warehouse.Provider;
+using System.Data;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface IDM_NHOM_PALLETBussiness
+    {
+        bool InsertorUpdateDM_NHOM_PALLET(DataTable dst);
+        bool DeleteDM_NHOM_PALLET(string pMA_DVIQLY, long pNHOM_PALLET_ID, string pModifiedBy);
+        DataTable GetListDM_NHOM_PALLET(string pMA_DVIQLY);
+        DataTable GetListDM_NHOM_PALLET_KICH_THUOC(string pMA_DVIQLY);
+        DataTable GetListDM_NHOM_PALLE_NHA_SAN_XUAT(string pMA_DVIQLY);
+        DataTable GetListDM_NHOM_PALLET_LOAI_PALLET(string pMA_DVIQLY);
+        DataTable GetListDM_LOAI_PALLET_GET_ALL_KICH_THUOC_BY_ID(string pMA_DVIQLY, long @PLOAI_PALLET_ID);
+        DataTable GetListDM_NHOM_PALLET_KEY(string pMA_DVIQLY, string pTEN_NHOM_PALLET);
+    }
+    public class DM_NHOM_PALLETBussiness : IDM_NHOM_PALLETBussiness
+    {
+        IDM_NHOM_PALLETProvider _DM_NHOM_PALLETProvider;
+        public DM_NHOM_PALLETBussiness(string appId, string userId = "0")
+        {
+            _DM_NHOM_PALLETProvider = new DM_NHOM_PALLETProvider(appId, userId);
+        }
+       public bool InsertorUpdateDM_NHOM_PALLET(DataTable dst)
+        {
+            return _DM_NHOM_PALLETProvider.InsertorUpdateDM_NHOM_PALLET(dst);
+        }
+        public bool DeleteDM_NHOM_PALLET(string pMA_DVIQLY, long pNHOM_PALLET_ID, string pModifiedBy)
+        {
+            return _DM_NHOM_PALLETProvider.DeleteDM_NHOM_PALLET(pMA_DVIQLY, pNHOM_PALLET_ID, pModifiedBy);
+        }
+        public DataTable GetListDM_NHOM_PALLET(string pMA_DVIQLY)
+        {
+            return _DM_NHOM_PALLETProvider.GetListDM_NHOM_PALLET(pMA_DVIQLY);
+        }
+        public DataTable GetListDM_NHOM_PALLET_KICH_THUOC(string pMA_DVIQLY)
+        {
+            return _DM_NHOM_PALLETProvider.GetListDM_NHOM_PALLET_KICH_THUOC(pMA_DVIQLY);
+        }
+        public DataTable GetListDM_NHOM_PALLE_NHA_SAN_XUAT(string pMA_DVIQLY)
+        {
+            return _DM_NHOM_PALLETProvider.GetListDM_NHOM_PALLE_NHA_SAN_XUAT(pMA_DVIQLY);
+        }
+        public DataTable GetListDM_NHOM_PALLET_LOAI_PALLET(string pMA_DVIQLY)
+        {
+            return _DM_NHOM_PALLETProvider.GetListDM_NHOM_PALLET_LOAI_PALLET(pMA_DVIQLY);
+        }
+        public DataTable GetListDM_LOAI_PALLET_GET_ALL_KICH_THUOC_BY_ID(string pMA_DVIQLY, long @PLOAI_PALLET_ID)
+        {
+            return _DM_NHOM_PALLETProvider.GetListDM_LOAI_PALLET_GET_ALL_KICH_THUOC_BY_ID(pMA_DVIQLY, @PLOAI_PALLET_ID);
+        }
+        public DataTable GetListDM_NHOM_PALLET_KEY(string pMA_DVIQLY, string pTEN_NHOM_PALLET)
+        {
+            return _DM_NHOM_PALLETProvider.GetListDM_NHOM_PALLET_KEY(pMA_DVIQLY, pTEN_NHOM_PALLET);
+        }
+    }
+}

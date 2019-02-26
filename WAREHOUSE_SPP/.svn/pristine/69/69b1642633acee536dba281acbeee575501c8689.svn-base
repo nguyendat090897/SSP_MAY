@@ -1,0 +1,53 @@
+using DSofT.Warehouse.Provider;
+using System.Data;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface ISupplierBussiness
+    {
+        DataTable GetAllSupplier();
+        bool InsertOrUpdateSupplier(DataTable dtInput);
+        bool DeleteSupplier(DataTable dtInput);
+        DataTable SupplierGetAllList(DataTable dtInput);
+    }
+    public class SupplierBussiness : ISupplierBussiness
+    {
+        ISupplierProvider _SupplierProvider;
+        /// <summary>
+        /// Hàm khởi tạo bắt buộc
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <param name="userId"></param>
+        public SupplierBussiness(string appId, string userId = "0")
+        {
+            _SupplierProvider = new SupplierProvider(appId, userId);
+        }
+        /// <summary>
+        /// GetAllSupplier
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetAllSupplier()
+        {
+            return _SupplierProvider.GetAllSupplier();
+        }
+
+        public bool InsertOrUpdateSupplier( DataTable dtInput)
+        {
+            return _SupplierProvider.InsertOrUpdateSupplier(dtInput);
+        }
+        /// <summary>
+        /// DeleteSupplier
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public bool DeleteSupplier(DataTable dtInput)
+        {
+            return _SupplierProvider.DeleteSupplier(dtInput);
+        }
+
+        public DataTable SupplierGetAllList(DataTable dtInput)
+        {
+            return _SupplierProvider.SupplierGetAllList(dtInput);
+        }
+    }
+}

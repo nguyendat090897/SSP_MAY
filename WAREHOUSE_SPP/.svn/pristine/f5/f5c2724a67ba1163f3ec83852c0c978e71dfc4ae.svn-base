@@ -1,0 +1,26 @@
+<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <ResourceDictionary.MergedDictionaries>
+
+
+        <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Comm.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/SampleResource.xaml"/>
+
+        <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Devexpress/DataGrid.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Devexpress/DockManager.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Devexpress/EditorTypes.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Devexpress/NavBar.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Devexpress/Ribbon.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Devexpress/TabControl.xaml"/>
+
+        <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Sdk/Button.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Sdk/Etc.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Sdk/ListBox.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Sdk/ScrollViewer.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Sdk/TabControl.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/DSofT.Framework.Styles;component/Resources/Sdk/TextBlock.xaml"/>
+        
+    </ResourceDictionary.MergedDictionaries>
+	<!-- Resource dictionary entries should be defined here. -->
+</ResourceDictionary>

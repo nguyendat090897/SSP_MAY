@@ -1,0 +1,147 @@
+﻿<uicore:PopupBase x:Class="DSofT.Warehouse.UI.frm_dm_khachhang_ncc_popup"
+         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"  
+             xmlns:uicore="clr-namespace:DSofT.Framework.UICore;assembly=DSofT.Framework.UICore"
+             xmlns:resText="clr-namespace:DSofT.Warehouse.Resources;assembly=DSofT.Warehouse.Resources"
+             xmlns:cntr="clr-namespace:DSofT.Framework.UIControl;assembly=DSofT.Framework.UIControl" 
+             xmlns:dxn="http://schemas.devexpress.com/winfx/2008/xaml/navbar" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:Controls="clr-namespace:DSofT.Framework.Metro.UIControls;assembly=DSofT.Framework.Metro.UIControls" 
+            Height="420" Width="1250" >
+    <uicore:PopupBase.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Warehouse.Resources;component/CommonResource.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </uicore:PopupBase.Resources>
+    <Grid Background="Transparent">
+        <Grid.Resources>
+            <cntr:ConverterStringDateTime x:Key="ConverterStringDateTime"/>
+        </Grid.Resources>
+        <dxmvvm:Interaction.Behaviors>
+            <dxmvvm:NotificationService x:Name="notificationService" ApplicationId="DxToastTest" UseWin8NotificationsIfAvailable="True" 
+                                  PredefinedNotificationTemplate="{Binding ElementName=notificationStyle, Path=SelectedItem}"
+                                  CustomNotificationTemplate="{StaticResource CustomNotificationTemplate}"
+                                  Sound="Notification_Looping_Alarm8"
+                                  CustomNotificationPosition="BottomRight" CustomNotificationVisibleMaxCount="5" CustomNotificationDuration="0:0:3"/>
+        </dxmvvm:Interaction.Behaviors>
+        <Grid>
+            <!--Main Layout RowDefinition-->
+            <Grid.RowDefinitions>
+                <!--Button Area-->
+                <RowDefinition Height="auto"/>
+                <!--Blank-->
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!--Selection Area Style : row=2-->
+            <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource Sdk.Brd.BtnArea}">
+                <StackPanel Style="{StaticResource Sdk.Spnl.CommBtn.Right}">
+                    <Button Tag="{StaticResource btnNew}" HorizontalAlignment="Right" Name="btnNew" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center" Click="btnNew_Click"/>
+                    <Button Tag="{StaticResource btnSave}" HorizontalAlignment="Right" Name="btnSave" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center" Click="btnSave_Click"/>
+                    <Button Tag="{StaticResource btnClose}" HorizontalAlignment="Right" Name="btnClose" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center" Click="btnClose_Click"/>
+                    <Button Tag="{StaticResource btnDiaDiemXuatHang}" HorizontalAlignment="Right" Name="btnDiaDiemXuatHang" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center" Click="btnDiaDiemXuatHang_Click"/>
+                    <Button Tag="{StaticResource btnDonViVanChuyen}" HorizontalAlignment="Right" Name="btnDonViVanChuyen" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center" Click="btnDonViVanChuyen_Click"/>
+                </StackPanel>
+            </Border>
+            <Border x:Name="nbcSearch" Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource Sdk.Brd.BtnArea}">
+                <Grid x:Name="Selection_Area">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="0.5*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock  Grid.Row="0"   Grid.Column="0" Name="MaKH_NCC" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_MaKH_NCC}"/><Run Text="{StaticResource lblDauSao}" Foreground="Red" /></TextBlock>
+                    <dxe:TextEdit Grid.Row="0" Grid.Column="1" MaxLength="50" Name="txtMA_KH" Text="{Binding MA_KH}"/>
+                    <TextBlock  Grid.Row="0"   Grid.Column="2" Name="khachhang_ncc_MST" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_MST}"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="0" Grid.Column="3"  Name="txtMST" MaxLength="50" Text="{Binding MA_SOTHUE}"/>
+                    <RadioButton Grid.Row="0" Grid.Column="4"  Name="rdbKH" GroupName="rdbLOAI_KHNCC" Content="KH" Foreground="Red" Click="rdbKH_Click" >
+                    </RadioButton>
+                    <RadioButton Grid.Row="0" Grid.Column="5" Name="rdbNCC" GroupName="rdbLOAI_KHNCC" Content="NCC" Foreground="Red" Click="rdbNCC_Click"/>
+
+                    <TextBlock  Grid.Row="1"   Grid.Column="0" Name="lblTenKH" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_TenKH}"/><Run Text="{StaticResource lblDauSao}" Foreground="Red" /></TextBlock>
+                    <dxe:TextEdit Grid.Row="1" Grid.Column="1" MaxLength="50" Grid.ColumnSpan="5" Name="txtTEN_KH" Text="{Binding TEN_KH}"/>
+
+                    <TextBlock  Grid.Row="2"   Grid.Column="0" Name="lblDiaChi_KH" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_DiaChi_KH}"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="2" Grid.Column="1"   Name="txtDIA_CHI" MaxLength="250" Text="{Binding DIA_CHI}"/>
+                    <TextBlock  Grid.Row="2"   Grid.Column="2" Name="frm_dm_khachhang_ncc_TinhTP" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_TinhTP}"/></TextBlock>
+                    <dxe:ComboBoxEdit Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="3" Name="cboTINH_ID" ValidateOnTextInput="False" EditValue="{Binding TINH_ID ,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  IncrementalFiltering="True"  IsTextEditable="True" FilterCondition="Contains" ImmediatePopup="True" EditValueChanged="cboTINH_ID_EditValueChanged"/>
+
+
+                    <TextBlock  Grid.Row="3"   Grid.Column="0" Name="frm_dm_khachhang_ncc_TK_NganHang" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_TK_NganHang}"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="3" Grid.Column="1" MaxLength="50" Name="txtTK_NGANHANG"  Text="{Binding TK_NGANHANG}"/>
+                    <TextBlock  Grid.Row="3"   Grid.Column="2" Name="frm_dm_khachhang_ncc_TenNganHang" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_TenNganHang}"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="3"  Name="txtTEN_NGANHANG" MaxLength="150" Text="{Binding TEN_NGANHANG}"/>
+
+
+                    <TextBlock  Grid.Row="4"   Grid.Column="0" Name="lblDienThoai" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_DienThoai}"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="4" MaxLength="50" Grid.Column="1"  Name="txtDienThoai" Text="{Binding DIENTHOAI}" MaskType="RegEx" Mask="((\d{3}))-(\d{3})-(\d{4}) (-(\d*))?" ValidateOnTextInput="False"/>
+                    <TextBlock  Grid.Row="4"   Grid.Column="2" Grid.ColumnSpan="4"  Name="lblFax" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_Fax}"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="4" Grid.Column="3"  Grid.ColumnSpan="3" MaxLength="50" Name="txtFax" Text="{Binding FAX}" MaskType="RegEx" Mask="((\d{3}))-(\d{3})-(\d{4}) (-(\d*))?" ValidateOnTextInput="False" />
+
+
+                    <TextBlock  Grid.Row="5"   Grid.Column="0" Name="txtLoaiKHNCC" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_LoaiKH_NCC}"/></TextBlock>
+                    <dxe:ComboBoxEdit Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="5" Name="cboLOAI_KHACHHANG_ID" ValidateOnTextInput="False" EditValue="{Binding LOAI_KHACHHANG_ID ,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  IncrementalFiltering="True"  IsTextEditable="True" FilterCondition="Contains" ImmediatePopup="True" EditValueChanged="cboLOAI_KHACHHANG_ID_EditValueChanged"/>
+
+                    <TextBlock  Grid.Row="6"   Grid.Column="0" Name="frm_dm_khachhang_ncc_NguoiLienHe" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_NguoiLienHe}"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="6" Grid.Column="1"  Name="txtNGUOI_LIENHE" MaxLength="50" Text="{Binding NGUOI_LIENHE}"/>
+                    <TextBlock  Grid.Row="6"   Grid.Column="2" Name="frm_dm_khachhang_ncc_GioiTinh" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_GioiTinh}"/><Run Text="{StaticResource lblDauSao}" Foreground="Red" /></TextBlock>
+                    <dxe:ComboBoxEdit Grid.Row="6" Grid.Column="3" Name="cboGIOI_TINH" ValidateOnTextInput="False" EditValue="{Binding GIOI_TINH ,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"  IncrementalFiltering="True"  IsTextEditable="True" FilterCondition="Contains" ImmediatePopup="True" EditValueChanged="cboGIOI_TINH_EditValueChanged"/>
+                    <TextBlock  Grid.Row="6"   Grid.Column="4" Name="frm_dm_khachhang_ncc_ChucDanh" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_ChucDanh}"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="6" Grid.Column="5" Name="txtCHUC_DANH" MaxLength="50" Text="{Binding CHUC_DANH}"/>
+
+                    <TextBlock  Grid.Row="7"   Grid.Column="0" Name="lblDienThoaiCQ" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_DienThoai_CQ}"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="7" Grid.Column="1" Name="txtDIENTHOAI_CQ" Text="{Binding DIENTHOAI_CQ}" MaskType="RegEx" Mask="((\d{3}))-(\d{3})-(\d{4}) (-(\d*))?" ValidateOnTextInput="False"/>
+                    <TextBlock  Grid.Row="7"   Grid.Column="2" Name="lblNR" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_NR}"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="7" MaxLength="50" Grid.Column="3" Name="txtDIENTHOAI_NR" Text="{Binding DIENTHOAI_NR}" MaskType="RegEx" Mask="((\d{3}))-(\d{3})-(\d{4}) (-(\d*))?" ValidateOnTextInput="False"/>
+                    <TextBlock  Grid.Row="7"   Grid.Column="4" Name="lblMobile" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_Mobile}"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="7" Grid.Column="5" Name="txtDIENTHOAI_DD" MaxLength="50" Text="{Binding DIENTHOAI_DD}" MaskType="RegEx" Mask="((\d{3}))-(\d{3})-(\d{4}) (-(\d*))?" ValidateOnTextInput="False"/>
+
+                    <TextBlock  Grid.Row="8"   Grid.Column="0" Name="lblCMND" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_CMND}"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="8" MaxLength="50" Grid.Column="1" Name="txtCMND" Text="{Binding CMND}" MaskType="RegEx" Mask="\d{9,11}"/>
+                    <TextBlock  Grid.Row="8"   Grid.Column="2" Name="lblNgayCap" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_NgayCap}"/></TextBlock>
+                    <dxe:DateEdit Grid.Column="3" Grid.Row="8" MaskType="DateTime" Name="dtpNGAY_CAP" MaskUseAsDisplayFormat="True" EditValue="{Binding NGAY_CAP, Converter={StaticResource ConverterStringDateTime}, ConverterParameter='dd/MM/yyyy', Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Mask="dd/MM/yyyy"  ShowClearButton="False"/>
+                    <TextBlock  Grid.Row="8"   Grid.Column="4" Name="lblNoiCap" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_NoiCap}"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="8" Grid.Column="5" MaxLength="150" Name="txtNOI_CAP" Text="{Binding NOI_CAP}"/>
+
+                    <TextBlock  Grid.Row="9"   Grid.Column="0"  Name="lblEmail" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_Email}"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="9" Grid.Column="1" Grid.ColumnSpan="5" MaxLength="50" Name="txtEMAIL" Text="{Binding EMAIL}" MaskType="RegEx" Mask="([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)"/>
+
+                    <TextBlock  Grid.Row="10"   Grid.Column="0" Name="lblDiaChi" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_DiaChi}"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="10" Grid.Column="1" Grid.ColumnSpan="5" MaxLength="150"  Name="txtDIA_CHI_LHE" Text="{Binding DIA_CHI_LHE}"/>
+
+                    <TextBlock  Grid.Row="11"   Grid.Column="0" Name="frm_dm_khachhang_ncc_TinhTrang" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_TinhTrang}"/></TextBlock>
+                    <RadioButton Grid.Row="11" Grid.Column="1" Name="rdbKSD" GroupName="rdbTINH_TRANG" Content="Ngừng hoạt động" Click="rdbKSD_Click"/>
+                    <RadioButton Grid.Row="11" Grid.Column="3"   Name="rdbSD"  GroupName="rdbTINH_TRANG" Content="Đang hoạt động        " Click="rdbSD_Click" />
+                    <TextBlock  Grid.Row="12"   Grid.Column="0" Name="lblGhiChu" VerticalAlignment="Center"><Run Text="{DynamicResource frm_dm_khachhang_ncc_GhiChu}"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="12" MaxLength="250" Grid.Column="1" Grid.ColumnSpan="5" Grid.RowSpan="2"  Name="txtGHI_CHU" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalContentAlignment="Top" TextWrapping="Wrap" Text="{Binding GHI_CHU}"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</uicore:PopupBase>
+

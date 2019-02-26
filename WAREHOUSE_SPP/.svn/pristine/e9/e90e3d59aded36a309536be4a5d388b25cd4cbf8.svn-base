@@ -1,0 +1,114 @@
+﻿<Controls:MetroWindow xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"  x:Class="DSofT.Warehouse.Main.Login"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Background="Transparent" Focusable="True" ResizeMode="NoResize"
+                      TitlebarHeight="0"
+        xmlns:resText="clr-namespace:DSofT.Warehouse.Resources;assembly=DSofT.Warehouse.Resources"
+        xmlns:gif="http://wpfanimatedgif.codeplex.com"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+        xmlns:Controls="clr-namespace:DSofT.Framework.Metro.UIControls.Controls;assembly=DSofT.Framework.Metro.UIControls"  
+		WindowStartupLocation="CenterScreen" Closing="MetroWindow_Closing"  WindowState="Normal" Foreground ="White"       
+		Height="450" Width="600" WindowStyle="SingleBorderWindow" BorderBrush="LightSkyBlue" BorderThickness="0.7" >
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <BeginStoryboard>
+                <Storyboard >
+                    <DoubleAnimation Storyboard.TargetProperty="Width" From="0" To="500" Duration="0:0:0.5" FillBehavior="HoldEnd" AutoReverse="False" />
+                    <DoubleAnimation Storyboard.TargetProperty="Height" From="0" To="400" Duration="0:0:1" FillBehavior="HoldEnd" AutoReverse="False"/>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Warehouse.Resources;component/CommonResource.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+
+    <Border x:Name="LayoutRoot" >
+        <Border.Background>
+            <ImageBrush ImageSource="Images/LoginDefault.png" Opacity="0.5"/>
+        </Border.Background>
+        <Grid>
+            <Grid.Resources>
+                <ImageBrush x:Key="imgEN" ImageSource="Images/Language/en.png" Stretch="UniformToFill"/>
+                <ImageBrush x:Key="imgVN" ImageSource="Images/Language/vn.gif" Stretch="UniformToFill"/>
+            </Grid.Resources>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="300" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="5" />
+                <RowDefinition Height="20" />
+                <RowDefinition Height="5" />
+                <RowDefinition Height="60" />
+                <RowDefinition Height="40" />
+                <RowDefinition Height="200" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+            </Grid>
+
+            <Viewbox x:Name="pbxCustomerImage" Grid.Column="1" Grid.Row="3" Width="200" HorizontalAlignment="Stretch" VerticalAlignment="Top" Margin="2">
+                <Canvas x:Name="cvsIcon"  Width="310" Height="310" Canvas.Left="0" Canvas.Top="0" >
+                    <Path Name="path7" Fill="#26b8eb">
+                        <Path.Data>
+                            <PathGeometry Figures="M155.771 26.331C69.74 26.331 0 96.071 0 182.102c0 37.488 13.25 71.883 35.314 98.761    c3.404-27.256 30.627-50.308 68.8-61.225c13.946 12.994 31.96 20.878 51.656 20.878c19.233 0 36.894-7.487 50.698-19.936    c38.503 11.871 65.141 36.27 66.017 64.63c24.284-27.472 39.056-63.555 39.056-103.108    C311.541 96.071 241.801 26.331 155.771 26.331z M155.771 222.069c-9.944 0-19.314-2.732-27.634-7.464    c-20.05-11.409-33.855-34.756-33.855-61.711c0-38.143 27.583-69.176 61.489-69.176c33.909 0 61.489 31.033 61.489 69.176    c0 27.369-14.237 51.004-34.786 62.215C174.379 219.523 165.346 222.069 155.771 222.069z" FillRule="NonZero"/>
+                        </Path.Data>
+                    </Path>
+                </Canvas>
+            </Viewbox>
+            <StackPanel  Grid.Column="1" Grid.Row="4" Orientation="Vertical">
+                <TextBlock Grid.Column="1" Text="{StaticResource application_login}" FontSize="36" FontStyle="Normal" Grid.Row="0" Name="lblLogin" HorizontalAlignment="Center"  VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Foreground ="Red" FontSize="16" FontStyle="Normal" Grid.Row="0" Name="lblHienThi"  HorizontalAlignment="Center" VerticalAlignment="Top"/>
+            </StackPanel>
+            <Grid Name="grdLogin" Grid.Row="5" Grid.Column="1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20" />
+                    <RowDefinition Height="5" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="10" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="45" />
+                </Grid.RowDefinitions>
+                <dxe:TextEdit Name="txtUserName" Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="2" TabIndex="1" FontWeight="Bold"   NullText="{StaticResource lblUserName}" KeyDown="txtUserName_KeyDown" />
+                <dxe:PasswordBoxEdit Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="4" TabIndex="2" Name="txtPassword" KeyDown="txtPassword_KeyDown" NullText="{StaticResource lblPassWord}" Password="123123" />
+                <Button Grid.Column="0" Grid.Row="5" TabIndex="3" Name="btnLogin"  Content="Đăng nhập"  Click="btnLogin_Click"  Grid.ColumnSpan="4" />
+               
+
+            </Grid>
+
+
+            <Grid Grid.Row="3" Name="grdLoading" Visibility="Hidden">
+                <Grid.Background>
+                    <SolidColorBrush Color="White" Opacity="0.6"/>
+                </Grid.Background>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="2" Name="clock"  Foreground="Red" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" FontSize="30" />
+            </Grid>
+        </Grid>
+    </Border>
+</Controls:MetroWindow>

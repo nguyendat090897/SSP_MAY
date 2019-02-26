@@ -1,0 +1,216 @@
+﻿using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Warehouse.Resources;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Input;
+using DevExpress.Xpf.Grid;
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    ///  Author:	 Ngo Gia Thien
+    ///  Create date: 22/03/2018
+    ///  Editor:      
+    ///  Modify date: 
+    ///  Description: Xay dung dinh muc bo sung thong tin tieng viet tim kiem san pham
+    /// </summary>
+    public partial class frm_XDDinhMuc_BoSung_TTTViet_TimKiemSP : PopupBase
+    {
+        DataTable iDataSource = null;
+        DataRow iRowSelGb = null;
+        GridHelper iGridHelper = null;
+        IclsCommonBussiness clsCommon;
+        IYEUCAU_NHAPKHOBussiness Yeucauxuatkho_bus;
+        public frm_XDDinhMuc_BoSung_TTTViet_TimKiemSP()
+        {
+            InitializeComponent();
+            Yeucauxuatkho_bus = new YEUCAU_NHAPKHOBussiness(string.Empty);
+            clsCommon = new clsCommonBussiness(string.Empty);
+            this.iDataSource = this.TableSchemaDefineBingding();
+            this.DataContext = this.iDataSource;
+            BuildCombobox();
+            Initialize_Grid();
+
+        }
+
+        private DataTable TableSchemaDefineBingding()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("MA_ITEM_TYPE", typeof(string));
+                xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "TableSchemaDefineBingding()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            return xDt;
+        }
+
+        private void BuildCombobox()
+        {
+            try
+            {
+                DataTable dt = new DataTable();
+                dt = clsCommon.GetList_ITEM_TYPE();
+                if (dt != null)
+                {
+                    ComboBoxUtil.SetComboBoxEdit(cboItemType, "TEN_ITEM_TYPE", "MA_ITEM_TYPE", dt, SelectionTypeEnum.Native);
+                    ComboBoxUtil.InsertItem(cboItemType, Convert.ToString(UtilLanguage.ApplyLanguage()["lblChonAll"]), "0", 0);
+                    this.iDataSource.Rows[0]["MA_ITEM_TYPE"] = cboItemType.GetKeyValue(0);
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "BuildCombobox()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+
+            }
+
+        }
+
+        private void Initialize_Grid()
+        {
+            try
+            {
+                this.iGridHelper = new GridHelper(this.grdSPALL, this.grdViewSPALL, false);
+                Column xColumn;
+
+                xColumn = new Column("ROWNUM", Convert.ToString(UtilLanguage.ApplyLanguage()["lblOrderNo"]));
+                xColumn.Width = 50;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("MA_SANPHAM", Convert.ToString(UtilLanguage.ApplyLanguage()["lbl_MaSanPham"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("MA_SANPHAM_KH", Convert.ToString(UtilLanguage.ApplyLanguage()["lbl_MaSanPhamKhachHang"]));
+                xColumn.Width = 120;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("TEN_SANPHAM", Convert.ToString(UtilLanguage.ApplyLanguage()["lbl_TenSPham"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("MA_VACH", Convert.ToString(UtilLanguage.ApplyLanguage()["lbl_MaVach"]));
+                xColumn.Width = 200;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("HOATCHAT_CHINH", Convert.ToString(UtilLanguage.ApplyLanguage()["lbl_ThanhPhan"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("TEN_DONVI_TINH", Convert.ToString(UtilLanguage.ApplyLanguage()["lbl_DonViTinh"]));
+                xColumn.Width = 150;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+
+                xColumn = new Column("TEN_NGUON_NHAP", Convert.ToString(UtilLanguage.ApplyLanguage()["blb_NguonNhap"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("GIABAN_LE", Convert.ToString(UtilLanguage.ApplyLanguage()["lbl_GiaBanLe"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                this.iGridHelper.Initialize();
+                //this.grdViewDMSP.AutoWidth = false;
+                //hoapd set filter
+                setAutoFilterConditionGrid(this.grdSPALL);
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "Initialize_Grid()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+
+        private void setAutoFilterConditionGrid(GridControl grd)
+        {
+            try
+            {
+                for (int i = 0; i < grd.Columns.Count; i++)
+                {
+                    grd.Columns[i].ColumnFilterMode = ColumnFilterMode.DisplayText;
+                    grd.Columns[i].AutoFilterCondition = AutoFilterCondition.Contains;
+
+                }
+
+            }
+            catch
+            {
+
+            }
+
+        }
+
+        private void cboItemType_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
+        {
+            try
+            {
+                DataTable dtSP = Yeucauxuatkho_bus.DM_SANPHAM_GET_LIST_ALL_BY_TYPE(ConstCommon.DonViQuanLy, this.iDataSource.Rows[0]["MA_ITEM_TYPE"].ToString());
+                if (dtSP != null)
+                {
+                    this.iGridHelper.BindItemSource(dtSP);
+                }
+                else
+                {
+                    grdSPALL.ItemsSource= null;
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "Initialize_Grid()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+
+
+        }
+    }
+
+}

@@ -1,0 +1,14 @@
+using DSofT.Framework.Internal.ApiListener.Filters;
+using System.Web.Http;
+
+namespace DSofT.FoodWarehouse.ApiListener
+{
+    public class WebApiApplication : System.Web.HttpApplication
+    {
+        protected void Application_Start()
+        {
+            GlobalConfiguration.Configuration.Filters.Add(new ExceptionApiAttribute());
+            GlobalConfiguration.Configure(WebApiConfig.Register);
+        }
+    }
+}

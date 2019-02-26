@@ -1,0 +1,60 @@
+
+using DSofT.Warehouse.Provider;
+using System.Data;
+using System.Transactions;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface IKho_DuyetPhieuYeuCau_DVBussiness
+    {
+        int InsertorUpdateKho_Lam_Phieu_DV(string MA_DVIQLY, DataTable dtInput, string User);
+        DataTable GetListKho_Lam_Phieu_DV(string MA_DVIQLY);
+        DataSet GetListKho_Lam_Phieu_DV_By_ID(string MA_DVIQLY, int PHIEUYEUCAU_DV_ID);
+        DataTable GetListDM_KHO(string pMA_DVIQLY);
+        DataTable DM_KHO_KHUVUC_GET_LIST_BY_KHO(string pMA_DVIQLY, long pKHO_ID);
+        DataTable GetData_Loai_DV(string MA_DVIQLY);
+        DataTable GetList_LamPhieuDV_CTiet_NVL(string MA_DVIQLY, int PHIEUYEUCAU_DV_ID);
+        int Update_Kho_Lam_Phieu_DV(string MA_DVIQLY, DataTable dtInput, string User);
+    }
+    public class Kho_DuyetPhieuYeuCau_DVBussiness : IKho_DuyetPhieuYeuCau_DVBussiness
+    {
+        IKho_DuyetPhieuYeuCau_DVProvider _Kho_DuyetPhieuYeuCau_DVProvider;
+        public Kho_DuyetPhieuYeuCau_DVBussiness(string appId, string userId = "0")
+        {
+            _Kho_DuyetPhieuYeuCau_DVProvider = new Kho_DuyetPhieuYeuCau_DVProvider(appId, userId);
+        }
+        public int Update_Kho_Lam_Phieu_DV(string MA_DVIQLY, DataTable dtInput, string User)
+        {
+            return _Kho_DuyetPhieuYeuCau_DVProvider.Update_Kho_Lam_Phieu_DV(MA_DVIQLY, dtInput, User);
+        }
+        public DataTable GetList_LamPhieuDV_CTiet_NVL(string MA_DVIQLY, int PHIEUYEUCAU_DV_ID)
+        {
+            return _Kho_DuyetPhieuYeuCau_DVProvider.GetList_LamPhieuDV_CTiet_NVL(MA_DVIQLY, PHIEUYEUCAU_DV_ID);
+        }
+        public int InsertorUpdateKho_Lam_Phieu_DV(string MA_DVIQLY, DataTable dtInput, string User)
+        {
+           return _Kho_DuyetPhieuYeuCau_DVProvider.InsertorUpdateKho_Lam_Phieu_DV(MA_DVIQLY, dtInput, User);
+        }
+        public DataTable DM_KHO_KHUVUC_GET_LIST_BY_KHO(string pMA_DVIQLY, long pKHO_ID)
+        {
+            return _Kho_DuyetPhieuYeuCau_DVProvider.DM_KHO_KHUVUC_GET_LIST_BY_KHO(pMA_DVIQLY, pKHO_ID);
+        }
+        public DataTable GetListDM_KHO(string pMA_DVIQLY)
+        {
+            return _Kho_DuyetPhieuYeuCau_DVProvider.GetListDM_KHO(pMA_DVIQLY);
+        }
+        
+        public DataTable GetListKho_Lam_Phieu_DV(string MA_DVIQLY)
+        {
+            return _Kho_DuyetPhieuYeuCau_DVProvider.GetListKho_Lam_Phieu_DV(MA_DVIQLY);
+        }
+        public DataSet GetListKho_Lam_Phieu_DV_By_ID(string MA_DVIQLY, int PHIEUYEUCAU_DV_ID)
+        {
+            return _Kho_DuyetPhieuYeuCau_DVProvider.GetListKho_Lam_Phieu_DV_By_ID(MA_DVIQLY, PHIEUYEUCAU_DV_ID);
+        }
+        public DataTable GetData_Loai_DV(string MA_DVIQLY)
+        {
+            return _Kho_DuyetPhieuYeuCau_DVProvider.GetData_Loai_DV(MA_DVIQLY);
+        }
+    }
+}

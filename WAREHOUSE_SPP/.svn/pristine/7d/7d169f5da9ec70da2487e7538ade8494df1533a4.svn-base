@@ -1,0 +1,122 @@
+
+using DSofT.Warehouse.Provider;
+using System;
+using System.Data;
+using System.Transactions;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface IYEUCAU_NHAPKHOBussiness
+    {
+
+        DataTable GetData_For_Cbo_KhachHang_Ncc(string pMA_DVIQLY);
+        DataTable getDIADIEM_XUATHANG_BY_NCC(string pMA_DVIQLY, long pKHACHHANG_NCC_ID);
+        DataTable getSO_HOPDONG_BY_NCC(string pMA_DVIQLY, long pKHACHHANG_NCC_ID);
+        DataTable getDM_HINHTHU_NHAPXUAT(string pN_OR_X);
+        DataTable getDONVIVANCHUYEN_BY_NCC(string pMA_DVIQLY, long pKHACHHANG_NCC_ID);
+        DataTable DM_SANPHAM_GET_LIST_ALL_BY_TYPE(string pMA_DVIQLY, string pMA_ITEM_TYPE);
+        DataTable GetListDM_KHO(string pMA_DVIQLY);
+        DataTable DM_KHO_KHUVUC_GET_LIST_BY_KHO(string pMA_DVIQLY, long pKHO_ID);
+        DataSet InsertKO_PHIEUYEUCAU_NHAPKHO(DataTable dtDauphieu, DataTable dtPhieu_Ctiet, string pUser);
+    }
+    public class YEUCAU_NHAPKHOBussiness : IYEUCAU_NHAPKHOBussiness
+    {
+        IYEUCAU_NHAPKHOProvider _DM_KHOProvider;
+        public YEUCAU_NHAPKHOBussiness(string appId, string userId = "0")
+        {
+            _DM_KHOProvider = new YEUCAU_NHAPKHOProvider(appId, userId);
+        }
+
+        public DataTable GetData_For_Cbo_KhachHang_Ncc(string pMA_DVIQLY)
+        {
+            return _DM_KHOProvider.GetData_For_Cbo_KhachHang_Ncc(pMA_DVIQLY);
+        }
+
+        public DataTable getDIADIEM_XUATHANG_BY_NCC(string pMA_DVIQLY, long pKHACHHANG_NCC_ID)
+        {
+            return _DM_KHOProvider.getDIADIEM_XUATHANG_BY_NCC(pMA_DVIQLY, pKHACHHANG_NCC_ID);
+        }
+
+        public DataTable DM_SANPHAM_GET_LIST_ALL_BY_TYPE(string pMA_DVIQLY, string pMA_ITEM_TYPE)
+        {
+            return _DM_KHOProvider.DM_SANPHAM_GET_LIST_ALL_BY_TYPE(pMA_DVIQLY, pMA_ITEM_TYPE);
+        }
+
+
+        public DataSet InsertKO_PHIEUYEUCAU_NHAPKHO(DataTable dtDauphieu, DataTable dtPhieu_Ctiet, string pUser)
+        {
+
+            DataSet ds_return =null;
+            long pPHIEUYEUCAU_NHAPKHO_ID = 0;
+            long pPHIEUYEUCAU_NHAPKHO_CTIET_ID = 0;
+            using (var trans = new TransactionScope(TransactionScopeOption.Required,
+                             new TransactionOptions { IsolationLevel = System.Transactions.IsolationLevel.ReadUncommitted }))
+            {
+
+
+                pPHIEUYEUCAU_NHAPKHO_ID = _DM_KHOProvider.InsertKO_PHIEUYEUCAU_NHAPKHO(dtDauphieu, pUser);
+                if (((dtPhieu_Ctiet != null) && (dtPhieu_Ctiet.Rows.Count > 0)) && (pPHIEUYEUCAU_NHAPKHO_ID > 0))
+                {
+                    for (int i = 0; i < dtPhieu_Ctiet.Rows.Count; i++)
+                    {
+                        dtPhieu_Ctiet.Rows[i]["PHIEUYEUCAU_NHAPKHO_ID"] = pPHIEUYEUCAU_NHAPKHO_ID;
+                        pPHIEUYEUCAU_NHAPKHO_CTIET_ID = _DM_KHOProvider.InsertKO_PHIEUYEUCAU_NHAPKHO_CTIET(dtPhieu_Ctiet.Rows[i], pUser);
+                        if (pPHIEUYEUCAU_NHAPKHO_CTIET_ID <= 0)
+                        {
+                            return null;
+                        }
+
+                    }
+                }
+                else
+                {
+                    return null;
+                }
+                trans.Complete();
+                
+            }
+            ds_return = _DM_KHOProvider.getKO_PHIEUYEUCAU_NHAPKHO(dtDauphieu.Rows[0]["MA_DVIQLY"].ToString(), pPHIEUYEUCAU_NHAPKHO_ID);
+            return ds_return;
+        }
+
+        public DataTable getSO_HOPDONG_BY_NCC(string pMA_DVIQLY, long pKHACHHANG_NCC_ID)
+        {
+
+            return _DM_KHOProvider.getSO_HOPDONG_BY_NCC(pMA_DVIQLY, pKHACHHANG_NCC_ID);
+        }
+
+
+        public DataTable DM_KHO_KHUVUC_GET_LIST_BY_KHO(string pMA_DVIQLY, long pKHO_ID)
+        {
+
+            return _DM_KHOProvider.DM_KHO_KHUVUC_GET_LIST_BY_KHO(pMA_DVIQLY, pKHO_ID);
+        }
+
+
+
+        public DataTable GetListDM_KHO(string pMA_DVIQLY)
+        {
+
+            return _DM_KHOProvider.GetListDM_KHO(pMA_DVIQLY);
+        }
+
+
+        public DataTable getDM_HINHTHU_NHAPXUAT(string pN_OR_X)
+        {
+            return _DM_KHOProvider.getDM_HINHTHU_NHAPXUAT(pN_OR_X);
+
+        }
+
+
+        public DataTable getDONVIVANCHUYEN_BY_NCC(string pMA_DVIQLY, long pKHACHHANG_NCC_ID)
+        {
+
+
+            return _DM_KHOProvider.getDONVIVANCHUYEN_BY_NCC(pMA_DVIQLY, pKHACHHANG_NCC_ID);
+
+
+        }
+
+
+    }
+}

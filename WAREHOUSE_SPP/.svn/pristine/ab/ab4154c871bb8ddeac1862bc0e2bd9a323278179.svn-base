@@ -1,0 +1,7 @@
+public static class ConstCommon
+{
+    public const string PAGE_404 = "_404";
+    public const string PAGE_HOME = "Default";
+    public const string PAGE_SERVER_OVERLOAD = "_ServerOverload";
+    public const string PAGE_LOGIN = "/dang-nhap";
+}

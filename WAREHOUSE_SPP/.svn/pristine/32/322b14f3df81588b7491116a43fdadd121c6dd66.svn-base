@@ -1,0 +1,53 @@
+
+using DSofT.Warehouse.Provider;
+using System.Data;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface IDM_PALLET_DIEUCHUYEN_CTIETBussiness
+    {
+        bool InsertorUpdateDM_PALLET_DIEUCHUYEN_CTIET(DataTable dst);
+        bool DeleteDM_PALLET_DIEUCHUYEN_CTIET(string pMA_DVIQLY, long PALLET_DIEUCHUYEN_CTIET_ID, string pModifiedBy);
+        DataTable GetListDM_PALLET_DIEUCHUYEN_CTIET(string pMA_DVIQLY, long pPALLET_DIEUCHUYEN_ID);
+        DataTable GetListDM_PALLET_DIEUCHUYEN_DONVIQUANLY();
+        //DataTable GetListDM_PALLET_NHOM_PALLET(string pMA_DVIQLY);
+        //DataTable GetListDM_PALLET_BY_ID(string pMA_DVIQLY, long pNHOM_PALLET_ID);
+        //DataTable GetListDM_PALLET_DIEUCHUYEN_CTIET_KEY(string pMA_DVIQLY, long pPALLET_ID, string pLOAI_DIEUCHUYEN_CTIET, string pNGAY_DIEUCHUYEN_CTIET);
+    }
+    public class DM_PALLET_DIEUCHUYEN_CTIETBussiness : IDM_PALLET_DIEUCHUYEN_CTIETBussiness
+    {
+        IDM_PALLET_DIEUCHUYEN_CTIETProvider _DM_PALLET_DIEUCHUYEN_CTIETProvider;
+        public DM_PALLET_DIEUCHUYEN_CTIETBussiness(string appId, string userId = "0")
+        {
+            _DM_PALLET_DIEUCHUYEN_CTIETProvider = new DM_PALLET_DIEUCHUYEN_CTIETProvider(appId, userId);
+        }
+       public bool InsertorUpdateDM_PALLET_DIEUCHUYEN_CTIET(DataTable dst)
+        {
+            return _DM_PALLET_DIEUCHUYEN_CTIETProvider.InsertorUpdateDM_PALLET_DIEUCHUYEN_CTIET(dst);
+        }
+        public bool DeleteDM_PALLET_DIEUCHUYEN_CTIET(string pMA_DVIQLY, long PALLET_DIEUCHUYEN_CTIET_ID, string pModifiedBy)
+        {
+            return _DM_PALLET_DIEUCHUYEN_CTIETProvider.DeleteDM_PALLET_DIEUCHUYEN_CTIET(pMA_DVIQLY, PALLET_DIEUCHUYEN_CTIET_ID, pModifiedBy);
+        }
+        public DataTable GetListDM_PALLET_DIEUCHUYEN_CTIET(string pMA_DVIQLY, long pPALLET_DIEUCHUYEN_ID)
+        {
+            return _DM_PALLET_DIEUCHUYEN_CTIETProvider.GetListDM_PALLET_DIEUCHUYEN_CTIET(pMA_DVIQLY, pPALLET_DIEUCHUYEN_ID);
+        }
+        public DataTable GetListDM_PALLET_DIEUCHUYEN_DONVIQUANLY()
+        {
+            return _DM_PALLET_DIEUCHUYEN_CTIETProvider.GetListDM_PALLET_DIEUCHUYEN_DONVIQUANLY();
+        }
+        //public DataTable GetListDM_PALLET_BY_ID(string pMA_DVIQLY, long pNHOM_PALLET_ID)
+        //{
+        //    return _DM_PALLET_DIEUCHUYEN_CTIETProvider.GetListDM_PALLET_BY_ID(pMA_DVIQLY, pNHOM_PALLET_ID);
+        //}
+        //public DataTable GetListDM_PALLET_NHOM_PALLET(string pMA_DVIQLY)
+        //{
+        //    return _DM_PALLET_DIEUCHUYEN_CTIETProvider.GetListDM_PALLET_NHOM_PALLET(pMA_DVIQLY);
+        //}
+        //public DataTable GetListDM_PALLET_DIEUCHUYEN_CTIET_KEY(string pMA_DVIQLY, long pPALLET_ID, string pLOAI_DIEUCHUYEN_CTIET, string pNGAY_DIEUCHUYEN_CTIET)
+        //{
+        //    return _DM_PALLET_DIEUCHUYEN_CTIETProvider.GetListDM_PALLET_DIEUCHUYEN_CTIET_KEY(pMA_DVIQLY, pPALLET_ID, pLOAI_DIEUCHUYEN_CTIET, pNGAY_DIEUCHUYEN_CTIET);
+        //}
+    }
+}

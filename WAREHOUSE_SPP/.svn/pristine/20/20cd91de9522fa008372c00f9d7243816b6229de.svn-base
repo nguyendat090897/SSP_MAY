@@ -1,0 +1,220 @@
+﻿using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Resources;
+using DevExpress.Xpf.Grid;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Windows;
+using System.Windows.Input;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Framework.UICore.TaskProxy;
+
+namespace DSofT.Warehouse.UI
+{/// 
+    /// <summary>
+    /// </summary>
+    public partial class frm_dm_LoaiSanPham : ControlBase
+    {
+        DataRow iRowSelGb = null;
+        DataTable iDataSource = null;
+        GridHelper iGridHelper = null;
+        DataTable iGridDataSource = null;
+        IDM_LOAI_SPHAMBussiness _DM_LOAI_SPHAMBussiness;
+        public static bool status = true;
+        public frm_dm_LoaiSanPham()
+        {
+            _DM_LOAI_SPHAMBussiness = new DM_LOAI_SPHAMBussiness(string.Empty);
+            InitializeComponent();
+            Initialize_Grid(); 
+            this.iDataSource = this.TableSchemaDefineBingding();
+            this.DataContext = this.iDataSource;
+            LoadData();
+        }
+        /// <summary>
+        /// TableSchemaDefineBingding
+        /// </summary>
+        private DataTable TableSchemaDefineBingding()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("LOAI_SPHAM_ID", typeof(decimal));
+                xDicUser.Add("MA_DVIQLY", typeof(string));
+                xDicUser.Add("TEN_NHOM_SPHAM", typeof(string));
+                xDicUser.Add("MA_LOAI_SPHAM", typeof(string));
+                xDicUser.Add("TEN_LOAI_SPHAM", typeof(string));
+                xDicUser.Add("TINH_TRANG", typeof(Int16));
+                xDicUser.Add("NHOM_SPHAM_ID", typeof(decimal));
+                xDicUser.Add("RowVersion", typeof(long));
+                xDicUser.Add("IsDelete", typeof(bool));
+                xDicUser.Add("CreateBy", typeof(string));
+                xDicUser.Add("CreateDate", typeof(DateTime));
+                xDicUser.Add("ModifiedBy", typeof(string));
+                xDicUser.Add("ModifiedDate", typeof(DateTime));
+
+                xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return xDt;
+        }
+        /// <summary>
+        /// Initialize_Grid_DanhSachLoaiPallet
+        /// </summary>
+        private void Initialize_Grid()
+        {
+            try
+            {
+                this.iGridHelper = new GridHelper(this.grd, this.grdView, false);
+                Column xColumn;
+
+                xColumn = new Column("ROWNUM", Convert.ToString(UtilLanguage.ApplyLanguage()["lblOrderNo"]));
+                xColumn.Width = 50;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("MA_LOAI_SPHAM", Convert.ToString(UtilLanguage.ApplyLanguage()["lblMaLoaiSanPham"]));
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("TEN_LOAI_SPHAM", Convert.ToString(UtilLanguage.ApplyLanguage()["lblTenLoaiSanPham"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("TEN_NHOM_SPHAM", Convert.ToString(UtilLanguage.ApplyLanguage()["lblNhomSanPham"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("TINH_TRANG", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_dm_khachhang_ncc_TinhTrang"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                this.iGridHelper.Initialize();
+                this.grdView.AutoWidth = true;
+
+
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "Initialize_Grid()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// btnNew_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnNew_Click(object sender, RoutedEventArgs e)
+        {
+            status = true;
+            try
+            {
+                object xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_dm_LoaiSanPham_popup", null);
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnNew.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        private void LoadData()
+        {
+            try
+            {
+                using (var task = new AsyncTaskProcess(this))
+                {
+                    ServiceAction<DataTable> action = ((pd) =>
+                    {
+                        task.SetCallContext();
+                        return _DM_LOAI_SPHAMBussiness.GetListDM_LOAI_SPHAM(ConstCommon.DonViQuanLy);
+                    });
+                    Action<DataTable> onComplete = (dt =>
+                    {
+                        this.Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            this.iGridDataSource = dt;
+                            this.iGridHelper.BindItemSource(this.iGridDataSource);
+                        }));
+                    });
+                    task.AsyncTaskExecute(action, onComplete);
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "LoadData()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        private void grdView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            status = false;
+            try
+            {
+                if (iDataSource.Rows.Count == 0) return;
+                iRowSelGb = ((DataRowView)this.grd.GetFocusedRow()).Row;
+                object xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_dm_LoaiSanPham_popup", iRowSelGb);
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "grdView_MouseDoubleClick()");
+                base.ShowMessage(MessageType.Information, "Vui lòng chọn dòng dữ liệu cụ thể!", ex);
+            }
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                iRowSelGb = null;
+                if (!base.ShowMessage(MessageType.OkCancel, Convert.ToString(UtilLanguage.ApplyLanguage()["lblcomfrimDelete"])))
+                    return;
+                iRowSelGb = ((DataRowView)grd.GetFocusedRow()).Row;
+                bool result = _DM_LOAI_SPHAMBussiness.DeleteDM_LOAI_SPHAM(ConstCommon.DonViQuanLy, Convert.ToInt32(iRowSelGb["LOAI_SPHAM_ID"].ToString()), CommonDataHelper.UserName);
+                if (!result)
+                {
+                    base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageFailed"]));
+                    return;
+                }
+                else
+                {
+                    ToastMessage.ShowToastMessage(Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessage"]), Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageSuccess"]), notificationService);
+                }
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnDelete.Tag.ToString());
+                base.ShowMessage(MessageType.Error, "Vui lòng chọn dữ liệu cần xóa!", ex);
+            }
+        }
+
+        private void btnRefresh_Click(object sender, RoutedEventArgs e)
+        {
+            LoadData();
+        }
+    }
+}

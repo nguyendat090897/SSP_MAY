@@ -1,0 +1,20 @@
+﻿DSofT.Warehouse.UI
+
+
+library
+C#
+.cs
+E:\DVSoft\DVS.Warehouse\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.UI\obj\Debug\
+DSofT.Warehouse.UI
+none
+false
+DEBUG;TRACE
+
+32-407180852
+5-461396548
+38420221092
+48421291989
+frm_Inventory.xaml;frm_FoodReality.xaml;popupInventoryCalculated.xaml;frm_Unit.xaml;frm_GroupMaterial.xaml;frm_Supplier.xaml;frm_Warehouse.xaml;frm_ExportWarehousingMaterials.xaml;frm_QuantitativeFoodV02.xaml;frm_School.xaml;frm_ReportMaterialWeek.xaml;frm_ImportWarehousingMaterials.xaml;frm_FoodMenu.xaml;frm_Food.xaml;popupSupplier.xaml;popupWarehouse.xaml;popupSchools.xaml;popupFood.xaml;popupMaterial.xaml;frm_Material.xaml;frm_FoodTypes.xaml;frm_Menu.xaml;frm_UserRole.xaml;popup_ChangePassword.xaml;frm_User.xaml;frm_UserType.xaml;popup_ExportWarehousingMaterials.xaml;popup_ImportWarehousingMaterials.xaml;popup_Menu.xaml;PrintDialogModel.xaml;PrintDialogShift.xaml;Properties\DesignTimeResources.xaml;
+
+False
+

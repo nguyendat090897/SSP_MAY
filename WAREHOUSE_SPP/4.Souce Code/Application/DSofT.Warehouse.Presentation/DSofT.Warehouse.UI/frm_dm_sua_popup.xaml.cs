@@ -1,0 +1,31 @@
+﻿using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Warehouse.Resources;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Input;
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    /// Interaction logic for frm_dm_sua_poppup.xaml
+    /// </summary>
+    public partial class frm_dm_sua_popup : PopupBase
+    {
+        public frm_dm_sua_popup()
+        {
+            InitializeComponent();
+        }
+
+        private void RadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+    }
+}

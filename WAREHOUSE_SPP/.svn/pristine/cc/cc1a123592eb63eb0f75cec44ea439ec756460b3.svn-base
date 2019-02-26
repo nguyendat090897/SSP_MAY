@@ -1,0 +1,263 @@
+﻿using DSofT.Framework.Internal.Data;
+using DSofT.Framework.UIControl;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+
+namespace DSofT.Warehouse.Provider
+{
+    public interface IXD_DM_SPKMAIProvider
+    {
+        long InsertHT_DINHMUC_TEMTOA(DataTable dst);
+        long InsertHT_DINHMUC_TEMTOA_NVL_THUNG(DataRow dst);
+        long InsertHT_DINHMUC_TEMTOA_NVL_SP(DataRow dst);
+        DataSet getHT_DINHMUC_TEMTOA(string pMA_DVIQLY, long pDINHMUC_TEMTOA_ID);
+        DataSet getHT_DINHMUC_TEMTOA_ALL(string pMA_DVIQLY);
+        bool HT_DINHMUC_TEMTOA_DELETE_BYID(string pMA_DVIQLY, long pDINHMUC_TEMTOA_ID, string pUser);
+        DataTable HT_DINHMUC_TEMTOA_NVL_THUNG_DELETE(string pMA_DVIQLY, long pDINHMUC_TEMTOA_NVL_THUNG_ID, string pUser);
+        DataTable HT_DINHMUC_TEMTOA_NVL_SP_DELETE(string pMA_DVIQLY, long pDINHMUC_TEMTOA_NVL_SP_ID, string pUser);
+        DataTable GetListHT_DINHMUC_TEMTOA_ID(string pMA_DVIQLY);
+        DataTable GetListHT_DINHMUC_TEMTOA_CHIPHI_DV_GET_TENDV(string pMA_DVIQLY);
+        DataTable HT_DINHMUC_TEMTOA_CHIPHI_DV_GET_LIST_ALL(string pMA_DVIQLY, long pDINHMUC_TEMTOA_ID);
+        bool InsertOrUpdateHT_DINHMUC_TEMTOA_CHIPHI_DV(DataTable dst);
+        DataTable HT_DINHMUC_TEMTOA_CHIPHI_DV_DELETE(string pMA_DVIQLY, long pDINHMUC_TEMTOA_CHIPHI_DV_ID, string pUser);
+        bool UpdateHT_DINHMUC_TEMTOA_CPDV(DataTable dst);
+        bool HT_DINHMUC_TEMTOA_CHIPHI_DV_CHECKEXISTS(string pMA_DVIQLY, long pDINHMUC_TEMTOA_CHIPHI_DV_ID, long pDINHMUC_TEMTOA_ID, long pDICHVU_TEMTOA_ID);
+        bool HT_DINHMUC_TEMTOA_CHECKEXISTS(string pMA_DVIQLY, long pDINHMUC_TEMTOA_ID, long pSANPHAM_ID);
+    }
+    public class XD_DM_SPKMAIProvider : BaseSqlExecute, IXD_DM_SPKMAIProvider
+    {
+        public XD_DM_SPKMAIProvider(string appId, string userId) :
+         base(DbCommon.WarehouseDbConnstr, appId, userId)
+        { }
+        public long InsertHT_DINHMUC_TEMTOA(DataTable dst)
+        {
+            var paramObj = new object[]{
+                            dst.Rows[0]["MA_DVIQLY"],
+                            ConstCommon.NVL_NUM_LONG_NEW (dst.Rows[0]["DINHMUC_TEMTOA_ID"]),
+                            "KIT",
+                            dst.Rows[0]["MA_ITEM_TYPE"],
+                            dst.Rows[0]["SANPHAM_ID"],
+                            dst.Rows[0]["SOLUONG_DONGGOI"],
+                            dst.Rows[0]["MA_DONVI_TINH_DONGGOI"],
+                            dst.Rows[0]["CHIPHI_DICHVU"],
+                            dst.Rows[0]["NHANTHEM_TYLE"],
+                            dst.Rows[0]["GIANHAP"],
+                            dst.Rows[0]["GIABAN"],
+                            dst.Rows[0]["GHI_CHU"],
+                            CommonDataHelper.UserName
+                             };
+
+            var result = base.ExecScalar("HT_DINHMUC_TEMTOA_INSERT", paramObj);
+            if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+            {
+                return NumberHelper.ConvertStringToLong(result.ToString());
+            }
+            return 0;
+
+        }
+
+        public long InsertHT_DINHMUC_TEMTOA_NVL_THUNG(DataRow dst)
+        {
+            var paramObj = new object[]{
+                            dst["MA_DVIQLY"],
+                            ConstCommon.NVL_NUM_LONG_NEW(dst["DINHMUC_TEMTOA_NVL_THUNG_ID"]),
+                            dst["DINHMUC_TEMTOA_ID"],
+                            dst["MA_ITEM_TYPE"],
+                            dst["SANPHAM_ID"],
+                            dst["SOLUONG"],
+                            dst["GIANHAP"],
+                            dst["THANHTIEN"],
+                            dst["TIEU_HAO"],
+                            CommonDataHelper.UserName
+                             };
+            var result = base.ExecScalar("HT_DINHMUC_TEMTOA_NVL_THUNG_INSERT", paramObj);
+            if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+            {
+                return NumberHelper.ConvertStringToLong(result.ToString());
+            }
+            return 0;
+        }
+
+        public long InsertHT_DINHMUC_TEMTOA_NVL_SP(DataRow dst)
+        {
+            var paramObj = new object[]{
+                            dst["MA_DVIQLY"],
+                            ConstCommon.NVL_NUM_LONG_NEW (dst["DINHMUC_TEMTOA_NVL_SP_ID"]),
+                            dst["DINHMUC_TEMTOA_ID"],
+                            dst["MA_ITEM_TYPE"],
+                            dst["SANPHAM_ID"],
+                            dst["SOLUONG"],
+                            dst["TIEU_HAO"],
+                            dst["GIANHAP"],
+                            dst["THANHTIEN"],
+                            CommonDataHelper.UserName
+                             };
+            var result = base.ExecScalar("HT_DINHMUC_TEMTOA_NVL_SP_INSERT", paramObj);
+            if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+            {
+                return NumberHelper.ConvertStringToLong(result.ToString());
+            }
+            return 0;
+        }
+
+        public DataSet getHT_DINHMUC_TEMTOA(string pMA_DVIQLY, long pDINHMUC_TEMTOA_ID)
+        {
+            var sqlParams = new object[] { pMA_DVIQLY, pDINHMUC_TEMTOA_ID };
+            var result = base.ExecuteDataSet("getHT_DINHMUC_TEMTOA_KIT", sqlParams);
+            if (result != null)
+            {
+                return result;
+            }
+            return null;
+
+        }
+
+        public DataSet getHT_DINHMUC_TEMTOA_ALL(string pMA_DVIQLY)
+        {
+
+            var sqlParams = new object[] { pMA_DVIQLY};
+            var result = base.ExecuteDataSet("getHT_DINHMUC_TEMTOA_ALL_KIT", sqlParams);
+            if (result != null)
+            {
+                return result;
+            }
+            return null;
+        }
+
+        public bool HT_DINHMUC_TEMTOA_DELETE_BYID(string pMA_DVIQLY, long pDINHMUC_TEMTOA_ID, string pUser)
+        {
+            var sqlParams = new object[] { pMA_DVIQLY, pDINHMUC_TEMTOA_ID, pUser };
+            var result = base.ExecuteDataSet("HT_DINHMUC_TEMTOA_DELETE_BYID", sqlParams);
+            if ((result != null) && (ConstCommon.NVL_NUM_NT_NEW(result.Tables[0].Rows[0][0]) > 0))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public DataTable HT_DINHMUC_TEMTOA_NVL_THUNG_DELETE(string pMA_DVIQLY, long pDINHMUC_TEMTOA_NVL_THUNG_ID, string pUser)
+        {
+            var sqlParams = new object[] { pMA_DVIQLY, pDINHMUC_TEMTOA_NVL_THUNG_ID, pUser };
+            var result = base.ExecuteDataSet("HT_DINHMUC_TEMTOA_NVL_THUNG_DELETE", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null; 
+        }
+
+        public DataTable HT_DINHMUC_TEMTOA_NVL_SP_DELETE(string pMA_DVIQLY, long pDINHMUC_TEMTOA_NVL_SP_ID, string pUser)
+        {
+            var sqlParams = new object[] { pMA_DVIQLY, pDINHMUC_TEMTOA_NVL_SP_ID, pUser };
+            var result = base.ExecuteDataSet("HT_DINHMUC_TEMTOA_NVL_SP_DELETE", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+
+        public DataTable GetListHT_DINHMUC_TEMTOA_ID(string pMA_DVIQLY)
+        {
+                var paramObj = new object[] { pMA_DVIQLY };
+                var result = base.ExecuteDataSet("HT_DINHMUC_TEMTOA_GET_ID", paramObj);
+                if (result != null)
+                {
+                    return result.Tables[0];
+                }
+                return null;
+        }
+
+        public DataTable GetListHT_DINHMUC_TEMTOA_CHIPHI_DV_GET_TENDV(string pMA_DVIQLY)
+        {
+            var paramObj = new object[] { pMA_DVIQLY };
+            var result = base.ExecuteDataSet("HT_DINHMUC_TEMTOA_CHIPHI_DV_GET_TENDV", paramObj);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+
+        public DataTable HT_DINHMUC_TEMTOA_CHIPHI_DV_GET_LIST_ALL(string pMA_DVIQLY, long pDINHMUC_TEMTOA_ID)
+        {
+          
+                var paramObj = new object[] { pMA_DVIQLY, pDINHMUC_TEMTOA_ID};
+                var result = base.ExecuteDataSet("HT_DINHMUC_TEMTOA_CHIPHI_DV_GET_LIST_ALL", paramObj);
+                if (result != null)
+                {
+                    return result.Tables[0];
+                }
+                return null;
+        }
+
+        public bool InsertOrUpdateHT_DINHMUC_TEMTOA_CHIPHI_DV(DataTable dst)
+        {
+            var paramObj = new object[]{
+                            ConstCommon.DonViQuanLy,
+                            ConstCommon.NVL_NUM_LONG_NEW (dst.Rows[0]["DINHMUC_TEMTOA_CHIPHI_DV_ID"]),
+                            dst.Rows[0]["DINHMUC_TEMTOA_ID"],
+                            dst.Rows[0]["DICHVU_TEMTOA_ID"],
+                            dst.Rows[0]["CHIPHI"],
+                            CommonDataHelper.UserName
+                             };
+
+            var result = base.ExecScalar("HT_DINHMUC_TEMTOA_CHIPHI_DV_INSERT", paramObj);
+            if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public DataTable HT_DINHMUC_TEMTOA_CHIPHI_DV_DELETE(string pMA_DVIQLY, long pDINHMUC_TEMTOA_CHIPHI_DV_ID, string pUser)
+        {
+            var sqlParams = new object[] { pMA_DVIQLY, pDINHMUC_TEMTOA_CHIPHI_DV_ID, pUser };
+            var result = base.ExecuteDataSet("HT_DINHMUC_TEMTOA_CHIPHI_DV_DELETE", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+
+        public bool UpdateHT_DINHMUC_TEMTOA_CPDV(DataTable dst)
+        {
+            var paramObj = new object[]{
+                            ConstCommon.DonViQuanLy,
+                            dst.Rows[0]["DINHMUC_TEMTOA_ID"],
+                            dst.Rows[0]["CHIPHI_DICHVU"],
+                            dst.Rows[0]["GIABAN"],
+                             };
+
+            var result = base.ExecScalar("HT_DINHMUC_TEMTOA_UPDATE_CPDV", paramObj);
+            if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+        public bool HT_DINHMUC_TEMTOA_CHIPHI_DV_CHECKEXISTS(string pMA_DVIQLY, long pDINHMUC_TEMTOA_CHIPHI_DV_ID, long pDINHMUC_TEMTOA_ID, long pDICHVU_TEMTOA_ID)
+        {
+            var sqlParams = new object[] { pMA_DVIQLY, pDINHMUC_TEMTOA_CHIPHI_DV_ID, pDINHMUC_TEMTOA_ID, pDICHVU_TEMTOA_ID };
+            var result = base.ExecuteDataSet("HT_DINHMUC_TEMTOA_CHIPHI_DV_CHECKEXISTS", sqlParams);
+            if ((result != null) && (ConstCommon.NVL_NUM_NT_NEW(result.Tables[0].Rows[0][0]) > 0))
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool HT_DINHMUC_TEMTOA_CHECKEXISTS(string pMA_DVIQLY,long pDINHMUC_TEMTOA_ID, long pSANPHAM_ID)
+        {
+            var sqlParams = new object[] { pMA_DVIQLY, pDINHMUC_TEMTOA_ID, pSANPHAM_ID };
+            var result = base.ExecuteDataSet("HT_DINHMUC_TEMTOA_CHECKEXISTS_KIT", sqlParams);
+            if ((result != null) && (ConstCommon.NVL_NUM_NT_NEW(result.Tables[0].Rows[0][0]) > 0))
+            {
+                return true;
+            }
+            return false;
+        }
+    }
+}

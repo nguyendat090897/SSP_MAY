@@ -1,0 +1,103 @@
+﻿<uicore:PopupBase x:Class="DSofT.Warehouse.UI.frm_DanhMucSanPham_Popup1"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"  
+             xmlns:uicore="clr-namespace:DSofT.Framework.UICore;assembly=DSofT.Framework.UICore"
+             xmlns:resText="clr-namespace:DSofT.Warehouse.Resources;assembly=DSofT.Warehouse.Resources"
+             xmlns:cntr="clr-namespace:DSofT.Framework.UIControl;assembly=DSofT.Framework.UIControl" 
+             xmlns:dxn="http://schemas.devexpress.com/winfx/2008/xaml/navbar" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:Controls="clr-namespace:DSofT.Framework.Metro.UIControls;assembly=DSofT.Framework.Metro.UIControls" 
+             Height="300" Width="750" >
+    <uicore:PopupBase.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/DSofT.Warehouse.Resources;component/CommonResource.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </uicore:PopupBase.Resources>
+    <Grid Background="Transparent">
+        <Grid.Resources>
+            <cntr:ConverterStringDateTime x:Key="ConverterStringDateTime"/>
+        </Grid.Resources>
+        <dxmvvm:Interaction.Behaviors>
+            <dxmvvm:NotificationService x:Name="notificationService" ApplicationId="DxToastTest" UseWin8NotificationsIfAvailable="True" 
+                                  PredefinedNotificationTemplate="{Binding ElementName=notificationStyle, Path=SelectedItem}"
+                                  CustomNotificationTemplate="{StaticResource CustomNotificationTemplate}"
+                                  Sound="Notification_Looping_Alarm8"
+                                  CustomNotificationPosition="BottomRight" CustomNotificationVisibleMaxCount="5" CustomNotificationDuration="0:0:3"/>
+        </dxmvvm:Interaction.Behaviors>
+        <Grid>
+            <!--Main Layout RowDefinition-->
+            <Grid.RowDefinitions>
+                <!--Button Area-->
+                <RowDefinition Height="auto"/>
+                <!--Blank-->
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <!--Selection Area Style : row=2-->
+            <Border x:Name="BrdBtnWrap" Grid.Row="0" Grid.ColumnSpan="2" Style="{StaticResource Sdk.Brd.BtnArea}">
+                <StackPanel Style="{StaticResource Sdk.Spnl.CommBtn.Right}">
+                    <Button Tag="{StaticResource btnSave}" HorizontalAlignment="Right" Name="btnSave" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center" Click="btnSave_Click" />
+                    <Button Tag="{StaticResource btnClose}" HorizontalAlignment="Right" Name="btnClose" Style="{StaticResource Sdk.Btn.Comm}" VerticalAlignment="Center" Click="btnClose_Click"/>
+                </StackPanel>
+            </Border>
+            <Border x:Name="nbcSearch" Grid.Row="1" Grid.ColumnSpan="2" Style="{StaticResource Sdk.Brd.BtnArea}">
+                <Grid x:Name="Selection_Area" Grid.Row="1" Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                        <RowDefinition Height="25"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="0.02*"/>
+                        <ColumnDefinition Width="0.02*"/>
+                        <ColumnDefinition Width="0.01*"/>
+                        <ColumnDefinition Width="0.04*"/>
+                        <ColumnDefinition Width="6"/>
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock  Grid.Row="0"   Grid.Column="0" Name="lbltrongluongthung" VerticalAlignment="Center"><Run Text="{DynamicResource lbl_TrongLuong}"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" MaskType="Numeric" Mask="###,###,##.#" Name="txtTrongLuong" Text="{Binding KHOI_LUONG}"/>
+                    <TextBlock  Grid.Row="0"   Grid.Column="3" Name="lblloaithung" VerticalAlignment="Center"><Run Text="{DynamicResource lblloaithung}"/></TextBlock>
+                    <dxe:ComboBoxEdit Grid.Row="0" Grid.Column="4" Name="cboLoaiThung" IsTextEditable="True" ValidateOnTextInput="False" EditValue="{Binding LOAI_THUNG,UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" IncrementalFiltering="True" ImmediatePopup="True" FilterCondition = "Contains" SelectedIndexChanged="cboLoaiThung_SelectedIndexChanged"/>
+
+                    <TextBlock  Grid.Row="1"   Grid.Column="0" Name="lblchieucaothung" VerticalAlignment="Center"><Run Text="{DynamicResource lblchieucaothung}"/><Run Text="{StaticResource lblDauSao}" Foreground="Red"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4"  Name="txtChieuCao" MaskType="Numeric" Mask="###.#" Text="{Binding CAO_MM}" EditValueChanged="txtChieuCao_EditValueChanged"/>
+
+                    <TextBlock  Grid.Row="2"   Grid.Column="0" Name="lblBanKinh" VerticalAlignment="Center"><Run Text="{DynamicResource lbl_BanKinh}"/><Run Text="{StaticResource lblDauSao}" Foreground="Red"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4"  Name="txtBanKinh" MaskType="Numeric" Mask="###.#" Text="{Binding BANKINH_MM}" IsEnabled="False" EditValueChanged="txtBanKinh_EditValueChanged" />
+
+                    <TextBlock  Grid.Row="3"   Grid.Column="0" Name="lblchieudaithung" VerticalAlignment="Center"><Run Text="{DynamicResource lblchieudaithung}"/><Run Text="{StaticResource lblDauSao}" Foreground="Red"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="4" Name="txtChieuDai" MaskType="Numeric" Mask="###.#" Text="{Binding DAI_MM}" IsEnabled="False" EditValueChanged="txtChieuDai_EditValueChanged"/>
+
+                    <TextBlock  Grid.Row="4"   Grid.Column="0" Name="lblchieurongthung" VerticalAlignment="Center"><Run Text="{DynamicResource lblchieurongthung}"/><Run Text="{StaticResource lblDauSao}" Foreground="Red"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="4" Name="txtChieuRong" MaskType="Numeric" Mask="###.#" Text="{Binding RONG_MM}" IsEnabled="False" EditValueChanged="txtChieuRong_EditValueChanged" />
+
+                    <TextBlock  Grid.Row="5"   Grid.Column="0" Name="lblthetichthung" VerticalAlignment="Center"><Run Text="{DynamicResource lblthetichthung}"/></TextBlock>
+                    <dxe:TextEdit Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="4" Name="txtThetich" MaskType="Numeric" Mask="###.##" EditValue="{Binding THE_TICH, UpdateSourceTrigger=PropertyChanged}"  IsEnabled="False" />
+
+                    <TextBlock Grid.Row="6" Grid.Column="0" Name="lblghichu" VerticalAlignment="Center"><Run Text="{DynamicResource lblGhiChu}" /></TextBlock>
+                    <dxe:TextEdit Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="2" Name="txtghichu"  Height="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Auto" VerticalContentAlignment="Top" TextWrapping="Wrap" Text="{Binding GHI_CHU}" MaxLength="250" ></dxe:TextEdit>
+
+                    <TextBlock  Grid.Row="9"   Grid.Column="0" Name="lblTinhTrang" VerticalAlignment="Center"><Run Text="{DynamicResource lblTinhTrang}"/><Run Text="{StaticResource lblDauSao}" Foreground="Red"/></TextBlock>
+                    <RadioButton Grid.Row="9" Grid.Column="1" Name="rbtSuDung" Content="Sử dụng" IsChecked="False"></RadioButton>
+                    <RadioButton Grid.Row="9" Grid.Column="2" Name="rbtKhongSuDung" Content="Không sử dụng" IsChecked="False"></RadioButton>
+
+                </Grid>
+            </Border>
+        </Grid>
+    </Grid>
+</uicore:PopupBase>
+

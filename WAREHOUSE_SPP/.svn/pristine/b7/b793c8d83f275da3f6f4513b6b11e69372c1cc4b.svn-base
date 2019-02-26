@@ -1,0 +1,43 @@
+﻿using DSofT.Warehouse.Provider;
+using System.Data;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface IDM_LOAI_SPHAMBussiness
+    {
+        bool InsertorUpdateDM_LOAI_SPHAM(DataTable dst);
+        bool DeleteDM_LOAI_SPHAM(string pMA_DVIQLY, long pLOAI_SPHAM_ID, string pModifiedBy);
+        DataTable GetListDM_LOAI_SPHAM(string pMA_DVIQLY);
+        DataTable GetListDM_NHOM_SPHAM_COMBOBOX(string pMA_DVIQLY);
+        int GetListDM_LOAI_SPHAM_KEY(string pMA_DVIQLY, string pMA_SP);
+
+    }
+    public class DM_LOAI_SPHAMBussiness : IDM_LOAI_SPHAMBussiness
+    {
+        IDM_LOAI_SPHAMProvider _DM_LOAI_SPHAMProvider;
+        public DM_LOAI_SPHAMBussiness(string appId, string userId = "0")
+        {
+            _DM_LOAI_SPHAMProvider = new DM_LOAI_SPHAMProvider(appId, userId);
+        }
+        public bool InsertorUpdateDM_LOAI_SPHAM(DataTable dst)
+        {
+            return _DM_LOAI_SPHAMProvider.InsertorUpdateDM_LOAI_SPHAM(dst);
+        }
+        public bool DeleteDM_LOAI_SPHAM(string pMA_DVIQLY, long pLOAI_SPHAM_ID, string pModifiedBy)
+        {
+            return _DM_LOAI_SPHAMProvider.DeleteDM_LOAI_SPHAM( pMA_DVIQLY, pLOAI_SPHAM_ID, pModifiedBy);
+        }
+        public DataTable GetListDM_LOAI_SPHAM(string pMA_DVIQLY)
+        {
+            return _DM_LOAI_SPHAMProvider.GetListDM_LOAI_SPHAM(pMA_DVIQLY);
+        }
+        public DataTable GetListDM_NHOM_SPHAM_COMBOBOX(string pMA_DVIQLY)
+        {
+            return _DM_LOAI_SPHAMProvider.GetListDM_NHOM_SPHAM_COMBOBOX(pMA_DVIQLY);
+        }
+        public int GetListDM_LOAI_SPHAM_KEY(string pMA_DVIQLY, string pMA_SP)
+        {
+            return _DM_LOAI_SPHAMProvider.GetListDM_LOAI_SPHAM_KEY(pMA_DVIQLY, pMA_SP);
+        }
+    }
+}

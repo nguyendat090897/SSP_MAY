@@ -1,0 +1,258 @@
+﻿using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Warehouse.Resources;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Input;
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    /// </summary>
+    public partial class frm_dm_LoaiSanPham_popup : PopupBase
+    {
+        DataTable iDataSource = null;
+        DataTable xNhomSP = null;
+        DataTable iGridDataSource = null;
+        IDM_LOAI_SPHAMBussiness _DM_LOAI_SANPHAMBussiness;
+        DataRow iRowSelGb = null;
+        public frm_dm_LoaiSanPham_popup()
+        {
+            InitializeComponent();
+            _DM_LOAI_SANPHAMBussiness = new DM_LOAI_SPHAMBussiness(string.Empty);
+            this.iDataSource = this.TableSchemaDefineBingding();
+            this.DataContext = this.iDataSource;
+            LoadComboBox();
+            UpdateCheckBox();
+        }
+        public override void OnPopupShown()
+        {
+            try
+            {
+                if (this.Parameter != null && this.Parameter.Count() > 0)
+                {
+                    iRowSelGb = this.Parameter[0] as DataRow;
+                    DispalayRequest();
+                }
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        /// <summary>
+         public bool check_String_Unicode(string str)
+        {
+            if (str == "")
+            {
+                return false;
+            }
+            char[] varChar = str.ToCharArray();
+            int i = 0;
+            while (i<varChar.Length &&
+                ((Convert.ToInt32(varChar[i]) >= 97 && Convert.ToInt32(varChar[i]) <= 122)|| (Convert.ToInt32(varChar[i]) >= 65 && Convert.ToInt32(varChar[i]) <= 90)
+                || (Convert.ToInt32(varChar[i]) >= 48 && Convert.ToInt32(varChar[i]) <= 57)))
+            {
+                i++;
+            }
+            if (i<varChar.Length)
+            {
+                return false;
+            }
+            return true;
+        }
+        /// </summary>
+        public void DispalayRequest()
+        {
+            try
+            {
+                foreach (DataColumn item in this.iRowSelGb.Table.Columns)
+                {
+                    if (this.iDataSource.Columns[item.ColumnName] != null)
+                    {
+                        this.iDataSource.Rows[0][item.ColumnName] = iRowSelGb[item.ColumnName];
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "DispalayRequest()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            if (!check_String_Unicode(txtMaLoaiSanPham.Text))
+                { base.ShowMessage(MessageType.Information,"Mã không được chứa kí tự đặc biệt !!!"); return; }
+            try
+            {
+                int dts = _DM_LOAI_SANPHAMBussiness.GetListDM_LOAI_SPHAM_KEY(ConstCommon.DonViQuanLy, txtMaLoaiSanPham.Text);
+                if (dts>0)
+                {
+                    base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblNotekeySP"]));
+                }
+                
+                else
+                {
+                    if (txtMaLoaiSanPham.Text !=String.Empty && txtTenLoaiSanPham.Text != String.Empty && cboNhomSanPham.Text != String.Empty)
+                    {
+                        KTTinhTrang();
+                        bool result = _DM_LOAI_SANPHAMBussiness.InsertorUpdateDM_LOAI_SPHAM(this.iDataSource.Copy());
+                        if (!result)
+                        {
+
+                            base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageFailed"]));
+                            return;
+                        }
+                        else
+                        {
+                            ToastMessage.ShowToastMessage(Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessage"]), Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageSuccess"]), notificationService);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblNoteSP"]));
+                        if (txtMaLoaiSanPham.Text == String.Empty)
+                            txtMaLoaiSanPham.Focus();
+                        else
+                            cboNhomSanPham.Focus();
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnSave.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// TableSchemaDefineBingding
+        /// </summary>
+        /// <returns></returns>
+        private DataTable TableSchemaDefineBingding()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("LOAI_SPHAM_ID", typeof(decimal));
+                xDicUser.Add("MA_DVIQLY", typeof(string));
+                xDicUser.Add("TEN_NHOM_SPHAM", typeof(string));
+                xDicUser.Add("MA_LOAI_SPHAM", typeof(string));
+                xDicUser.Add("TEN_LOAI_SPHAM", typeof(string));
+                xDicUser.Add("TINH_TRANG", typeof(bool));
+                xDicUser.Add("NHOM_SPHAM_ID", typeof(decimal));
+                xDicUser.Add("RowVersion", typeof(long));
+                xDicUser.Add("IsDelete", typeof(bool));
+                xDicUser.Add("CreateBy", typeof(string));
+                xDicUser.Add("CreateDate", typeof(DateTime));
+                xDicUser.Add("ModifiedBy", typeof(string));
+                xDicUser.Add("ModifiedDate", typeof(DateTime));
+                xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return xDt;
+        }
+        /// <summary>
+        /// LoadComboBox
+        /// </summary>
+        /// <returns></returns>
+        private void SetIsNull()
+        {
+            this.iDataSource.Rows[0]["MA_LOAI_SPHAM"] = string.Empty;
+            this.iDataSource.Rows[0]["TEN_LOAI_SPHAM"] = string.Empty;
+            this.iDataSource.Rows[0]["TINH_TRANG"] = 0;
+            this.cboNhomSanPham.SelectedIndex = 0;
+        }
+        private void btnNew_Click(object sender, RoutedEventArgs e)
+        {
+            frm_dm_LoaiSanPham.status = true;
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                SetIsNull();
+                txtMaLoaiSanPham.Focus();
+            }
+            catch (Exception ex)
+            {
+                throw (ex);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+        private void LoadComboBox()
+        {
+            try
+            {
+
+                DataTable dt = _DM_LOAI_SANPHAMBussiness.GetListDM_NHOM_SPHAM_COMBOBOX(ConstCommon.DonViQuanLy);
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    this.xNhomSP = dt;
+                    ComboBoxUtil.SetComboBoxEdit(this.cboNhomSanPham, "TEN_NHOM_SPHAM", "NHOM_SPHAM_ID", xNhomSP, SelectionTypeEnum.Native);
+                  //  ComboBoxUtil.InsertItem(this.cboNhomSanPham, "0", "0", 0, true);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        private void KTTinhTrang()
+        {
+            if (chkTINH_TRANG.IsChecked == true)
+                this.iDataSource.Rows[0]["TINH_TRANG"] = 1;
+            else
+                this.iDataSource.Rows[0]["TINH_TRANG"] = 0;
+        }
+        private void UpdateCheckBox()
+        {
+            if (this.iDataSource.Rows[0]["TINH_TRANG"].ToString() == "1")
+                chkTINH_TRANG.IsChecked = true;
+            else
+                chkTINH_TRANG.IsChecked = false;
+        }
+
+        private void SetFocus()
+        {
+            try
+            {
+                if (txtMaLoaiSanPham.Text == String.Empty)
+                    txtMaLoaiSanPham.Focus();
+                else if (txtTenLoaiSanPham.Text == String.Empty)
+                    txtTenLoaiSanPham.Focus();
+                else if (cboNhomSanPham.Text == String.Empty)
+                    cboNhomSanPham.Focus();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+    }
+
+}

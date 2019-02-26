@@ -1,0 +1,39 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Data;
+using System.Windows;
+using System.Windows.Input;
+using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Resources;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Framework.UICore;
+using DSofT.Framework.UIControl;
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    /// Interaction logic for frm_dm_LoaiKichThuoc.xaml
+    /// </summary>
+    public partial class frm_dm_LoaiKichThuoc : PopupBase
+    {
+        DataTable iDataSource = null;
+        GridHelper iGridHelper = null;
+        DataTable iGridDataSource = null;
+        public frm_dm_LoaiKichThuoc()
+        {
+            InitializeComponent();
+        }
+        private void btnSua_Click(object sender, RoutedEventArgs e)
+        {
+//something
+        }
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+//something
+        }
+    }
+}
+
+
+

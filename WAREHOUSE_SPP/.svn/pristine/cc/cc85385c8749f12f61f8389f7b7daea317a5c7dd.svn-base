@@ -1,0 +1,249 @@
+﻿using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Warehouse.Resources;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using DSofT.Framework.UICore.TaskProxy;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Windows;
+using System.Windows.Data;
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    /// Interaction logic for frm_FoodReality.xaml
+    /// </summary>
+    public partial class frm_FoodReality : ControlBase
+    {
+        DataTable iDataSource = null;
+        GridHelper iGridHelper = null;
+        DataTable iGridDataSource = null;
+        IFoodRealityBussiness _foodRealityBussiness;
+        ISchoolsBussiness _schoolsBussiness;
+        DataTable dtSchools;
+        public frm_FoodReality()
+        {
+            InitializeComponent();
+            _foodRealityBussiness = new FoodRealityBussiness(string.Empty);
+            _schoolsBussiness = new SchoolsBussiness(string.Empty);
+            this.iDataSource = this.TableSchemaDefineBingding();
+            this.DataContext = this.iDataSource;
+            Initialize_Grid();
+            LoadCombox();
+        }
+        /// <summary>
+        /// LoadCombox
+        /// </summary>
+        private void LoadCombox()
+        {
+            try
+            {
+                this.dtSchools = _schoolsBussiness.GetAllSchools(this.iDataSource.Copy());
+                ComboBoxUtil.SetComboBoxEdit(this.cboSchool, "SchoolsName", "Id", dtSchools, SelectionTypeEnum.Native);
+                ComboBoxUtil.InsertItem(cboSchool, "*", "0", 0);
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "LoadCombox()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+
+        }
+
+        /// <summary>
+        /// TableSchemaDefineBingding
+        /// </summary>
+        /// <returns></returns>
+        private DataTable TableSchemaDefineBingding()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("DayChoose", typeof(string));
+                xDicUser.Add("SchoolId", typeof(decimal));
+                xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return xDt;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        private void LoadData()
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(this.iDataSource.Rows[0]["DayChoose"].ToString()) || string.IsNullOrWhiteSpace(this.iDataSource.Rows[0]["SchoolId"].ToString()))
+                {
+                    return;
+                }
+                using (var task = new AsyncTaskProcess(this))
+                {
+                    ServiceAction<DataTable> action = ((pd) =>
+                    {
+                        task.SetCallContext();
+                        return _foodRealityBussiness.GetAllFoodReality(this.iDataSource.Copy());
+                    });
+                    Action<DataTable> onComplete = (dt =>
+                    {
+                        this.Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            this.iGridDataSource = dt;
+                            this.iGridHelper.BindItemSource(this.iGridDataSource);
+                        }));
+                    });
+                    task.AsyncTaskExecute(action, onComplete);
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "LoadData()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// Initialize_Grid
+        /// </summary>
+        private void Initialize_Grid()
+        {
+            try
+            {
+                this.iGridHelper = new GridHelper(this.grd, this.grdView, false);
+                Column xColumn;
+                xColumn = new Column("FoodRealityId", "FoodRealityId");
+                xColumn.Visible = false;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("SessionName", Convert.ToString(UtilLanguage.ApplyLanguage()["frmFoodReality_SessionName"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.VerticalContentAlignment = VerticalAlignment.Center;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("NumberFoodStudent", Convert.ToString(UtilLanguage.ApplyLanguage()["frmFoodReality_NumberFoodStudent"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.MaskType = DevExpress.Xpf.Editors.MaskType.Numeric;
+                xColumn.EditMask = "#,##,##,##,##,##0";
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Right;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("NumberFoodTeacher", Convert.ToString(UtilLanguage.ApplyLanguage()["frmFoodReality_NumberFoodTeacher"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.MaskType = DevExpress.Xpf.Editors.MaskType.Numeric;
+                xColumn.EditMask = "#,##,##,##,##,##0";
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Right;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("NumberFoodStudentReality", Convert.ToString(UtilLanguage.ApplyLanguage()["frmFoodReality_NumberFoodStudentReality"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.MaskType = DevExpress.Xpf.Editors.MaskType.Numeric;
+                xColumn.EditMask = "#,##,##,##,##,##0";
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Right;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("NumberFoodTeacherReality", Convert.ToString(UtilLanguage.ApplyLanguage()["frmFoodReality_NumberFoodTeacherReality"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.MaskType = DevExpress.Xpf.Editors.MaskType.Numeric;
+                xColumn.EditMask = "#,##,##,##,##,##0";
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Right;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+
+
+                xColumn = new Column("PriceTeacherReality", Convert.ToString(UtilLanguage.ApplyLanguage()["frmFoodReality_PriceTeacherReality"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.MaskType = DevExpress.Xpf.Editors.MaskType.Numeric;
+                xColumn.EditMask = "#,##,##,##,##,##0";
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Right;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("PriceStudentReality", Convert.ToString(UtilLanguage.ApplyLanguage()["frmFoodReality_PriceStudentReality"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.MaskType = DevExpress.Xpf.Editors.MaskType.Numeric;
+                xColumn.EditMask = "#,##,##,##,##,##0";
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Right;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("IsConfirm", Convert.ToString(UtilLanguage.ApplyLanguage()["frmFoodReality_IsConfirm"]));
+                xColumn.ColumnType = ColumnControl.Checkbox;
+                xColumn.Width = 40;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                xColumn.Binding = new Binding("IsConfirm") { Converter = new ConverterStringBool(), ConverterParameter = "1:0", Mode = BindingMode.TwoWay };
+                this.iGridHelper.Add(xColumn);
+
+                this.iGridHelper.Initialize();
+                this.grdView.AutoWidth = true;
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "Initialize_Grid()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// btnSearch_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSearch_Click(object sender, RoutedEventArgs e)
+        {
+            LoadData();
+        }
+        /// <summary>
+        /// btnSave_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (this.iGridDataSource.Rows.Count<=0)
+                {
+                    return;
+                }
+                bool result = _foodRealityBussiness.InsertOrUpdateFoodReality(this.iGridDataSource.Copy());
+                if (!result)
+                {
+                    base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageFailed"]));
+                    return;
+                }
+                else
+                {
+                    ToastMessage.ShowToastMessage(Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessage"]), Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageSuccess"]), notificationService);
+                    return;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnSave.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+    }
+
+}

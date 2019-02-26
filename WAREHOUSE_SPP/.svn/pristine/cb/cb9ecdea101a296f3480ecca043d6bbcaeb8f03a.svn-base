@@ -1,0 +1,687 @@
+﻿using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Warehouse.Resources;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Input;
+using DevExpress.Xpf.Editors;
+using DevExpress.Xpf.Editors.Settings;
+using DevExpress.Xpf.Grid;
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    /// Interaction logic for frm_lap_yeu_cau_dich_vu_popup.xaml
+    /// </summary>
+    /// //
+    public partial class frm_lap_yeu_cau_dich_vu_popup : PopupBase
+    {
+        DataTable iDataSource = null;
+        GridHelper iGridHelper = null;
+        GridHelper iGridHelper2 = null;
+        DataRow iRowSelGb = null;
+        DataTable dt_PHIEU_CTIET = null;
+        DataTable dt_KHO = null;
+        DataTable dt_KHO_KHUVUC = null;
+        Kho_Phieu_YeuCau_DVBussiness _Kho_YeuCau_DV;
+        public frm_lap_yeu_cau_dich_vu_popup()
+        {
+            InitializeComponent();
+            this.iDataSource = this.TableSchemaDefineBingding();
+            dt_PHIEU_CTIET = this.TableSchemaDefineBingding_Grid();
+            dt_PHIEU_CTIET.Clear();
+            _Kho_YeuCau_DV = new Kho_Phieu_YeuCau_DVBussiness(string.Empty);
+            BuildCombobox();
+            Initialize_Grid();
+            Initialize_Grid_2();
+            this.iDataSource.Rows[0]["MA_DVIQLY"] = ConstCommon.DonViQuanLy;
+            this.DataContext = this.iDataSource;
+           
+           
+        }
+
+        public override void OnPopupShown()
+        {
+            if (this.Parameter != null && this.Parameter.Count() > 0)
+            {
+                iRowSelGb = this.Parameter[0] as DataRow;
+                DispalayRequest();
+                //isFirstLoad = true;
+
+                if (this.Parameter.Count() > 1)
+                {
+                    DataRow[] dr_chitiet = this.Parameter[1] as DataRow[];
+
+                    dt_PHIEU_CTIET.Clear();
+                    if (dr_chitiet.Length > 0)
+                    {
+                        dt_PHIEU_CTIET = dr_chitiet.CopyToDataTable();
+                    }
+                    if (dt_PHIEU_CTIET != null)
+                    {
+                        this.iGridHelper.BindItemSource(dt_PHIEU_CTIET);
+                    }
+                    else
+                    {
+                        grd.ItemsSource = null;
+                    }
+                }
+
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public void DispalayRequest()
+        {
+            try
+            {
+                foreach (DataColumn item in this.iRowSelGb.Table.Columns)
+                {
+                    if (this.iDataSource.Columns[item.ColumnName] != null)
+                    {
+                        this.iDataSource.Rows[0][item.ColumnName] = iRowSelGb[item.ColumnName];
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "DispalayRequest()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+        /// <summary>
+        /// TableSchemaDefineBingding
+        /// </summary>
+        /// <returns></returns>
+        
+        private DataTable TableSchemaDefineBingding()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("PHIEUYEUCAU_DV_ID", typeof(decimal));
+                xDicUser.Add("MA_DVIQLY", typeof(string));
+                xDicUser.Add("SOPHIEU", typeof(string));
+                xDicUser.Add("NGAYLAP", typeof(string));
+                xDicUser.Add("THOIGIAN_HOANTAT", typeof(string));
+                xDicUser.Add("MA_LOAI_DICHVU", typeof(string));
+                xDicUser.Add("GHI_CHU", typeof(string));
+                xDicUser.Add("TRANGTHAI_DUYET", typeof(int));
+                xDicUser.Add("NGAY_DUYET", typeof(string));
+                xDicUser.Add("NGUOI_DUYET", typeof(string));
+                xDicUser.Add("LYDO", typeof(string));
+                xDicUser.Add("DIEUKIEN_THUCHIEN", typeof(string));
+                xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "TableSchemaDefineBingding()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            return xDt;
+        }
+        private DataTable TableSchemaDefineBingding_Grid()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("STT", typeof(int));
+                xDicUser.Add("MA_DVIQLY", typeof(string));
+                xDicUser.Add("PHIEUYEUCAU_DV_CTIET_ID", typeof(decimal));
+                xDicUser.Add("PHIEUYEUCAU_DV_ID", typeof(decimal));
+                xDicUser.Add("KHO_ID", typeof(decimal));
+                xDicUser.Add("KHO_KHUVUC_ID", typeof(decimal));
+                xDicUser.Add("MA_ITEM_TYPE", typeof(string));
+                xDicUser.Add("SANPHAM_ID", typeof(decimal));
+
+                xDicUser.Add("MA_SANPHAM_KH", typeof(string));
+                xDicUser.Add("MA_SANPHAM", typeof(string));
+                xDicUser.Add("TEN_SANPHAM", typeof(string));
+                xDicUser.Add("MA_DONVI_TINH", typeof(string));
+
+                xDicUser.Add("SOLO", typeof(string));
+                xDicUser.Add("HANDUNG", typeof(string));
+                xDicUser.Add("SO_LUONG_TONG", typeof(int));
+                xDicUser.Add("SO_LUONG_THUNG", typeof(int));
+                xDicUser.Add("SO_LUONG_LE", typeof(int));
+                xDicUser.Add("SODK", typeof(string));
+                xDicUser.Add("GIAYPHEP_NK", typeof(string));
+                xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "TableSchemaDefineBingding()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            return xDt;
+        }
+        private void BuildCombobox()
+        {
+            try
+            {
+
+
+                dt_KHO = _Kho_YeuCau_DV.GetListDM_KHO(ConstCommon.DonViQuanLy);
+                dt_KHO_KHUVUC = _Kho_YeuCau_DV.DM_KHO_KHUVUC_GET_LIST_BY_KHO(ConstCommon.DonViQuanLy, 0);
+                DataTable dtLoaiDV = _Kho_YeuCau_DV.GetData_Loai_DV(ConstCommon.DonViQuanLy);
+                if (dtLoaiDV != null && dtLoaiDV.Rows.Count > 0)
+                {
+                    ComboBoxUtil.SetComboBoxEdit(cboLoaiDichVu, "TEN_LOAI_DICHVU", "MA_LOAI_DICHVU", dtLoaiDV, SelectionTypeEnum.Native);
+                    ComboBoxUtil.InsertItem(cboLoaiDichVu, Convert.ToString(UtilLanguage.ApplyLanguage()["lblChonAll"]), "0", 0);
+                    this.iDataSource.Rows[0]["MA_LOAI_DICHVU"] = cboLoaiDichVu.GetKeyValue(0);
+                }
+
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "BuildCombobox()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+
+        }
+
+        /// <summary>
+        /// Initialize_Grid
+        /// </summary>
+        private void Initialize_Grid()
+        {
+            try
+            {
+                this.iGridHelper = new GridHelper(this.grd, this.grdView, false);
+                Column xColumn;
+
+                xColumn = new Column("STT", Convert.ToString(UtilLanguage.ApplyLanguage()["lblOrderNo"]));
+                xColumn.Width = 50;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                string[] header = new string[] { "Kho" };
+                string[] id = new string[] { "TEN_KHO" };
+                string[] align = new string[] { "left" };
+
+                xColumn = new Column("KHO_ID", "Kho");
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                xColumn.ColumnType = ColumnControl.Combo;
+                xColumn.AllowAutoFilter = true;
+                xColumn.AllowColumnFiltering = true;
+                xColumn.Binding = new System.Windows.Data.Binding("KHO_ID") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
+                xColumn.ValueList.DataSource = dt_KHO;
+                xColumn.ValueList.DisplayMember = "TEN_KHO";
+                xColumn.ValueList.ValueMember = "KHO_ID";
+                xColumn.dataTemplate = LookupEditUtil.CreateTemplateLookupEdit(dt_KHO, header, id, align);
+                this.iGridHelper.Add(xColumn);
+
+
+
+                string[] header_kv = new string[] { "Khu vực" };
+                string[] id_kv = new string[] { "TEN_KHO_KHUVUC" };
+                string[] align_kv = new string[] { "left" };
+
+                xColumn = new Column("KHO_KHUVUC_ID", "Khu vực");
+                xColumn.Width = 80;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                xColumn.ColumnType = ColumnControl.LookUpEdit;
+                xColumn.Binding = new System.Windows.Data.Binding("KHO_KHUVUC_ID") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
+                xColumn.ValueList.DataSource = dt_KHO;
+                xColumn.ValueList.DisplayMember = "TEN_KHO_KHUVUC";
+                xColumn.ValueList.ValueMember = "KHO_KHUVUC_ID";
+                xColumn.dataTemplate = LookupEditUtil.CreateTemplateLookupEdit(dt_KHO, header, id, align);
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("MA_ITEM_TYPE", "Item type");
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("MA_SANPHAM", Convert.ToString(UtilLanguage.ApplyLanguage()["lblMaSanPham"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("MA_SANPHAM_KH", "Mã sản phẩm (KH)");
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("TEN_SANPHAM", Convert.ToString(UtilLanguage.ApplyLanguage()["lblTenSanPham"]));
+                xColumn.Width = 150;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("MA_DONVI_TINH", Convert.ToString(UtilLanguage.ApplyLanguage()["lblDVT"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("SOLO", Convert.ToString(UtilLanguage.ApplyLanguage()["lblSoLo"]));
+                xColumn.Width = 150;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("HANDUNG", Convert.ToString(UtilLanguage.ApplyLanguage()["lblHanDung"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("SO_LUONG_TONG", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_danhsach_loaipallet_SoLuongTong"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                xColumn.MaskType = MaskType.Numeric;
+                xColumn.EditMask = "#,##,##,##,##,##,##,##,##,##,##,##,##,###;";
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("SO_LUONG_THUNG", Convert.ToString(UtilLanguage.ApplyLanguage()["lblSoThung"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                xColumn.MaskType = MaskType.Numeric;
+                xColumn.EditMask = "#,##,##,##,##,##,##,##,##,##,##,##,##,###;";
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("SO_LUONG_LE", Convert.ToString(UtilLanguage.ApplyLanguage()["lblSoLe"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                xColumn.MaskType = MaskType.Numeric;
+                xColumn.EditMask = "#,##,##,##,##,##,##,##,##,##,##,##,##,###;";
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("SODK", Convert.ToString(UtilLanguage.ApplyLanguage()["lblSoDK"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("GIAYPHEP_NK", Convert.ToString(UtilLanguage.ApplyLanguage()["lblGPNK"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+
+                ButtonEditSettings xButton_Remove = new ButtonEditSettings();
+                xButton_Remove.DefaultButtonClick += xButton_RemoveClick;
+                xColumn = new Column("REMOVE", Convert.ToString(UtilLanguage.ApplyLanguage()["lbl_Remove"]));
+                xColumn.Width = 50;
+                xColumn.CustomEditor = xButton_Remove;
+                xColumn.Visible = true;
+                xColumn.ColumnType = ColumnControl.Custom;
+                xColumn.MaxLenth = 5;
+                xColumn.HorizontalContentAlignment = EditSettingsHorizontalAlignment.Center;
+                this.iGridHelper.Add(xColumn);
+
+                this.iGridHelper.Initialize();
+                //this.grdView.AutoWidth = true;
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "Initialize_Grid()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        void xButton_RemoveClick(object sender, RoutedEventArgs e)
+        {
+
+            try
+            {
+                if (dt_PHIEU_CTIET != null && this.dt_PHIEU_CTIET.Rows[(grd.View as TableView).FocusedRowHandle]["PHIEUYEUCAU_DV_CTIET_ID"].ToString() != string.Empty)
+                {
+                    DataRowView row = this.grd.GetFocusedRow() as DataRowView;
+                    if (!base.ShowMessage(MessageType.OkCancel, "Bạn muốn xóa không ?"))
+                        return;
+                    int result = _Kho_YeuCau_DV.DeleteKho_Lam_Phieu_DV_CT(CommonDataHelper.DonViQuanLy, ConstCommon.NVL_NUM_NT_NEW(dt_PHIEU_CTIET.Rows[(grd.View as TableView).FocusedRowHandle]["PHIEUYEUCAU_DV_CTIET_ID"].ToString()), CommonDataHelper.UserName);
+                    if (result == 1)
+                    {
+                        ToastMessage.ShowToastMessage("Thông báo", "Thành công!", notificationService);
+                        dt_PHIEU_CTIET.Rows.Remove(row.Row);
+                        this.iGridHelper.BindItemSource(dt_PHIEU_CTIET);
+                        return;
+                    }
+                    else
+                    {
+                        base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageFailed"]));
+                        return;
+                    }
+                }
+                else
+                {
+                    base.ShowMessage(MessageType.Information, "Chưa có chi tiết dịch vụ nào được chọn!");
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "xButton_RemoveClick()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        private void Initialize_Grid_2()
+        {
+            iGridHelper2 = null;
+            try
+            {
+                this.iGridHelper2 = new GridHelper(this.grd_2, this.grdView_2, false);
+                Column xColumn;
+
+                xColumn = new Column("ROWNUM", Convert.ToString(UtilLanguage.ApplyLanguage()["lblOrderNo"]));
+                xColumn.Width = 50;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Center;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper2.Add(xColumn);
+
+                xColumn = new Column("MaNguyenLieu", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieuxuat_tuPYC_MaNL"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper2.Add(xColumn);
+
+                xColumn = new Column("TenNguyenLieu", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieuxuat_tuPYC_TenNL"]));
+                xColumn.Width = 150;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper2.Add(xColumn);
+
+                xColumn = new Column("DonViTinh", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_xuatkho_sanpham_dichvu_DonViTinh"]));
+                xColumn.Width = 150;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper2.Add(xColumn);
+
+                xColumn = new Column("SoLuong", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_xuatkho_vattu_dichvu_SoLuong"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper2.Add(xColumn);
+
+                xColumn = new Column("GiaNhap", Convert.ToString(UtilLanguage.ApplyLanguage()["lblGiaNhap"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper2.Add(xColumn);
+
+                xColumn = new Column("ThanhTien", Convert.ToString(UtilLanguage.ApplyLanguage()["lblThanhTien"]));
+                xColumn.Width = 100;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                this.iGridHelper2.Add(xColumn);
+
+                this.iGridHelper2.Initialize();
+                //this.grdView.AutoWidth = true;
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "Initialize_Grid_2()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        private bool ContainDataRowInDataTable(DataTable dt, DataRow dr)
+        {
+            try
+            {
+                var k = (from r in dt.Rows.OfType<DataRow>() where r["SANPHAM_ID"].ToString() == dr["SANPHAM_ID"].ToString() select r).FirstOrDefault();
+                if (k != null)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch
+            {
+
+                return false;
+            }
+
+
+        }
+        /// <summary>
+        /// btnSave_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        int CheckNull()
+        {
+            try
+            {
+                if (txtSoPhieuPYC.Text == "")
+                {
+                    base.ShowMessage(MessageType.Information, "Vui lòng nhập số phiếu!");
+                    txtSoPhieuPYC.Focus();
+                    return 1;
+                }
+                if (dtpThoiGianHoanTat.EditValue.ToString() == "")
+                {
+                    base.ShowMessage(MessageType.Information, "Vui lòng chọn thời gian hoàn tất!");
+                    dtpThoiGianHoanTat.Focus();
+                    return 1;
+                }
+                if (cboLoaiDichVu.Text == "--Chọn--")
+                {
+                    base.ShowMessage(MessageType.Information, "Vui lòng chọn loại dịch vụ!");
+                    cboLoaiDichVu.Focus();
+                    return 1;
+                }
+                if (dt_PHIEU_CTIET == null || dt_PHIEU_CTIET.Rows.Count == 0)
+                {
+                    base.ShowMessage(MessageType.Information, "Vui lòng chọn sản phẩm trước khi lập phiếu dịch vụ!");
+                    return 1;
+
+                }
+                else
+                {
+                    for (int i = 0; i < dt_PHIEU_CTIET.Rows.Count; i++)
+                    {
+                        if (dt_PHIEU_CTIET.Rows[i]["SOLO"].ToString() == "")
+                        {
+                            base.ShowMessage(MessageType.Information, "Vui lòng nhập số lô cho sản phẩm [" + dt_PHIEU_CTIET.Rows[i]["TEN_SANPHAM"] + "]!");
+                            return 1;
+                        }
+                        if (dt_PHIEU_CTIET.Rows[i]["HANDUNG"].ToString() == "")
+                        {
+                            base.ShowMessage(MessageType.Information, "Vui lòng nhập hạn dùng cho sản phẩm [" + dt_PHIEU_CTIET.Rows[i]["TEN_SANPHAM"] + "]!");
+                            return 1;
+                        }
+                        if (ConstCommon.NVL_NUM_NT_NEW(dt_PHIEU_CTIET.Rows[i]["SO_LUONG_TONG"]) == 0)
+                        {
+                            base.ShowMessage(MessageType.Information, "Vui lòng nhập số lượng tổng cho sản phẩm [" + dt_PHIEU_CTIET.Rows[i]["TEN_SANPHAM"] + "]!");
+                            return 1;
+                        }
+                        if (ConstCommon.NVL_NUM_NT_NEW(dt_PHIEU_CTIET.Rows[i]["SO_LUONG_THUNG"]) == 0)
+                        {
+                            base.ShowMessage(MessageType.Information, "Vui lòng nhập số lượng thùng cho sản phẩm [" + dt_PHIEU_CTIET.Rows[i]["TEN_SANPHAM"] + "]!");
+                            return 1;
+                        }
+                        if (ConstCommon.NVL_NUM_NT_NEW(dt_PHIEU_CTIET.Rows[i]["SO_LUONG_LE"]) == 0)
+                        {
+                            base.ShowMessage(MessageType.Information, "Vui lòng nhập số lượng lẻ cho sản phẩm [" + dt_PHIEU_CTIET.Rows[i]["TEN_SANPHAM"] + "]!");
+                            return 1;
+                        }
+                    }
+                    if (_Kho_YeuCau_DV.CheckExist(CommonDataHelper.DonViQuanLy, ConstCommon.NVL_NUM_NT_NEW(iDataSource.Rows[0]["PHIEUYEUCAU_DV_ID"].ToString()), txtSoPhieuPYC.Text.Trim()) == 1)
+                    {
+                        base.ShowMessage(MessageType.Information, "Số phiếu [" + txtSoPhieuPYC.Text + "] đã tồn tại!");
+                        txtSoPhieuPYC.Focus();
+                        return 1;
+                    }
+                }
+
+                return 0;
+            }catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.lblChonSanPham.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+                return 1 ;
+            }
+        }
+        
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void lblChonSanPham_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                object xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_XDDinhMuc_BoSung_TTTViet_TimKiemSP", null);
+
+                //begin tao phieu chi tiet
+                DataTable dt_SPCHON = (DataTable)xReturn;
+
+                if ((dt_SPCHON != null) && (dt_SPCHON.Rows.Count > 0))
+                {
+                    if (dt_SPCHON.Rows[0]["GHI_CHU"].ToString() == "Y")
+                    {
+
+                        for (int i = 0; i < dt_SPCHON.Rows.Count; i++)
+                        {
+                            if (ContainDataRowInDataTable(dt_PHIEU_CTIET, dt_SPCHON.Rows[i]) == false)
+                            {
+                                DataRow dr = dt_PHIEU_CTIET.NewRow();
+                                dr["STT"] = dt_PHIEU_CTIET.Rows.Count + 1;
+                                dr["KHO_ID"] = ConstCommon.pKHO_ID;
+                                dr["KHO_KHUVUC_ID"] = "0";
+                                dr["MA_ITEM_TYPE"] = dt_SPCHON.Rows[i]["MA_ITEM_TYPE"];
+                                dr["SANPHAM_ID"] = dt_SPCHON.Rows[i]["SANPHAM_ID"];
+                                dr["MA_SANPHAM"] = dt_SPCHON.Rows[i]["MA_SANPHAM"];
+                                dr["MA_SANPHAM_KH"] = dt_SPCHON.Rows[i]["MA_SANPHAM_KH"];
+                                dr["TEN_SANPHAM"] = dt_SPCHON.Rows[i]["TEN_SANPHAM"];
+                                dr["MA_DONVI_TINH"] = dt_SPCHON.Rows[i]["MA_DONVI_TINH"];
+                                dt_PHIEU_CTIET.Rows.Add(dr);
+                            }
+                        }
+                    }
+
+                }
+
+                if (dt_PHIEU_CTIET != null)
+                {
+                    this.iGridHelper.BindItemSource(dt_PHIEU_CTIET);
+                }
+                else
+                {
+                    grd.ItemsSource = null;
+                }
+
+
+                //end tao phieu chi tiet
+
+
+
+
+            }
+            catch (Exception ex)
+            {
+                //UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnChonSP.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+        private void btnSave_Click_1(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+
+                if (CheckNull() == 1)
+                {
+                    return;
+                }
+
+                ConstCommon.mousebusy(this);
+
+                DataSet dsReturn = null;
+                dsReturn = _Kho_YeuCau_DV.InsertorUpdateKho_Lam_Phieu_DV_And_CTiet(CommonDataHelper.DonViQuanLy, iDataSource, dt_PHIEU_CTIET, CommonDataHelper.UserName);
+                if ((dsReturn != null) && (dsReturn.Tables.Count == 2))
+                {
+
+                    foreach (DataColumn item in dsReturn.Tables[0].Columns)
+                    {
+                        if (this.iDataSource.Columns[item.ColumnName] != null)
+                        {
+                            this.iDataSource.Rows[0][item.ColumnName] = dsReturn.Tables[0].Rows[0][item.ColumnName];
+                        }
+                    }
+
+                    dt_PHIEU_CTIET.Clear();
+                    dt_PHIEU_CTIET = dsReturn.Tables[1].Copy();
+                    if (dt_PHIEU_CTIET != null)
+                    {
+                        this.iGridHelper.BindItemSource(dt_PHIEU_CTIET);
+                    }
+                    else
+                    {
+                        grd.ItemsSource = null;
+                    }
+
+                    ToastMessage.ShowToastMessage(Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessage"]), Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageSuccess"]), notificationService);
+                }
+                else
+                {
+                    base.ShowMessage(MessageType.Error, "Lưu không thành công");
+                }
+
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnSave.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            finally
+            {
+                ConstCommon.mousefree(this);
+            }
+        }
+    }
+
+}

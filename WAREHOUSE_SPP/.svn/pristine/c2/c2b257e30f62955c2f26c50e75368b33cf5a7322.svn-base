@@ -1,0 +1,85 @@
+public static class ConstCommon
+{
+    public const string PAGE_404 = "_404";
+    public const string PAGE_HOME = "Default";
+    public const string PAGE_SERVER_OVERLOAD = "_ServerOverload";
+    public const string PAGE_LOGIN = "/dang-nhap";
+    public static string DonViQuanLy="PE0800";
+    public static long NVL_NUM_LONG_NEW(object str)
+    {
+        if ((str != System.DBNull.Value) && (str != null))
+        {
+            if (str.ToString().Trim().Equals("") == false)
+            {
+                return long.Parse(str.ToString());
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    public static double NVL_NUM_DOUBLE_NEW(object str)
+    {
+        if ((str != System.DBNull.Value) && (str != null))
+        {
+            if (str.ToString().Trim().Equals("") == false)
+            {
+                return double.Parse(str.ToString());
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+
+    public static decimal NVL_NUM_DECIMAL_NEW(object str)
+    {
+        if ((str != System.DBNull.Value) && (str != null))
+        {
+            if (str.ToString().Trim().Equals("") == false)
+            {
+                return decimal.Parse(str.ToString());
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+
+    public static int NVL_NUM_NT_NEW(object str)
+    {
+        if ((str != System.DBNull.Value) && (str != null))
+        {
+            if (str.Equals("") == false)
+            {
+                return int.Parse(str.ToString());
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+}

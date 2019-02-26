@@ -1,0 +1,222 @@
+﻿using DSofT.Framework.Internal.Data;
+using DSofT.Framework.UIControl;
+using System.Collections.Generic;
+using System.Data;
+
+namespace DSofT.Warehouse.Provider
+{
+    public interface IDM_KHOProvider
+    {
+        bool InsertOrUpdateDM_KHO(DataTable dst);
+        bool DeleteDM_KHO(string pMA_DVIQLY, long pKHO_ID, string pModifiedBy);
+        DataTable GetListDM_KHO(string pMA_DVIQLY);
+        DataTable GetListDM_KHO_TENDKBQ(string pMA_DVIQLY);
+        DataTable GetListDM_KHO_MA(string pMA_DVIQLY, string pMA_KHO);
+        DataTable GetListDM_KHO_ID(string pMA_DVIQLY);
+        DataTable GetListUser(int Kho_ID);
+        bool Delete_DM_User(int kho_id);
+        bool InsertOrUpdateDM_KHO_User(DataRow dst);
+    }
+    public class DM_KHOProvider : BaseSqlExecute, IDM_KHOProvider
+    {
+        public DM_KHOProvider(string appId, string userId) :
+base(DbCommon.WarehouseDbConnstr, appId, userId)
+        { }
+        public bool InsertOrUpdateDM_KHO(DataTable dst)
+        {
+            try
+            {
+                if (NumberHelper.ConvertStringToLong(dst.Rows[0]["KHO_ID"].ToString()) > 0)
+                {
+                    var paramObj = new object[]{
+                            ConstCommon.DonViQuanLy,
+                            dst.Rows[0]["KHO_ID"],
+                            dst.Rows[0]["MA_KHO"],
+                            dst.Rows[0]["TEN_KHO"],
+                            dst.Rows[0]["DIA_CHI"],
+                            dst.Rows[0]["LOAIKHO_ID"],
+                            dst.Rows[0]["DKIEN_BQUAN_ID"],
+                            dst.Rows[0]["SUC_CHUA"],
+                            dst.Rows[0]["TON_MIN"],
+                            dst.Rows[0]["GHI_CHU"],
+                            dst.Rows[0]["TINH_TRANG"],
+                            dst.Rows[0]["RowVersion"],
+                            CommonDataHelper.UserName
+                            };
+                    var result = base.ExecScalar("DM_KHO_UPDATE", paramObj);
+                    if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+                else
+                {
+                    var paramObj = new object[]{
+                            ConstCommon.DonViQuanLy,
+                            dst.Rows[0]["MA_KHO"],
+                            dst.Rows[0]["TEN_KHO"],
+                            dst.Rows[0]["DIA_CHI"],
+                            dst.Rows[0]["LOAIKHO_ID"],
+                            dst.Rows[0]["DKIEN_BQUAN_ID"],
+                            dst.Rows[0]["SUC_CHUA"],
+                            dst.Rows[0]["TON_MIN"],
+                            dst.Rows[0]["GHI_CHU"],
+                            dst.Rows[0]["TINH_TRANG"],
+                            dst.Rows[0]["RowVersion"],
+                            CommonDataHelper.UserName
+                            };
+                    var result = base.ExecScalar("DM_KHO_INSERT", paramObj);
+                    if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool DeleteDM_KHO(string pMA_DVIQLY, long pKHO_ID, string pModifiedBy)
+        {
+            try
+            {
+                var paramObj = new object[] { pMA_DVIQLY, pKHO_ID, pModifiedBy };
+                var result = base.ExecScalar("DM_KHO_DELETE", paramObj);
+                if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public DataTable GetListDM_KHO(string pMA_DVIQLY)
+        {
+            try
+            {
+                var paramObj = new object[] { pMA_DVIQLY };
+                var result = base.ExecuteDataSet("DM_KHO_GET_LIST_ALL", paramObj);
+                if (result != null)
+                {
+                    return result.Tables[0];
+                }
+                return null;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+
+        public DataTable GetListDM_KHO_TENDKBQ(string pMA_DVIQLY)
+        {
+            try
+            {
+                var paramObj = new object[] { pMA_DVIQLY };
+                var result = base.ExecuteDataSet("DM_DKIEN_BQUAN_GET_LIST_ALL", paramObj);
+                if (result != null)
+                {
+                    return result.Tables[0];
+                }
+                return null;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public DataTable GetListDM_KHO_MA(string pMA_DVIQLY,  string pMA_KHO)
+        {
+            try
+            {
+                var paramObj = new object[] { pMA_DVIQLY, pMA_KHO };
+                var result = base.ExecuteDataSet("DM_KHO_GET_MA", paramObj);
+                if (result != null)
+                {
+                    return result.Tables[0];
+                }
+                return null;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public DataTable GetListDM_KHO_ID(string pMA_DVIQLY)
+        {
+            try
+            {
+                var paramObj = new object[] { pMA_DVIQLY };
+                var result = base.ExecuteDataSet("DM_KHO_GET_KHOID", paramObj);
+                if (result != null)
+                {
+                    return result.Tables[0];
+                }
+                return null;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public DataTable GetListUser(int Kho_ID)
+        {
+            try
+            {
+                var paramObj = new object[] { Kho_ID };
+                var result = base.ExecuteDataSet("DM_KHO_GetUser", paramObj);
+                if (result != null)
+                {
+                    return result.Tables[0];
+                }
+                return null;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool Delete_DM_User(int kho_id)
+        {
+            try
+            {
+                var paramObj = new object[] { kho_id };
+                var result = base.ExecuteDataSet("DM_KHO_Delete_User", paramObj);
+                if (result != null)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool InsertOrUpdateDM_KHO_User(DataRow dst)
+        {
+            var paramObj = new object[]{
+                            0,
+                            ConstCommon.DonViQuanLy,
+                             dst["KHO_ID"],
+                             dst["UserName"],
+                            CommonDataHelper.UserName
+                             };
+            var result = base.ExecScalar("DM_KHO_Insert_Update_User", paramObj);
+            if (result!=null)
+            {
+                return false;
+            }
+            return true;
+        }
+    }
+}

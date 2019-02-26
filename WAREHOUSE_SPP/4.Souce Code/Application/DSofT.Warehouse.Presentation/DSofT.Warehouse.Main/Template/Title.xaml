@@ -1,0 +1,10 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <DataTemplate x:Key="DetailedTemplate">
+        <Grid>
+            <!--<TextBlock Text="{Binding AgentName}" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>-->
+            <Image Source="{Binding PhotoSource}" Height="30" Width="30" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Grid>
+    </DataTemplate>
+</ResourceDictionary>

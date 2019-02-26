@@ -1,0 +1,142 @@
+
+using DSofT.Warehouse.Provider;
+using System.Data;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface IDM_SanPhamBussiness
+    {
+        int InsertOrUpdateSanPham(DataTable dtInput);
+        int DeleteSanPham(int SANPHAM_ID);
+
+        DataTable GetList_SanPham(string MA_DVQL);
+
+        DataTable GetList_SanPham_By_Loai_SPham( int LOAI_SPHAM_ID);
+
+        DataTable GetList_SanPham_By_Item_Type(string MA_ITEM_TYPE);
+
+        DataTable GetList_SanPham_By_Loai_SPham_And_Item_Type(int LOAI_SPHAM_ID, string MA_ITEM_TYPE);
+
+        DataTable GetData_For_Cbo_Item_Type();
+
+        DataTable GetData_For_Cbo_Loai_SPham();
+
+        DataTable GetData_For_Cbo_Nhom_SPham();
+
+        DataTable GetData_For_Cbo_Nguon_Nhap();
+
+        DataTable GetData_For_Cbo_DKBQ();
+
+        DataTable GetData_For_Cbo_NSX();
+
+        DataTable GetData_For_Cbo_QuocGia();
+
+        DataTable GetData_For_Cbo_KhachHang_Ncc();
+
+        DataTable GetData_For_Cbo_LoaiKichThuoc();
+
+        DataTable GetData_For_Cbo_DVT();
+
+        int Check_Exist_Ma_SPham(string MA_SANPHAM);
+
+        int Check_Exist_Ma_SPham_Update(string MA_SANPHAM, int SANPHAM_ID);
+
+    }
+    public class SanPhamBussiness : IDM_SanPhamBussiness
+    {
+        IDM_SanPhamProvider _DM_SAN_PHAMProvider;
+        public SanPhamBussiness(string appId, string userId = "0")
+        {
+            _DM_SAN_PHAMProvider = new SanPhamProvider(appId, userId);
+        }
+        
+        public int InsertOrUpdateSanPham(DataTable dt)
+        {
+            return _DM_SAN_PHAMProvider.InsertOrUpdateSanPham(dt);
+        }
+        
+        public int DeleteSanPham(int SANPHAM_ID)
+        {
+            return _DM_SAN_PHAMProvider.DeleteSanPham(SANPHAM_ID);
+        }
+        public DataTable GetList_SanPham(string MA_DVIQLY)
+        {
+            return _DM_SAN_PHAMProvider.GetList_SanPham(MA_DVIQLY);
+        }
+
+        public DataTable GetList_SanPham_By_Loai_SPham(int LOAI_SPHAM_ID)
+        {
+            return _DM_SAN_PHAMProvider.GetList_SanPham_By_Loai_SPham(LOAI_SPHAM_ID);
+        }
+
+        public DataTable GetList_SanPham_By_Item_Type(string MA_ITEM_TYPE)
+        {
+            return _DM_SAN_PHAMProvider.GetList_SanPham_By_Item_Type(MA_ITEM_TYPE);
+        }
+
+        public DataTable GetList_SanPham_By_Loai_SPham_And_Item_Type(int LOAI_SPHAM_ID, string MA_ITEM_TYPE)
+        {
+            return _DM_SAN_PHAMProvider.GetList_SanPham_By_Loai_SPham_And_Item_Type(LOAI_SPHAM_ID, MA_ITEM_TYPE);
+        }
+
+        public DataTable GetData_For_Cbo_Item_Type()
+        {
+            return _DM_SAN_PHAMProvider.GetData_For_Cbo_Item_Type();
+        }
+
+        public DataTable GetData_For_Cbo_Loai_SPham()
+        {
+            return _DM_SAN_PHAMProvider.GetData_For_Cbo_Loai_SPham();
+        }
+
+        public DataTable GetData_For_Cbo_Nhom_SPham()
+        {
+            return _DM_SAN_PHAMProvider.GetData_For_Cbo_Nhom_SPham();
+        }
+
+        public DataTable GetData_For_Cbo_Nguon_Nhap()
+        {
+            return _DM_SAN_PHAMProvider.GetData_For_Cbo_Nguon_Nhap();
+        }
+
+        public DataTable GetData_For_Cbo_DKBQ()
+        {
+            return _DM_SAN_PHAMProvider.GetData_For_Cbo_DKBQ();
+        }
+
+        public DataTable GetData_For_Cbo_NSX()
+        {
+            return _DM_SAN_PHAMProvider.GetData_For_Cbo_NSX();
+        }
+
+        public DataTable GetData_For_Cbo_QuocGia()
+        {
+            return _DM_SAN_PHAMProvider.GetData_For_Cbo_QuocGia();
+        }
+
+        public DataTable GetData_For_Cbo_KhachHang_Ncc()
+        {
+            return _DM_SAN_PHAMProvider.GetData_For_Cbo_KhachHang_Ncc();
+        }
+
+        public DataTable GetData_For_Cbo_LoaiKichThuoc()
+        {
+            return _DM_SAN_PHAMProvider.GetData_For_Cbo_LoaiKichThuoc();
+        }
+
+        public DataTable GetData_For_Cbo_DVT()
+        {
+            return _DM_SAN_PHAMProvider.GetData_For_Cbo_DVT();
+        }
+
+        public int Check_Exist_Ma_SPham(string MA_SANPHAM)
+        {
+            return _DM_SAN_PHAMProvider.Check_Exist_Ma_SPham(MA_SANPHAM);
+        }
+
+        public int Check_Exist_Ma_SPham_Update(string MA_SANPHAM, int SANPHAM_ID)
+        {
+            return _DM_SAN_PHAMProvider.Check_Exist_Ma_SPham_Update(MA_SANPHAM, SANPHAM_ID);
+        }
+    }
+}

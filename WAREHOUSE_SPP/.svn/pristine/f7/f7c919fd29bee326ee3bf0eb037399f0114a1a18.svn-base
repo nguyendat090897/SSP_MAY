@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+<configuration>
+<assembly ntdhttp="False" 
+		displayerror="True" 
+  	appdebugmode="True"
+		usewcf="False" 
+		https="False"
+		roserver="False"/> 
+</configuration>

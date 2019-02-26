@@ -1,0 +1,106 @@
+﻿using DSofT.Framework.Internal.Data;
+using DSofT.Framework.UIControl;
+using System.Collections.Generic;
+using System.Data;
+
+namespace DSofT.Warehouse.Provider
+{
+    public interface ISchoolsProvider
+    {
+        DataTable GetAllSchools(DataTable dtInput);
+        bool InsertOrUpdateSchools(DataTable dtInput);
+        bool DeleteSchools(DataTable dtInput);
+    }
+    public class SchoolsProvider : BaseSqlExecute, ISchoolsProvider
+    {
+
+        public SchoolsProvider(string appId, string userId)
+            : base(DbCommon.WarehouseDbConnstr, appId, userId)
+        {
+        }
+        /// <summary>
+        /// Get danh sách trường học
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetAllSchools(DataTable dtInput)
+        {
+            var sqlParams = new object[] { };
+            var result = base.ExecuteDataSet("Schools_GetAll", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+        /// <summary>
+        /// Insert hoặc Update 
+        /// </summary>
+        /// <returns></returns>
+        public bool InsertOrUpdateSchools(DataTable dtInput)
+        {
+            //thuc hien update
+            if (NumberHelper.ConvertStringToLong(dtInput.Rows[0]["Id"].ToString()) > 0)
+            {
+                var sqlParams = new object[] {   dtInput.Rows[0]["Id"]
+                                                ,dtInput.Rows[0]["SchoolsCode"]
+                                                ,dtInput.Rows[0]["SchoolsName"]
+                                                ,dtInput.Rows[0]["Address"]
+                                                ,dtInput.Rows[0]["Phone"]
+                                                ,dtInput.Rows[0]["Fax"]
+                                                ,dtInput.Rows[0]["Email"]
+                                                ,dtInput.Rows[0]["Representative"]
+                                                ,string.IsNullOrWhiteSpace(dtInput.Rows[0]["NumberStudentPrimary"].ToString())==true?0:dtInput.Rows[0]["NumberStudentPrimary"]
+                                                ,string.IsNullOrWhiteSpace(dtInput.Rows[0]["NumberStudentJuniorHigh"].ToString())==true?0:dtInput.Rows[0]["NumberStudentJuniorHigh"]
+                                                ,string.IsNullOrWhiteSpace(dtInput.Rows[0]["NumberStudentHighSchool"].ToString())==true?0:dtInput.Rows[0]["NumberStudentHighSchool"]
+                                                ,string.IsNullOrWhiteSpace(dtInput.Rows[0]["NumberTeacher"].ToString())==true?0:dtInput.Rows[0]["NumberTeacher"]
+                                             , CommonDataHelper.UserName
+                                             };
+                var result = base.ExecScalar("School_Update", sqlParams);
+                if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                var sqlParams = new object[] {
+                                                 dtInput.Rows[0]["SchoolsCode"]
+                                                ,dtInput.Rows[0]["SchoolsName"]
+                                                ,dtInput.Rows[0]["Address"]
+                                                ,dtInput.Rows[0]["Phone"]
+                                                ,dtInput.Rows[0]["Fax"]
+                                                ,dtInput.Rows[0]["Email"]
+                                                ,dtInput.Rows[0]["Representative"]
+                                                ,string.IsNullOrWhiteSpace(dtInput.Rows[0]["NumberStudentPrimary"].ToString())==true?0:dtInput.Rows[0]["NumberStudentPrimary"]
+                                                ,string.IsNullOrWhiteSpace(dtInput.Rows[0]["NumberStudentJuniorHigh"].ToString())==true?0:dtInput.Rows[0]["NumberStudentJuniorHigh"]
+                                                ,string.IsNullOrWhiteSpace(dtInput.Rows[0]["NumberStudentHighSchool"].ToString())==true?0:dtInput.Rows[0]["NumberStudentHighSchool"]
+                                                ,string.IsNullOrWhiteSpace(dtInput.Rows[0]["NumberTeacher"].ToString())==true?0:dtInput.Rows[0]["NumberTeacher"]
+                                             , CommonDataHelper.UserName
+                                             };
+                var result = base.ExecScalar("Schools_Insert", sqlParams);
+                if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        /// <summary>
+        /// DeleteSchools
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public bool DeleteSchools(DataTable dtInput)
+        {
+                var sqlParams = new object[] { dtInput.Rows[0]["Id"]
+                                             , CommonDataHelper.UserName
+                                             };
+                var result = base.ExecScalar("School_Delete", sqlParams);
+                if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+                {
+                    return true;
+                }
+            return false;
+        }
+    }
+}

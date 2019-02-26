@@ -1,0 +1,48 @@
+
+using DSofT.Warehouse.Provider;
+using System.Data;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface IUnitBussiness
+    {
+        DataTable GetAllUnit();
+        bool InsertOrUpdateUnit(DataTable dtInput);
+        bool DeleteUnit(DataTable dtInput);
+    }
+    public class UnitBussiness : IUnitBussiness
+    {
+        IUnitProvider _UnitProvider;
+        /// <summary>
+        /// Hàm khởi tạo bắt buộc
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <param name="userId"></param>
+        public UnitBussiness(string appId, string userId = "0")
+        {
+            _UnitProvider = new UnitProvider(appId, userId);
+        }
+        /// <summary>
+        /// GetAllUnit
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetAllUnit()
+        {
+            return _UnitProvider.GetAllUnit();
+        }
+
+        public bool InsertOrUpdateUnit( DataTable dtInput)
+        {
+            return _UnitProvider.InsertOrUpdateUnit(dtInput);
+        }
+        /// <summary>
+        /// DeleteUnit
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public bool DeleteUnit(DataTable dtInput)
+        {
+            return _UnitProvider.DeleteUnit(dtInput);
+        }
+    }
+}

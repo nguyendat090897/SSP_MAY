@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{12D7309D-0237-46A8-8C4C-28DD5A3F24B5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DSofT.Warehouse.Provider</RootNamespace>
+    <AssemblyName>DSofT.Warehouse.Provider</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="DSofT.Framework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\DSofT.Warehouse.DLL\BaseFramework\DSofT.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.Client">
+      <HintPath>..\DSofT.Warehouse.DLL\BaseFramework\DSofT.Framework.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.Internal">
+      <HintPath>..\DSofT.Warehouse.DLL\BaseFramework\DSofT.Framework.Internal.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.Logging">
+      <HintPath>..\DSofT.Warehouse.DLL\BaseFramework\DSofT.Framework.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="DSofT.Framework.UIControl">
+      <HintPath>..\DSofT.Warehouse.DLL\Application\DSofT.Framework.UIControl.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\packages\EnterpriseLibrary.Data.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FoodRealityProvider.cs" />
+    <Compile Include="ReportProvider.cs" />
+    <Compile Include="GroupMaterialProvider.cs" />
+    <Compile Include="WarehouseProvider.cs" />
+    <Compile Include="InventoryProvider.cs" />
+    <Compile Include="WarehousingMaterialsProvider.cs" />
+    <Compile Include="SysLogProvider.cs" />
+    <Compile Include="FoodMenuProvider.cs" />
+    <Compile Include="SupplierProvider.cs" />
+    <Compile Include="SchoolsProvider .cs" />
+    <Compile Include="UnitProvider.cs" />
+    <Compile Include="MaterialProvider.cs" />
+    <Compile Include="QuantitativeFoodProvider.cs" />
+    <Compile Include="FoodTypesProvider.cs" />
+    <Compile Include="FoodProvider.cs" />
+    <Compile Include="SystemProvider.cs" />
+    <Compile Include="UserProvider.cs" />
+    <Compile Include="UserRoleProvider.cs" />
+    <Compile Include="UserTypeManagerProvider.cs" />
+    <Compile Include="MenuProvider.cs" />
+    <Compile Include="UserManagerProvider.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DSofT.Warehouse.Domain\DSofT.Warehouse.Domain.csproj">
+      <Project>{b61d0ccb-084c-4581-af41-ed2c26029e2c}</Project>
+      <Name>DSofT.Warehouse.Domain</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

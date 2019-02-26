@@ -1,0 +1,370 @@
+﻿using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Warehouse.Resources;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Input;
+using DSofT.Framework.UICore.TaskProxy;
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    /// Interaction logic for frm_dm_pallet_popup.xaml
+    /// </summary>
+    public partial class frm_dm_pallet_popup : PopupBase
+    {
+        DataTable iDataSource = null;
+        DataTable xNhomPallet = null;
+        IDM_PALLETBussiness _DM_PALLETBussiness;
+        DataRow iRowSelGb = null;
+        string pMA_PALLET = String.Empty;
+        string pTINH_TRANG = String.Empty;
+        public frm_dm_pallet_popup()
+        {
+            InitializeComponent();
+            _DM_PALLETBussiness = new DM_PALLETBussiness(string.Empty);
+            this.iDataSource = this.TableSchemaDefineBingding();
+            this.DataContext = this.iDataSource;
+            LoadComboBox();
+            ChangedToolBox();
+
+            txtMA_DVIQLY.Text = ConstCommon.DonViQuanLy;
+        }
+
+        public override void OnPopupShown()
+        {
+            try
+            {
+                if (this.Parameter != null && this.Parameter.Count() > 0)
+                {
+                    iRowSelGb = this.Parameter[0] as DataRow;
+                    DispalayRequest();
+                    pMA_PALLET = this.iDataSource.Rows[0]["MA_PALLET"].ToString().Trim();
+                    pTINH_TRANG = this.iDataSource.Rows[0]["TINH_TRANG"].ToString();
+                    if (pTINH_TRANG == "False")
+                        rdbKHONG_SU_DUNG.IsChecked = true;
+                    else if (pTINH_TRANG == "True")
+                        rdbSU_DUNG.IsChecked = true;
+                    else
+                        rdbKHONG_SU_DUNG.IsChecked = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        public void DispalayRequest()
+        {
+            try
+            {
+                foreach (DataColumn item in this.iRowSelGb.Table.Columns)
+                {
+                    if (this.iDataSource.Columns[item.ColumnName] != null)
+                    {
+                        this.iDataSource.Rows[0][item.ColumnName] = iRowSelGb[item.ColumnName];
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "DispalayRequest()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+        /// <summary>
+        /// TableSchemaDefineBingding
+        /// </summary>
+        /// <returns></returns>
+        private DataTable TableSchemaDefineBingding()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("PALLET_ID", typeof(decimal));
+                xDicUser.Add("MA_DVIQLY", typeof(string));
+                xDicUser.Add("MA_PALLET", typeof(string));
+                xDicUser.Add("MA_VACH", typeof(string));
+                xDicUser.Add("TEN_PALLET", typeof(string));
+                xDicUser.Add("NHOM_PALLET_ID", typeof(decimal));
+                xDicUser.Add("LOAI_KTHUOC_ID", typeof(decimal));
+                xDicUser.Add("LOAI_PALLET_ID", typeof(decimal));
+                xDicUser.Add("NHA_SXUAT_ID", typeof(decimal));
+                xDicUser.Add("MA_PL_THEO_NSX", typeof(string));
+                xDicUser.Add("TEN_PL_THEO_NSX", typeof(string));
+                xDicUser.Add("GHI_CHU", typeof(string));
+                xDicUser.Add("TINH_TRANG", typeof(bool));
+                xDicUser.Add("RowVersion", typeof(long));
+                xDicUser.Add("IsDelete", typeof(bool));
+                xDicUser.Add("CreateBy", typeof(string));
+                xDicUser.Add("CreateDate", typeof(DateTime));
+                xDicUser.Add("ModifiedBy", typeof(string));
+                xDicUser.Add("ModifiedDate", typeof(DateTime));
+                xDicUser.Add("TEN_NHOM_PALLET", typeof(string));
+                xDicUser.Add("MA_SIZE", typeof(string));
+                xDicUser.Add("TEN_LOAI_PALLET", typeof(string));
+                xDicUser.Add("TEN_NHA_SXUAT", typeof(string));
+                xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            return xDt;
+        }
+
+        private void LoadComboBox()
+        {
+            try
+            {
+                DataTable dt = _DM_PALLETBussiness.GetListDM_PALLET_NHOM_PALLET(ConstCommon.DonViQuanLy);
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    this.xNhomPallet = dt;
+                    ComboBoxUtil.SetComboBoxEdit(this.cboNHOM_PALLET_ID, "TEN_NHOM_PALLET", "NHOM_PALLET_ID", xNhomPallet, SelectionTypeEnum.Native);
+                    ComboBoxUtil.InsertItem(cboNHOM_PALLET_ID,Convert.ToString(UtilLanguage.ApplyLanguage()["lblChonAll"]),"0",0);
+                    this.iDataSource.Rows[0]["NHOM_PALLET_ID"] = cboNHOM_PALLET_ID.GetKeyValue(0);
+                }
+            }
+            catch (Exception ex)
+            {
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        private void KTTinhTrang()
+        {
+            if (rdbKHONG_SU_DUNG.IsChecked == true)
+                this.iDataSource.Rows[0]["TINH_TRANG"] = 0;
+            else
+                this.iDataSource.Rows[0]["TINH_TRANG"] = 1;
+        }
+        private void ChangedToolBox()
+        {
+            if(frm_dm_pallet.status == false)
+            {
+                txtMA_PALLET.IsEnabled = false;
+                txtMA_VACH.IsEnabled = false;
+                txtTEN_PALLET.IsEnabled = false;
+                cboNHOM_PALLET_ID.IsEnabled = false;
+                txtGHI_CHU.IsEnabled = false;
+                rdbKHONG_SU_DUNG.IsEnabled = false;
+                rdbSU_DUNG.IsEnabled = false;
+            }
+            else
+            {
+                txtMA_DVIQLY.Text = ConstCommon.DonViQuanLy;
+                txtMA_PALLET.IsEnabled = true;
+                txtMA_VACH.IsEnabled = true;
+                txtTEN_PALLET.IsEnabled = true;
+                cboNHOM_PALLET_ID.IsEnabled = true;
+                txtGHI_CHU.IsEnabled = true;
+                rdbKHONG_SU_DUNG.IsEnabled = true;
+                rdbKHONG_SU_DUNG.IsChecked = true;
+                rdbSU_DUNG.IsEnabled = true;
+            }
+        }
+        private void SaveData()
+        {
+            bool result = _DM_PALLETBussiness.InsertorUpdateDM_PALLET(this.iDataSource.Copy());
+            if (!result)
+            {
+
+                base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageFailed"]));
+                return;
+            }
+            else
+            {
+                ToastMessage.ShowToastMessage(Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessage"]), Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageSuccess"]), notificationService);
+            }
+            //if (frm_dm_pallet.status == false)
+            //    this.Close();
+        }
+        private bool CheckSymbolInMaPallet(string str)
+        {
+            if (str == "" || str == String.Empty)
+            {
+                return false;
+            }
+            char[] varChar = str.ToCharArray();
+            int i = 0;
+            while (i < varChar.Length &&
+                ((Convert.ToInt32(varChar[i]) >= 97 && Convert.ToInt32(varChar[i]) <= 122) || (Convert.ToInt32(varChar[i]) >= 65 && Convert.ToInt32(varChar[i]) <= 90)
+                || (Convert.ToInt32(varChar[i]) >= 48 && Convert.ToInt32(varChar[i]) <= 57)))
+            {
+                i++;
+            }
+            if (i < varChar.Length)
+            {
+                return false;
+            }
+            return true;
+        }
+        private void SetFocus()
+        {
+            if (txtMA_PALLET.Text == String.Empty)
+            {
+                txtMA_PALLET.Focus();
+                base.ShowMessage(MessageType.Information, "[MÃ] PALLET " + Convert.ToString(UtilLanguage.ApplyLanguage()["lblNoteNULL"]));
+            }
+            else if (txtTEN_PALLET.Text == String.Empty)
+            {
+                base.ShowMessage(MessageType.Information, "[TÊN] PALLET " + Convert.ToString(UtilLanguage.ApplyLanguage()["lblNoteNULL"]));
+                txtTEN_PALLET.Focus();
+            }
+            else if (cboNHOM_PALLET_ID.SelectedIndex == 0)
+            {
+                base.ShowMessage(MessageType.Information, "Chưa chọn [NHÓM] PALLET.");
+                cboNHOM_PALLET_ID.Focus();
+            }
+            else if (txtLOAI_KTHUOC_ID.Text == String.Empty)
+            {
+                base.ShowMessage(MessageType.Information, "[KÍCH THƯỚC] PALLET " + Convert.ToString(UtilLanguage.ApplyLanguage()["lblNoteNULL"]));
+            }
+            else if (txtTEN_NHA_SXUAT.Text == String.Empty)
+            {
+                base.ShowMessage(MessageType.Information, "[NHÀ SẢN XUẤT] PALLET " + Convert.ToString(UtilLanguage.ApplyLanguage()["lblNoteNULL"]));
+            }
+            else if (txTEN_LOAI_PALLET.Text == String.Empty)
+            {
+                base.ShowMessage(MessageType.Information, "[TÊN LOẠI] PALLET " + Convert.ToString(UtilLanguage.ApplyLanguage()["lblNoteNULL"]));
+            }
+            else if (txtMA_PL_THEO_NSX.Text == String.Empty)
+            {
+                base.ShowMessage(MessageType.Information, "[MÃ PALLET THEO NSX] " + Convert.ToString(UtilLanguage.ApplyLanguage()["lblNoteNULL"]));
+            }
+            else
+            {
+                base.ShowMessage(MessageType.Information, "[TÊN PALLET THEO NSX] " + Convert.ToString(UtilLanguage.ApplyLanguage()["lblNoteNULL"]));
+            }
+            rdbKHONG_SU_DUNG.IsChecked = true;
+        }
+        /// <summary>
+        /// btnSave_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// 
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (txtMA_PALLET.Text != String.Empty && txtTEN_PALLET.Text != String.Empty && cboNHOM_PALLET_ID.SelectedIndex != 0
+                            && txtLOAI_KTHUOC_ID.Text != String.Empty && txtTEN_NHA_SXUAT.Text != String.Empty && txTEN_LOAI_PALLET.Text != String.Empty
+                            && txtMA_PL_THEO_NSX.Text != String.Empty && txtTEN_PL_THEO_NSX.Text != String.Empty)
+                {
+                    DataTable dts = _DM_PALLETBussiness.GetListDM_PALLET_KEY(ConstCommon.DonViQuanLy,
+                            txtMA_PALLET.Text);
+                    if (frm_dm_pallet.status == true && dts != null && dts.Rows.Count > 0)
+                    {
+                        base.ShowMessage(MessageType.Information, "[MÃ] PALLET " + Convert.ToString(UtilLanguage.ApplyLanguage()["lblNoteID"]));
+                    }
+                    else
+                    {
+                        if (CheckSymbolInMaPallet(txtMA_PALLET.Text) == true)
+                        {
+                            if (pMA_PALLET != this.iDataSource.Rows[0]["MA_PALLET"].ToString())
+                            {
+                                if (dts == null || dts.Rows.Count == 0)
+                                {
+                                    SaveData();
+                                }
+                                else
+                                {
+                                    base.ShowMessage(MessageType.Information, "[MÃ] PALLET " + Convert.ToString(UtilLanguage.ApplyLanguage()["lblNoteID"]));
+                                    return;
+                                }
+                            }
+                            else
+                            {
+                                SaveData();
+                            }
+                        }
+                        else
+                            base.ShowMessage(MessageType.Information, "[MÃ] PALLET " + Convert.ToString(UtilLanguage.ApplyLanguage()["lblNoteSYMBOL"]));
+                    }
+                }
+                else
+                { SetFocus(); }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnSave.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void cboNHOM_PALLET_ID_EditValueChanged(object sender, DevExpress.Xpf.Editors.EditValueChangedEventArgs e)
+        {
+            try
+            {
+                DataTable dt = _DM_PALLETBussiness.GetListDM_PALLET_BY_ID(ConstCommon.DonViQuanLy, ConstCommon.NVL_NUM_LONG_NEW(cboNHOM_PALLET_ID.EditValue.ToString()));
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    txTEN_LOAI_PALLET.Text = dt.Rows[0]["TEN_LOAI_PALLET"].ToString();
+                    txtMA_SIZE.Text = dt.Rows[0]["MA_SIZE"].ToString();
+                    txtTEN_NHA_SXUAT.Text = dt.Rows[0]["TEN_NHA_SXUAT"].ToString();
+
+                    txID_LOAI_PALLET.EditValue = dt.Rows[0]["LOAI_PALLET_ID"].ToString();
+                    txtLOAI_KTHUOC_ID.EditValue = dt.Rows[0]["LOAI_KTHUOC_ID"].ToString();
+                    txtNHA_SXUAT_ID.EditValue = dt.Rows[0]["NHA_SXUAT_ID"].ToString();
+                    
+                    txtMA_PL_THEO_NSX.EditValue = dt.Rows[0]["MA_PL_THEO_NSX"].ToString();
+                    txtTEN_PL_THEO_NSX.EditValue = dt.Rows[0]["TEN_PL_THEO_NSX"].ToString();
+                }
+                else
+                    return;
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "cboNHOM_PALLET_ID_EditValueChanged()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+        private void btnEdit_Click(object sender, RoutedEventArgs e)
+        {
+            txtMA_PALLET.IsEnabled = true;
+            txtMA_VACH.IsEnabled = true;
+            txtTEN_PALLET.IsEnabled = true;
+            cboNHOM_PALLET_ID.IsEnabled = true;
+            txtGHI_CHU.IsEnabled = true;
+            rdbKHONG_SU_DUNG.IsEnabled = true;
+            rdbSU_DUNG.IsEnabled = true;
+            txtMA_PALLET.Focus();
+        }
+
+        private void rdbSU_DUNG_Click(object sender, RoutedEventArgs e)
+        {
+            KTTinhTrang();
+        }
+
+        private void rdbKHONG_SU_DUNG_Click(object sender, RoutedEventArgs e)
+        {
+            KTTinhTrang();
+        }
+    }
+
+}

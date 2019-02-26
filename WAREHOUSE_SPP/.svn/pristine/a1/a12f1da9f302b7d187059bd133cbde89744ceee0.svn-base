@@ -1,0 +1,591 @@
+﻿using DevExpress.Xpf.Editors;
+using DevExpress.Xpf.Editors.Settings;
+using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Warehouse.Resources;
+using DSofT.Framework.Helpers;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using DSofT.Framework.UICore.TaskProxy;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Input;
+using DSofT.Framework.Client.ExportHelper;
+using Microsoft.Win32;
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    /// Interaction logic for frm_FoodMenu.xaml
+    /// </summary>
+    public partial class frm_FoodMenu : ControlBase
+    {
+        DataTable iDataSource = null;
+        GridHelper iGridHelper = null;
+        DataTable iGridDataSource = null;
+        IFoodTypesBussiness _foodTypesBussiness;
+        IFoodBussiness _foodBussiness;
+        IFoodMenuBussiness _foodMenuBussiness;
+        ISchoolsBussiness _schoolsBussiness;
+        DataTable dtFoodType;
+        DataTable dtSchools;
+        public frm_FoodMenu()
+        {
+            InitializeComponent();
+            _foodTypesBussiness = new FoodTypesBussiness(string.Empty);
+            _foodBussiness = new FoodBussiness(string.Empty);
+            _foodMenuBussiness = new FoodMenuBussiness(string.Empty);
+            _schoolsBussiness = new SchoolsBussiness(string.Empty);
+            this.iDataSource = this.TableSchemaDefineBingding();
+            this.DataContext = this.iDataSource;
+            Initialize_Grid();
+            LoadCombox();
+
+        }
+        /// <summary>
+        /// LoadCombox
+        /// </summary>
+        private void LoadCombox()
+        {
+            try
+            {
+                this.dtSchools = _schoolsBussiness.GetAllSchools(this.iDataSource.Copy());
+                ComboBoxUtil.SetComboBoxEdit(this.cboSchool, "SchoolsName", "Id", dtSchools, SelectionTypeEnum.Native);
+                ComboBoxUtil.InsertItem(cboSchool, "*", "0", 0);
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "LoadCombox()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+
+        }
+      
+        /// <summary>
+        /// TableSchemaDefineBingding
+        /// </summary>
+        /// <returns></returns>
+        private DataTable TableSchemaDefineBingding()
+        {
+            DataTable xDt = null;
+            try
+            {
+                Dictionary<string, Type> xDicUser = new Dictionary<string, Type>();
+                xDicUser.Add("FromDay", typeof(string));
+                xDicUser.Add("ToDay", typeof(string));
+                xDicUser.Add("DayChoose", typeof(string));
+                xDicUser.Add("NumberFood", typeof(decimal));
+                xDicUser.Add("SchoolsId", typeof(decimal));
+                xDicUser.Add("FoodMenuCode", typeof(string));
+                xDicUser.Add("NumberFoodTeacher", typeof(decimal));
+                xDicUser.Add("NumberFoodStudent", typeof(decimal));
+                xDicUser.Add("SchoolName", typeof(string));
+                xDicUser.Add("SchoolCode", typeof(string));
+                xDicUser.Add("Id", typeof(decimal));
+                xDt = TableUtil.ConvertDictionaryToTable(xDicUser, true, false);
+
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "TableSchemaDefineBingding()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            return xDt;
+        }
+
+        private void LoadData()
+        {
+            try
+            {
+                using (var task = new AsyncTaskProcess(this))
+                {
+                    ServiceAction<DataTable> action = ((pd) =>
+                    {
+                        task.SetCallContext();
+                        return LoadDataTable();
+                    });
+                    Action<DataTable> onComplete = (dt =>
+                    {
+                        this.Dispatcher.BeginInvoke((Action)(() =>
+                        {
+                            this.iGridDataSource = dt;
+                            this.iGridHelper.BindItemSource(this.iGridDataSource);
+                        }));
+                    });
+                    task.AsyncTaskExecute(action, onComplete);
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "LoadData()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+        /// <summary>
+        /// LoadData
+        /// </summary>
+        private DataTable LoadDataTable()
+        {
+            DataTable dtFoodMenu = new DataTable();
+            dtFoodMenu = _foodMenuBussiness.GetAllFoodMenu(this.iDataSource);
+            DataTable dtSource = new DataTable();
+            if (this.dtFoodType != null && this.dtFoodType.Rows.Count > 0)
+            {
+                DataColumn dc = new DataColumn("DateMenu");
+                dtSource.Columns.Add(dc);
+                DataColumn dcNumberFoodStudent = new DataColumn("NumberFoodStudent");
+                dtSource.Columns.Add(dcNumberFoodStudent);
+                DataColumn dcNumberFoodTeacher = new DataColumn("NumberFoodTeacher");
+                dtSource.Columns.Add(dcNumberFoodTeacher);
+                foreach (DataRow dr in dtFoodType.Rows)
+                {
+                    dc = new DataColumn("FoodTypes" + dr["Id"].ToString(), typeof(decimal));
+                    dtSource.Columns.Add(dc);
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(this.iDataSource.Rows[0]["FromDay"].ToString()) && !string.IsNullOrWhiteSpace(this.iDataSource.Rows[0]["ToDay"].ToString()))
+            {
+                DateTime StartDate = DateTime.ParseExact(this.iDataSource.Rows[0]["FromDay"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                DateTime EndDate = DateTime.ParseExact(this.iDataSource.Rows[0]["ToDay"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                while (StartDate <= EndDate)
+                {
+                    DataRow dr = dtSource.NewRow();
+                    dr["DateMenu"] = DateTimeHelper.ConvertDateTimeWithFormat(StartDate.ToShortDateString(), "dd/MM/yyyy");
+                    dr["NumberFoodTeacher"] = this.iDataSource.Rows[0]["NumberFoodTeacher"].ToString();
+                    dr["NumberFoodStudent"] = this.iDataSource.Rows[0]["NumberFoodStudent"].ToString();
+                    if (dtFoodMenu != null && dtFoodMenu.Rows.Count > 0)
+                    {
+                        DataRow[] drFoodMenu = dtFoodMenu.Select("DateMenu='" + DateTimeHelper.ConvertDateTimeWithFormat(StartDate.ToShortDateString(), "dd/MM/yyyy") + "'");
+                        if (drFoodMenu != null && drFoodMenu.Length > 0)
+                        {
+                            foreach (DataRow item in drFoodMenu)
+                            {
+                                dr["NumberFoodTeacher"] = item["NumberFoodTeacher"].ToString();
+                                dr["NumberFoodStudent"] = item["NumberFoodStudent"].ToString();
+                                foreach (DataColumn column in dtSource.Columns)
+                                {
+                                    string columnName = "FoodTypes" + item["FoodTypeId"].ToString();
+                                    if (columnName == column.ColumnName)
+                                    {
+                                        dr[columnName] = item["FoodId"].ToString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    dtSource.Rows.Add(dr);
+                    StartDate = StartDate.AddDays(1);
+                }
+            }
+            return dtSource;
+        }
+        /// <summary>
+        /// Initialize_Grid
+        /// </summary>
+        private void Initialize_Grid()
+        {
+            try
+            {
+                this.iGridHelper = new GridHelper(this.grd, this.grdView, false);
+                Column xColumn;
+                xColumn = new Column("Id", "Id");
+                xColumn.Visible = false;
+                this.iGridHelper.Add(xColumn);
+                xColumn = new Column("DateMenu", Convert.ToString(UtilLanguage.ApplyLanguage()["frmFood_DateMenu"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.ColumnType = ColumnControl.DateEdit;
+                xColumn.DataType = typeof(string);
+                xColumn.MaskType = MaskType.DateTime;
+                xColumn.EditMask = "dd/MM/yyyy";
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
+                xColumn.IsNullValidate = true;
+                xColumn.Binding = new Binding("DateMenu") { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged, ConverterParameter = "dd/MM/yyyy", Converter = new ConverterStringDateTime() };
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("NumberFoodStudent", Convert.ToString(UtilLanguage.ApplyLanguage()["frmFoodMenu_NumberFoodStudent"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+
+                xColumn = new Column("NumberFoodTeacher", Convert.ToString(UtilLanguage.ApplyLanguage()["frmFoodMenu_NumberFoodTeacher"]));
+                xColumn.Width = 60;
+                xColumn.Visible = true;
+                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                this.iGridHelper.Add(xColumn);
+
+
+                this.dtFoodType = _foodTypesBussiness.GetAllFoodTypes();
+                if (this.dtFoodType != null && this.dtFoodType.Rows.Count > 0)
+                {
+                    foreach (DataRow dr in dtFoodType.Rows)
+                    {
+                        DataTable dtData = _foodBussiness.GetAllFoodByFoodTypeId(dr["Id"].ToString());
+                        xColumn = new Column("FoodTypes" + dr["Id"].ToString(), dr["FoodTypesName"].ToString());
+                        xColumn.ColumnType = ColumnControl.Combo;
+                        xColumn.Width = 100;
+                        xColumn.Visible = true;
+                        xColumn.HorizontalContentAlignment = EditSettingsHorizontalAlignment.Left;
+                        xColumn.Binding = new Binding("FoodTypes" + dr["Id"].ToString()) { Mode = BindingMode.TwoWay, UpdateSourceTrigger = UpdateSourceTrigger.PropertyChanged };
+                        xColumn.ValueList.DataSource = dtData;
+                        xColumn.ValueList.DisplayMember = "FoodName";
+                        xColumn.ValueList.ValueMember = "Id";
+                        xColumn.IsEditShow = true;
+                        this.iGridHelper.Add(xColumn);
+                    }
+                }
+                this.iGridHelper.Initialize();
+                this.grdView.AutoWidth = true;
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "Initialize_Grid()");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+
+        /// <summary>
+        /// btnNew_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnNew_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnNew.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// btnSave_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnSave_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                bool result = _foodMenuBussiness.InsertOrUpdateFoodMenu(this.iDataSource.Copy(), this.iGridDataSource.Copy());
+                if (!result)
+                {
+                    base.ShowMessage(MessageType.Information, Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageFailed"]));
+                    return;
+                }
+                else
+                {
+                    ToastMessage.ShowToastMessage(Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessage"]), Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageSuccess"]), notificationService);
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnSave.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+
+        private void ChangeDate()
+        {
+            try
+            {
+                Mouse.OverrideCursor = Cursors.Wait;
+                if (string.IsNullOrWhiteSpace(this.iDataSource.Rows[0]["DayChoose"].ToString())
+                    || this.iDataSource.Rows[0]["SchoolsId"].ToString().TryParseToDecimal() <= 0)
+                {
+                    return;
+                }
+                CultureInfo cultureInfo = CultureInfo.CurrentCulture;
+                DateTime firstDayOfWeek = DateTime.Now;
+                DayOfWeek firstDay = cultureInfo.DateTimeFormat.FirstDayOfWeek;
+                DateTime firstDayInWeek = DateTime.ParseExact(DateTimeHelper.ConvertDateTimeWithFormat(this.iDataSource.Rows[0]["DayChoose"].ToString(), "dd/MM/yyyy"), "dd/MM/yyyy", CultureInfo.InvariantCulture).Date;
+                while (firstDayInWeek.DayOfWeek != firstDay)
+                {
+                    firstDayInWeek = firstDayInWeek.AddDays(-1);
+                }
+                this.iDataSource.Rows[0]["FromDay"] = DateTimeHelper.ConvertDateTimeWithFormat(firstDayInWeek.ToShortDateString(), "dd/MM/yyyy");
+                this.iDataSource.Rows[0]["ToDay"] = DateTimeHelper.ConvertDateTimeWithFormat(firstDayInWeek.AddDays(6).ToShortDateString(), "dd/MM/yyyy");
+                DataTable dt = _foodMenuBussiness.GeFoodMenuByDateAndSchool(this.iDataSource.Copy());
+                if (dt != null && dt.Rows.Count > 0)
+                {
+                    dt.Rows[0]["Daychoose"] = this.iDataSource.Rows[0]["DayChoose"];
+                    this.iDataSource = dt.Copy();
+                    this.DataContext = this.iDataSource;
+                }
+                //gen mã phiếu      
+                else
+                {
+                    DataTable dtCodeSchool = this.dtSchools.Select("Id='" + this.iDataSource.Rows[0]["SchoolsId"].ToString() + "'").CopyToDataTable();
+                    decimal numberStudent = dtCodeSchool.Rows[0]["NumberStudentPrimary"].ToString().TryParseToDecimal()
+                        + dtCodeSchool.Rows[0]["NumberStudentJuniorHigh"].ToString().TryParseToDecimal()
+                        + dtCodeSchool.Rows[0]["NumberStudentHighSchool"].ToString().TryParseToDecimal();
+                    decimal numberFoodTeacher = dtCodeSchool.Rows[0]["NumberTeacher"].ToString().TryParseToDecimal();                   
+                    this.iDataSource.Rows[0]["NumberFood"] = numberStudent+ numberFoodTeacher;
+                    this.iDataSource.Rows[0]["NumberFoodStudent"] = numberStudent;
+                    this.iDataSource.Rows[0]["NumberFoodTeacher"] = numberFoodTeacher;
+                }
+                LoadData();
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "ChangeDate");
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+            finally
+            {
+                Mouse.OverrideCursor = Cursors.Arrow;
+            }
+        }
+
+        private void dtpDayChoose_EditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            ChangeDate();
+        }
+
+        private void cboSchool_EditValueChanged(object sender, EditValueChangedEventArgs e)
+        {
+            ChangeDate();
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Ngay"></param>
+        /// <returns></returns>
+        public static string GetDayOfWeek(DateTime Ngay)
+        {
+            switch (Ngay.DayOfWeek)
+            {
+                case DayOfWeek.Friday:
+                    return "Thứ Sáu";
+                case DayOfWeek.Monday:
+                    return "Thứ Hai";
+                case DayOfWeek.Saturday:
+                    return "Thứ Bảy";
+                case DayOfWeek.Sunday:
+                    return "Chủ Nhật";
+                case DayOfWeek.Tuesday:
+                    return "Thứ Ba";
+                case DayOfWeek.Thursday:
+                    return "Thứ Năm";
+                default:
+                    return "Thứ Tư";
+            }
+        }
+        /// <summary>
+        /// LoadDataTableExcel()
+        /// </summary>
+        /// <returns></returns>
+        private DataTable LoadDataTableExcel()
+        {
+            DataTable dtFoodMenu = new DataTable();
+            dtFoodMenu = _foodMenuBussiness.GetAllFoodMenu(this.iDataSource);
+            DataTable dtSource = new DataTable();
+            if (this.dtFoodType != null && this.dtFoodType.Rows.Count > 0)
+            {
+                DataColumn dcDayOfWeek = new DataColumn("DayOfWeek");
+                dtSource.Columns.Add(dcDayOfWeek);
+                foreach (DataRow dr in dtFoodType.Rows)
+                {
+                    DataColumn dc = new DataColumn("FoodTypes" + dr["Id"].ToString(), typeof(string));
+                    dtSource.Columns.Add(dc);
+                }
+            }
+            if (!string.IsNullOrWhiteSpace(this.iDataSource.Rows[0]["FromDay"].ToString()) && !string.IsNullOrWhiteSpace(this.iDataSource.Rows[0]["ToDay"].ToString()))
+            {
+                DateTime StartDate = DateTime.ParseExact(this.iDataSource.Rows[0]["FromDay"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                DateTime EndDate = DateTime.ParseExact(this.iDataSource.Rows[0]["ToDay"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture);
+                while (StartDate <= EndDate)
+                {
+                    DataRow dr = dtSource.NewRow();
+                    dr["DayOfWeek"] = GetDayOfWeek(StartDate) + " " + DateTimeHelper.ConvertDateTimeWithFormat(StartDate.ToShortDateString(), "dd/MM/yyyy");
+                    if (dtFoodMenu != null && dtFoodMenu.Rows.Count > 0)
+                    {
+                        DataRow[] drFoodMenu = dtFoodMenu.Select("DateMenu='" + DateTimeHelper.ConvertDateTimeWithFormat(StartDate.ToShortDateString(), "dd/MM/yyyy") + "'");
+                        if (drFoodMenu != null && drFoodMenu.Length > 0)
+                        {
+                            foreach (DataRow item in drFoodMenu)
+                            {
+
+                                foreach (DataColumn column in dtSource.Columns)
+                                {
+                                    string columnName = "FoodTypes" + item["FoodTypeId"].ToString();
+                                    if (columnName == column.ColumnName)
+                                    {
+                                        dr[columnName] = item["FoodName"].ToString();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    dtSource.Rows.Add(dr);
+                    StartDate = StartDate.AddDays(1);
+                }
+            }
+            return dtSource;
+        }
+        /// <summary>
+        /// btnExcelFoodMenu_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnExcelFoodMenu_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ExportExcel exp = new ExportExcel();
+                DataSet dsSource = new DataSet();
+                string filename = string.Empty;
+                DataTable dt = new DataTable();
+                dt = LoadDataTableExcel();
+                dt.TableName = "dt";
+                dsSource.Tables.Add(dt);
+                string templaleFileName = "RP_FoodMenu.xlsx";
+                DataTable dtTitle = new DataTable();
+                dtTitle.TableName = "dt2";
+                dtTitle.Columns.Add("DateMenu", typeof(string));
+                dtTitle.Columns.Add("Dear", typeof(string));
+                DataRow drTitle = dtTitle.NewRow();
+                drTitle["DateMenu"] = string.Format("Từ {0} đến {1}", this.iDataSource.Rows[0]["FromDay"].ToString(), this.iDataSource.Rows[0]["ToDay"].ToString());
+                drTitle["Dear"] = string.Format("Kính gửi: {0}", cboSchool.Text);
+                dtTitle.Rows.Add(drTitle);
+                dsSource.Tables.Add(dtTitle);
+                SaveFileDialog dlg = new SaveFileDialog();
+                dlg.Filter = "Excel files (*.xlsx or .xls)|.xlsx;*.xls";
+                dlg.FileName = string.Format("{0}", Guid.NewGuid());
+                var result = dlg.ShowDialog();
+                if (result == true)
+                {
+                    filename = dlg.FileName;
+                    var export = exp.Return(filename, templaleFileName, dsSource);
+                    if (export)
+                    {
+                        System.Diagnostics.Process.Start(filename);
+                        ToastMessage.ShowToastMessage(Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessage"]), Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageSuccess"]), notificationService);
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnExcelFoodMenu.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// btnVegetablesQuatitative_Click
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnVegetablesQuatitative_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                ExportExcel exp = new ExportExcel();
+                DataSet dsSource = new DataSet();
+                string filename = string.Empty;
+                DataTable dt = new DataTable();
+                dt = _foodMenuBussiness.ReportVegetablesQuatitative(this.iDataSource.Copy());
+                dt.TableName = "dt";
+                dsSource.Tables.Add(dt.Copy());
+                string templaleFileName = "RP_VegetablesQuatitative.xlsx";
+                DataTable dtTitle = new DataTable();
+                dtTitle.TableName = "dt2";
+                dtTitle.Columns.Add("TitleReport", typeof(string));
+                dtTitle.Columns.Add("SchoolName", typeof(string));
+                DataRow drTitle = dtTitle.NewRow();
+                drTitle["TitleReport"] = string.Format("ĐỊNH LƯỢNG RAU TRONG TUẦN TỪ {0} ĐẾN {1}", this.iDataSource.Rows[0]["FromDay"].ToString(), this.iDataSource.Rows[0]["ToDay"].ToString());
+                drTitle["SchoolName"] = string.Format("Trường: {0}", cboSchool.Text);
+                dtTitle.Rows.Add(drTitle);
+                dsSource.Tables.Add(dtTitle);
+                SaveFileDialog dlg = new SaveFileDialog();
+                dlg.Filter = "Excel files (*.xlsx or .xls)|.xlsx;*.xls";
+                dlg.FileName = string.Format("{0}", Guid.NewGuid());
+                var result = dlg.ShowDialog();
+                if (result == true)
+                {
+                    filename = dlg.FileName;
+                    var export = exp.Return(filename, templaleFileName, dsSource);
+                    if (export)
+                    {
+                        System.Diagnostics.Process.Start(filename);
+                        ToastMessage.ShowToastMessage(Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessage"]), Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageSuccess"]), notificationService);
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnVegetablesQuatitative.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        /// <summary>
+        /// btnExcelDelivery
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnExcelDelivery_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (iDataSource.Rows.Count == 0) return;
+                DataRow iRowSelGb = ((DataRowView)this.grd.GetFocusedRow()).Row;
+                ExportExcel exp = new ExportExcel();
+                DataSet dsSource = new DataSet();
+                string filename = string.Empty;
+                DataTable dt = new DataTable();
+                dt = _foodMenuBussiness.ReportDeliveryVegetablesQuatitative(iRowSelGb["DateMenu"].ToString(), this.iDataSource.Rows[0]["SchoolsId"].ToString());
+                dt.TableName = "dt";
+                dsSource.Tables.Add(dt.Copy());
+                string templaleFileName = "RP_DeliveryVegetablesQuatitative.xlsx";
+                DataTable dtTitle = new DataTable();
+                dtTitle.TableName = "dt2";
+                dtTitle.Columns.Add("Code", typeof(string));
+                dtTitle.Columns.Add("SchoolName", typeof(string));
+                dtTitle.Columns.Add("DateMenu", typeof(string));
+                DataRow drTitle = dtTitle.NewRow();
+                drTitle["Code"] = string.Format("Số: {0}", iRowSelGb["DateMenu"].ToString().Replace("/",""));
+                drTitle["SchoolName"] = string.Format("{0}", cboSchool.Text);
+                drTitle["DateMenu"] = string.Format("{0}", iRowSelGb["DateMenu"].ToString());
+                dtTitle.Rows.Add(drTitle);
+                dsSource.Tables.Add(dtTitle);
+                SaveFileDialog dlg = new SaveFileDialog();
+                dlg.Filter = "Excel files (*.xlsx or .xls)|.xlsx;*.xls";
+                dlg.FileName = string.Format("{0}", Guid.NewGuid());
+                var result = dlg.ShowDialog();
+                if (result == true)
+                {
+                    filename = dlg.FileName;
+                    var export = exp.Return(filename, templaleFileName, dsSource);
+                    if (export)
+                    {
+                        System.Diagnostics.Process.Start(filename);
+                        ToastMessage.ShowToastMessage(Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessage"]), Convert.ToString(UtilLanguage.ApplyLanguage()["lblMessageSuccess"]), notificationService);
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnExcelDelivery.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
+        }
+        
+    }
+
+}

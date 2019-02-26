@@ -1,0 +1,43 @@
+using DSofT.Warehouse.Provider;
+using System;
+using System.Data;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface IQuantitativeFoodBussiness
+    {
+        DataTable GetAllQuantitativeFood(DataTable dtInput);
+        bool InsertOrUpdateQuantitativeFood(DataTable dtInput,string schoolId);
+    }
+    public class QuantitativeFoodBussiness : IQuantitativeFoodBussiness
+    {
+        IQuantitativeFoodProvider _quantitativeFoodProvider;
+        /// <summary>
+        /// Hàm khởi tạo bắt buộc
+        /// </summary>
+        /// <param name="appId"></param>
+        /// <param name="userId"></param>
+        public QuantitativeFoodBussiness(string appId, string userId = "0")
+        {
+            _quantitativeFoodProvider = new QuantitativeFoodProvider(appId, userId);
+        }
+        /// <summary>
+        /// GetAllQuantitativeFood
+        /// </summary>
+        /// <returns></returns>
+        public DataTable GetAllQuantitativeFood(DataTable dtInput)
+        {
+            return _quantitativeFoodProvider.GetAllQuantitativeFood(dtInput);
+        }
+        
+        /// <summary>
+        /// InsertQuantitativeFood
+        /// </summary>
+        /// <param name="dsInput"></param>
+        /// <returns></returns>
+        public bool InsertOrUpdateQuantitativeFood(DataTable dtInput, string schoolId)
+        {
+            return _quantitativeFoodProvider.InsertOrUpdateQuantitativeFood(dtInput, schoolId);
+        }
+    }
+}

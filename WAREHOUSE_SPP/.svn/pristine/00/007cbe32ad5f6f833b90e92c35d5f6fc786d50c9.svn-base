@@ -1,0 +1,51 @@
+
+using DSofT.Warehouse.Provider;
+using System.Data;
+
+namespace DSofT.Warehouse.Business
+{
+    public interface IYEUCAU_NHAPKHOBussiness
+    {
+
+        DataTable GetData_For_Cbo_KhachHang_Ncc(string pMA_DVIQLY);
+        DataTable getDIADIEM_XUATHANG_BY_NCC(string pMA_DVIQLY, long pKHACHHANG_NCC_ID);
+    }
+    public class YEUCAU_NHAPKHOBussiness : IYEUCAU_NHAPKHOBussiness
+    {
+        IYEUCAU_NHAPKHOProvider _DM_KHOProvider;
+        public YEUCAU_NHAPKHOBussiness(string appId, string userId = "0")
+        {
+            _DM_KHOProvider = new YEUCAU_NHAPKHOProvider(appId, userId);
+        }
+
+        public DataTable GetData_For_Cbo_KhachHang_Ncc(string pMA_DVIQLY)
+        {
+            try
+            {
+                return _DM_KHOProvider.GetData_For_Cbo_KhachHang_Ncc(pMA_DVIQLY);
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+        public DataTable getDIADIEM_XUATHANG_BY_NCC(string pMA_DVIQLY, long pKHACHHANG_NCC_ID)
+        {
+            try
+            {
+
+                return _DM_KHOProvider.getDIADIEM_XUATHANG_BY_NCC(pMA_DVIQLY, pKHACHHANG_NCC_ID);
+            }
+            catch (System.Exception ex)
+            {
+
+                throw ex;
+            }
+
+        }
+
+    }
+}

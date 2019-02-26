@@ -1,0 +1,134 @@
+﻿using DSofT.Framework.Internal.Data;
+using DSofT.Framework.UIControl;
+using System.Collections.Generic;
+using System.Data;
+
+namespace DSofT.Warehouse.Provider
+{
+    public interface IDM_KHO_VITRIProvider
+    {
+        bool InsertOrUpdateDM_KHO_VITRI(DataTable dst);
+        bool DeleteDM_KHO_VITRI(string pMA_DVIQLY, long pKHO_VITRI_ID, string pModifiedBy);
+        DataTable GetListDM_KHO_VITRI(string pMA_DVIQLY, long pKHO_ID);
+        DataTable GetListDM_KHO_VITRI_VITRI(string pMA_DVIQLY, long pKHO_ID, string @pVITRI );
+        bool DM_KHO_VITRI_CHECKEXISTS(string pMA_DVIQLY, long pKHO_VITRI_ID, long pKHO_ID, string pVITRI);
+
+    }
+    public class DM_KHO_VITRIProvider : BaseSqlExecute, IDM_KHO_VITRIProvider
+    {
+        public DM_KHO_VITRIProvider(string appId, string userId) :
+base(DbCommon.WarehouseDbConnstr, appId, userId)
+        { }
+
+        public bool InsertOrUpdateDM_KHO_VITRI(DataTable dst)
+        {
+            try
+            {
+                if (NumberHelper.ConvertStringToLong(dst.Rows[0]["KHO_VITRI_ID"].ToString()) > 0)
+                {
+                    var paramObj = new object[]{
+                            ConstCommon.DonViQuanLy,
+                            dst.Rows[0]["KHO_VITRI_ID"],
+                            dst.Rows[0]["KHO_ID"],
+                            dst.Rows[0]["VITRI"],
+                            dst.Rows[0]["MA_VACH"],
+                            dst.Rows[0]["TINH_TRANG"],
+                            dst.Rows[0]["RowVersion"],
+                            CommonDataHelper.UserName
+                             };
+                    var result = base.ExecScalar("DM_KHO_VITRI_UPDATE", paramObj);
+                    if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+                else
+                {
+                    var paramObj = new object[]{
+                            ConstCommon.DonViQuanLy,
+                            dst.Rows[0]["KHO_ID"],
+                            dst.Rows[0]["VITRI"],
+                            dst.Rows[0]["MA_VACH"],
+                            dst.Rows[0]["TINH_TRANG"],
+                            dst.Rows[0]["RowVersion"],
+                            CommonDataHelper.UserName
+                             };
+                    var result = base.ExecScalar("DM_KHO_VITRI_INSERT", paramObj);
+                    if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public bool DeleteDM_KHO_VITRI(string pMA_DVIQLY, long pKHO_VITRI_ID, string pModifiedBy)
+        {
+            try
+            {
+                var paramObj = new object[] { pMA_DVIQLY, pKHO_VITRI_ID, pModifiedBy };
+                var result = base.ExecScalar("DM_KHO_VITRI_DELETE", paramObj);
+                if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public DataTable GetListDM_KHO_VITRI(string pMA_DVIQLY, long pKHO_ID)
+        {
+            try
+            {
+                var paramObj = new object[] { pMA_DVIQLY, pKHO_ID };
+                var result = base.ExecuteDataSet("DM_KHO_VITRI_GET_LIST_ALL", paramObj);
+                if (result != null)
+                {
+                    return result.Tables[0];
+                }
+                return null;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public DataTable GetListDM_KHO_VITRI_VITRI(string pMA_DVIQLY, long pKHO_ID, string @pVITRI)
+        {
+            try
+            {
+                var paramObj = new object[] { pMA_DVIQLY,pKHO_ID, @pVITRI };
+                var result = base.ExecuteDataSet("DM_KHO_VITRI_GET_VITRI", paramObj);
+                if (result != null)
+                {
+                    return result.Tables[0];
+                }
+                return null;
+            }
+            catch (System.Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public bool DM_KHO_VITRI_CHECKEXISTS(string pMA_DVIQLY, long pKHO_VITRI_ID, long pKHO_ID, string pVITRI)
+        {
+            var paramObj = new object[] { pMA_DVIQLY, pKHO_VITRI_ID, pKHO_ID, pVITRI };
+            var result = base.ExecuteDataSet("DM_KHO_VITRI_CHECKEXISTS", paramObj);
+            if((result != null) && ConstCommon.NVL_NUM_NT_NEW(result.Tables[0].Rows[0][0]) > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+    }
+}

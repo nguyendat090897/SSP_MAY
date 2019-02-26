@@ -1,0 +1,37 @@
+﻿using DSofT.Warehouse.Business;
+using DSofT.Warehouse.Log.UtilHelper;
+using DSofT.Warehouse.Resources;
+using DSofT.Framework.UIControl;
+using DSofT.Framework.UICore;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Input;
+
+namespace DSofT.Warehouse.UI
+{
+    /// <summary>
+    /// Interaction logic for frm_danhsach_loaipallet_popup.xaml
+    /// </summary>
+    public partial class frm_danhsach_loaipallet_popup : PopupBase
+    {
+        DataTable iDataSource = null;
+        DataRow iRowSelGb = null; 
+        public frm_danhsach_loaipallet_popup()
+        {
+            InitializeComponent();
+        }
+        private void grdView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            //code something
+        }
+        private void grdView_MouseDoubleClick1(object sender, MouseButtonEventArgs e)
+        {
+            //code something
+        }
+    }
+
+}

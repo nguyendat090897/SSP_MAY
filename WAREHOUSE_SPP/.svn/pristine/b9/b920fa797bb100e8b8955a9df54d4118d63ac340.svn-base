@@ -1,0 +1,63 @@
+<uicore:ControlBase x:Class="DSofT.Warehouse.UI.frmUser"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"  
+             xmlns:dxg="http://schemas.devexpress.com/winfx/2008/xaml/grid"
+             xmlns:uicore="clr-namespace:DSofT.Framework.UICore;assembly=DSofT.Framework.UICore"
+             xmlns:resText="clr-namespace:DSofT.Warehouse.Resources;assembly=DSofT.Warehouse.Resources"
+             xmlns:cntr="clr-namespace:DSofT.Framework.UIControl;assembly=DSofT.Framework.UIControl" 
+             xmlns:dxn="http://schemas.devexpress.com/winfx/2008/xaml/navbar" 
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:Controls="clr-namespace:DSofT.Framework.Metro.UIControls;assembly=DSofT.Framework.Metro.UIControls" 
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <GroupBox Padding="4" Grid.Row="0" Header="{DynamicResource frmUser_Info}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"></RowDefinition>
+                    <RowDefinition Height="25"></RowDefinition>
+                    <RowDefinition Height="25"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                    <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    <ColumnDefinition Width="0.1*"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.ColumnSpan="4" Grid.Row="0" Style="{StaticResource Sdk.Spnl.CommBtn.Right}">
+                    <Button Tag="{StaticResource btnNew}" HorizontalAlignment="Right" Name="btnNew" Style="{StaticResource Sdk.Btn.Comm.Large}"  Click="btnSave_Click"/>
+                    <Button Tag="{StaticResource btnDelete}" HorizontalAlignment="Right" Name="btnDelete" Style="{StaticResource Sdk.Btn.Comm.Large}" Click="Button_Click"/>
+                    <Button Tag="{StaticResource btnSave}" HorizontalAlignment="Right" Name="btnSave" Style="{StaticResource Sdk.Btn.Comm.Large}" Click="Button_Click_1"/>
+                </StackPanel>
+                <TextBlock Grid.Column="0" Name="tblTenDangNhap" Grid.Row="1"> <Run Text="{DynamicResource frmUser_UserName}"/> <Run Text="{DynamicResource lblDauSao}" Foreground="Red" /></TextBlock>
+                <dxe:TextEdit Grid.Column="1" Grid.Row="1" Name="txtTenDangNhap" EditValue="{Binding UserName}" EditValueChanged="txtTenDangNhap_EditValueChanged"/>
+
+                <TextBlock Grid.Column="2" Name="tblMatKhau" Grid.Row="1" > <Run Text="{DynamicResource frmUser_Password}"  /> <Run Text="{DynamicResource lblDauSao}" Foreground="Red" /></TextBlock>
+                <dxe:PasswordBoxEdit PasswordChar="*"  Grid.Column="3" Grid.Row="1" Name="txtMatKhau" EditValue="{Binding Password}" DisplayFormatString=""/>
+
+                <TextBlock Grid.Column="0" Name="frmUser_FullName" Grid.Row="2" >  <Run Text="{DynamicResource frmUser_FullName}"  /><Run Text="{DynamicResource lblDauSao}" Foreground="Red" /></TextBlock>
+                <dxe:TextEdit Grid.Column="1" Grid.Row="2" EditValue="{Binding FullName}" Name="txtTenNguoiSuDung"/>
+                <TextBlock Grid.Column="2" Grid.Row="2" ><Run Text="{DynamicResource frmUser_Detail}"  /></TextBlock>
+                <dxe:ComboBoxEdit Grid.Column="3"  Grid.Row="2"  EditValue="{Binding UserGroupID}" ValidateOnTextInput="False" Name="cboGroup"  IncrementalFiltering="True" ImmediatePopup="True" FilterCondition = "Contains" />
+            </Grid>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Header="{DynamicResource frmUser_Detail}" Margin="6.68">
+            <Grid>
+                <Grid Grid.Row="2" x:Name="Body" >
+                    <dxg:GridControl MouseDown="grdMenu_MouseDown" Name="grdMenu" CurrentItemChanged="grdMenu_CurrentItemChanged">
+                        <dxg:GridControl.View>
+                            <dxg:TableView Name="grdViewMenu" AutoWidth="True" />
+                        </dxg:GridControl.View>
+                    </dxg:GridControl>
+                </Grid>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</uicore:ControlBase>

@@ -1,0 +1,123 @@
+﻿using DSofT.Framework.Internal.Data;
+using DSofT.Framework.UIControl;
+using System.Collections.Generic;
+using System.Data;
+
+namespace DSofT.Warehouse.Provider
+{
+    public interface IDM_PALLET_DIEUCHUYEN_CTIETProvider
+    {
+        bool InsertorUpdateDM_PALLET_DIEUCHUYEN_CTIET(DataTable dst);
+        bool DeleteDM_PALLET_DIEUCHUYEN_CTIET(string pMA_DVIQLY, long PALLET_DIEUCHUYEN_CTIET_ID, string pModifiedBy);
+        DataTable GetListDM_PALLET_DIEUCHUYEN_CTIET(string pMA_DVIQLY, long pPALLET_DIEUCHUYEN_ID);
+        DataTable GetListDM_PALLET_DIEUCHUYEN_DONVIQUANLY();
+        //DataTable GetListDM_PALLET_BY_ID(string pMA_DVIQLY, long pNHOM_PALLET_ID);
+        //DataTable GetListDM_PALLET_NHOM_PALLET(string pMA_DVIQLY);
+        //DataTable GetListDM_PALLET_DIEUCHUYEN_CTIET_KEY(string pMA_DVIQLY, long pPALLET_ID, string pLOAI_DIEUCHUYEN_CTIET, string pNGAY_DIEUCHUYEN_CTIET);
+    }
+    public class DM_PALLET_DIEUCHUYEN_CTIETProvider : BaseSqlExecute, IDM_PALLET_DIEUCHUYEN_CTIETProvider
+    {
+        public DM_PALLET_DIEUCHUYEN_CTIETProvider(string appId, string userId) :
+base(DbCommon.WarehouseDbConnstr, appId, userId)
+        { }
+        public bool InsertorUpdateDM_PALLET_DIEUCHUYEN_CTIET(DataTable dst)
+        {
+            if (NumberHelper.ConvertStringToLong(dst.Rows[0]["PALLET_DIEUCHUYEN_CTIET_ID"].ToString()) > 0)
+            {
+                var paramObj = new object[]{ dst.Rows[0]["PALLET_DIEUCHUYEN_CTIET_ID"],
+                            ConstCommon.DonViQuanLy,
+                            dst.Rows[0]["PALLET_DIEUCHUYEN_ID"],
+                            dst.Rows[0]["PALLET_ID"],
+                            dst.Rows[0]["RowVersion"],
+                            CommonDataHelper.UserName
+                             };
+                var result = base.ExecScalar("DM_PALLET_DIEUCHUYEN_CTIET_UPDATE", paramObj);
+                if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+            else
+            {
+                var paramObj = new object[]{ ConstCommon.DonViQuanLy,
+                            dst.Rows[0]["PALLET_DIEUCHUYEN_ID"],
+                            dst.Rows[0]["PALLET_ID"],
+                            dst.Rows[0]["RowVersion"],
+                            CommonDataHelper.UserName
+                             };
+                var result = base.ExecScalar("DM_PALLET_DIEUCHUYEN_CTIET_INSERT", paramObj);
+                if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+        }
+        public bool DeleteDM_PALLET_DIEUCHUYEN_CTIET(string pMA_DVIQLY, long PALLET_DIEUCHUYEN_CTIET_ID, string pModifiedBy)
+        {
+            var paramObj = new object[] { pMA_DVIQLY,PALLET_DIEUCHUYEN_CTIET_ID,pModifiedBy };
+            var result = base.ExecScalar("DM_PALLET_DIEUCHUYEN_CTIET_DELETE", paramObj);
+            if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
+            {
+                return true;
+            }
+            return false;
+        }
+        public DataTable GetListDM_PALLET_DIEUCHUYEN_CTIET(string pMA_DVIQLY,long pPALLET_DIEUCHUYEN_ID)
+        {
+            var paramObj = new object[] { pMA_DVIQLY, pPALLET_DIEUCHUYEN_ID };
+            var result = base.ExecuteDataSet("DM_PALLET_DIEUCHUYEN_CTIET_GET_LIST_ALL", paramObj);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+
+        }
+        public DataTable GetListDM_PALLET_DIEUCHUYEN_DONVIQUANLY()
+        {
+            var paramObj = new object[] { };
+            var result = base.ExecuteDataSet("DM_PALLET_DIEUCHUYEN_GET_LIST_DONVI_QUANLY", paramObj);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+
+        }
+        //public datatable getlistdm_pallet_by_id(string pma_dviqly, long pnhom_pallet_id)
+        //{
+        //    var paramobj = new object[] { pma_dviqly, pnhom_pallet_id};
+        //    var result = base.executedataset("dm_pallet_get_list_all_by_id", paramobj);
+        //    if (result != null)
+        //    {
+        //        return result.tables[0];
+        //    }
+        //    return null;
+
+        //}
+        //public datatable getlistdm_pallet_nhom_pallet(string pma_dviqly)
+        //{
+        //    var paramobj = new object[] { pma_dviqly };
+        //    var result = base.executedataset("dm_nhom_pallet_get_list_all", paramobj);
+        //    if (result != null)
+        //    {
+        //        return result.tables[0];
+        //    }
+        //    return null;
+
+        //}
+        //public datatable getlistdm_pallet_DIEUCHUYEN_CTIET_key(string pma_dviqly,long ppallet_id, string ploai_DIEUCHUYEN_CTIET, string pngay_DIEUCHUYEN_CTIET)
+        //{
+        //    var paramobj = new object[] { pma_dviqly, ppallet_id , ploai_DIEUCHUYEN_CTIET, pngay_DIEUCHUYEN_CTIET };
+        //    var result = base.executedataset("dm_pallet_DIEUCHUYEN_CTIET_get_key", paramobj);
+        //    if (result != null)
+        //    {
+        //        return result.tables[0];
+        //    }
+        //    return null;
+
+        //}
+    }
+}

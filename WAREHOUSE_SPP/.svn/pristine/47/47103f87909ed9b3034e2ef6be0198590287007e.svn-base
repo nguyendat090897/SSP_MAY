@@ -1,0 +1,391 @@
+﻿using DSofT.Framework.Internal.Data;
+using DSofT.Framework.UIControl;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Globalization;
+
+namespace DSofT.Warehouse.Provider
+{
+    public interface IWarehousingMaterialsProvider
+    {
+        DataTable WarehousingMaterialsGetByFoodMenuCode(DataTable dtInput);
+        DataTable ImPortWarehousingMaterialsGetAll(DataTable dtInput);
+        bool InsertOrUpdateImportWarehousingMaterials(DataTable dtInput, DataTable dtInputDetail);
+        DataTable WarehousingMaterialsGetByDateAndSchool(DataTable dtInput);
+        bool InsertOrUpdateExportWarehousingMaterials(DataTable dtInput, DataTable dtInputDetail);
+        DataTable ExportWarehousingMaterialsGetAll(DataTable dtInput);
+        DataTable ImportWarehousingMaterialsById(DataTable dtInput);
+        DataTable ExportWarehousingMaterialsById(DataTable dtInput);
+        DataTable ExportWarehousingMaterialsByIdExcel(string strInput);
+        DataTable MaterialsFifoGetAll(DataTable dtInput);
+    }
+    public class WarehousingMaterialsProvider : BaseSqlExecute, IWarehousingMaterialsProvider
+    {
+
+        public WarehousingMaterialsProvider(string appId, string userId)
+            : base(DbCommon.WarehouseDbConnstr, appId, userId)
+        {
+        }
+        /// <summary>
+        /// Get danh sách nguyên liệu cần mua để nhập kho
+        /// </summary>
+        /// <returns></returns>
+        public DataTable WarehousingMaterialsGetByFoodMenuCode(DataTable dtInput)
+        {
+            var sqlParams = new object[] { dtInput.Rows[0]["FoodMenuCode"] };
+            var result = base.ExecuteDataSet("ImportWarehousingMaterials_GetByFoodMenuCode", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+        /// <summary>
+        /// ImPortWarehousingMaterials_GetAll
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public DataTable ImPortWarehousingMaterialsGetAll(DataTable dtInput)
+        {
+            var sqlParams = new object[] {
+                   DateTime.ParseExact(dtInput.Rows[0]["FromDate"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                  ,DateTime.ParseExact(dtInput.Rows[0]["ToDate"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)};
+            var result = base.ExecuteDataSet("ImportWarehousingMaterials_GetAll", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+        public DataTable ExportWarehousingMaterialsById(DataTable dtInput)
+        {
+            var sqlParams = new object[] { dtInput.Rows[0]["Id"] };
+            var result = base.ExecuteDataSet("ExportWarehousingMaterialsById", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public DataTable ImportWarehousingMaterialsById(DataTable dtInput)
+        {
+            var sqlParams = new object[] { dtInput.Rows[0]["Id"] };
+            var result = base.ExecuteDataSet("ImportWarehousingMaterialsById", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+        /// <summary>
+        /// InsertOrUpdateImportWarehousingMaterials
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <param name="dtInputDetail"></param>
+        /// <returns></returns>
+        public bool InsertOrUpdateImportWarehousingMaterials(DataTable dtInput, DataTable dtInputDetail)
+        {
+            using (var tran = new System.Transactions.TransactionScope(System.Transactions.TransactionScopeOption.Required,
+                 new System.Transactions.TransactionOptions { IsolationLevel = System.Transactions.IsolationLevel.ReadUncommitted }))
+            {
+                //thuc hien update
+                if (NumberHelper.ConvertStringToLong(dtInput.Rows[0]["Id"].ToString()) > 0)
+                {
+                    var sqlParams = new object[] { dtInput.Rows[0]["Id"],
+                                              dtInput.Rows[0]["WarehouseId"]
+                                             ,DateTime.ParseExact(dtInput.Rows[0]["ImplementationDates"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                             , "1"
+                                             , CommonDataHelper.UserName
+                                             ,string.IsNullOrWhiteSpace(dtInput.Rows[0]["IsConfirm"].ToString())==true?"0":dtInput.Rows[0]["IsConfirm"]
+                                             };
+                    var result = base.ExecScalar("ImportWarehousingMaterials_Update", sqlParams);
+                    if (NumberHelper.ConvertStringToLong(result.ToString()) < 0)
+                    {
+                        return false;
+                    }
+                    var sqlParamsDelete = new object[] { dtInput.Rows[0]["Id"], CommonDataHelper.UserName };
+                    var resultDelete = base.ExecScalar("ImportWarehousingMaterialsDetail_Delete", sqlParamsDelete);
+                    if (NumberHelper.ConvertStringToLong(resultDelete.ToString()) < 0)
+                    {
+                        return false;
+                    }
+                    foreach (System.Data.DataRow dr in dtInputDetail.Rows)
+                    {
+                        var sqlParamsDetail = new object[] {
+                                               dtInput.Rows[0]["Id"].ToString()
+                                             , dr["MaterialId"]
+                                             ,dr["Quantity"]
+                                             , CommonDataHelper.UserName
+                                             ,dr["PriceReceived"]
+                                             };
+                        var resultDetail = base.ExecScalar("ImportWarehousingMaterialsDetail_Insert", sqlParamsDetail);
+                        if (NumberHelper.ConvertStringToLong(resultDetail.ToString()) < 0)
+                        {
+                            return false;
+                        }
+                        //hoan thanh thi luu vao bang fifo de tinh
+                        if (dtInput.Rows[0]["IsConfirm"].ToString()=="1")
+                        {
+                            var sqlParamsFifo = new object[] {
+                                              dtInput.Rows[0]["Id"].ToString()
+                                              ,DateTime.ParseExact(dtInput.Rows[0]["ImplementationDates"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                             ,dr["MaterialId"]
+                                             ,dr["Quantity"]
+                                             ,dr["PriceReceived"]
+                                             , CommonDataHelper.UserName                                             
+                                             };
+                            var resultFifo = base.ExecScalar("MaterialsFifo_Insert", sqlParamsFifo);
+                            if (NumberHelper.ConvertStringToLong(resultFifo.ToString()) < 0)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    var sqlParams = new object[] {
+                                              dtInput.Rows[0]["WarehouseId"]
+                                             ,DateTime.ParseExact(dtInput.Rows[0]["ImplementationDates"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                             , "1"
+                                             , CommonDataHelper.UserName
+                                             , dtInput.Rows[0]["WarehousingMaterialsCode"]
+                                             ,string.IsNullOrWhiteSpace(dtInput.Rows[0]["IsConfirm"].ToString())==true?"0":dtInput.Rows[0]["IsConfirm"]
+                    };
+                    var result = base.ExecScalar("ImportWarehousingMaterials_Insert", sqlParams);
+                    if (NumberHelper.ConvertStringToLong(result.ToString()) < 0)
+                    {
+                        return false;
+                    }
+                    foreach (System.Data.DataRow dr in dtInputDetail.Rows)
+                    {
+                        var sqlParamsDetail = new object[] {
+                                               NumberHelper.ConvertStringToLong(result.ToString())
+                                             , dr["MaterialId"]
+                                             ,dr["Quantity"]
+                                             , CommonDataHelper.UserName
+                                             ,dr["PriceReceived"]
+                                             };
+                        var resultDetail = base.ExecScalar("ImportWarehousingMaterialsDetail_Insert", sqlParamsDetail);
+                        if (NumberHelper.ConvertStringToLong(resultDetail.ToString()) < 0)
+                        {
+                            return false;
+                        }
+                        //hoan thanh thi luu vao bang fifo de tinh
+                        if (dtInput.Rows[0]["IsConfirm"].ToString() == "1")
+                        {
+                            var sqlParamsFifo = new object[] {
+                                              NumberHelper.ConvertStringToLong(result.ToString())
+                                              ,DateTime.ParseExact(dtInput.Rows[0]["ImplementationDates"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                             ,dr["MaterialId"]
+                                             ,dr["Quantity"]
+                                             ,dr["PriceReceived"]
+                                             , CommonDataHelper.UserName
+                                             , dtInput.Rows[0]["WarehouseId"]
+                                             };
+                            var resultFifo = base.ExecScalar("MaterialsFifo_Insert", sqlParamsFifo);
+                            if (NumberHelper.ConvertStringToLong(resultFifo.ToString()) < 0)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                tran.Complete();
+                return true;
+            }
+        }
+        /// <summary>
+        /// Lay danh sach can xuat kho theo ngày và trường
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public DataTable WarehousingMaterialsGetByDateAndSchool(DataTable dtInput)
+        {
+            var sqlParams = new object[] {    dtInput.Rows[0]["SchoolId"]
+                                             ,DateTime.ParseExact(dtInput.Rows[0]["ImplementationDates"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)};
+            var result = base.ExecuteDataSet("ExportWarehousingMaterials_GetBySchoolAnDate", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// InsertOrUpdateExportWarehousingMaterials
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <param name="dtInputDetail"></param>
+        /// <returns></returns>
+        public bool InsertOrUpdateExportWarehousingMaterials(DataTable dtInput, DataTable dtInputDetail)
+        {
+            using (var tran = new System.Transactions.TransactionScope(System.Transactions.TransactionScopeOption.Required,
+                 new System.Transactions.TransactionOptions { IsolationLevel = System.Transactions.IsolationLevel.ReadUncommitted }))
+            {
+                //thuc hien update
+                if (NumberHelper.ConvertStringToLong(dtInput.Rows[0]["Id"].ToString()) > 0)
+                {
+                    var sqlParams = new object[] {    dtInput.Rows[0]["Id"],
+                                                      dtInput.Rows[0]["WarehouseId"]
+                                                     ,dtInput.Rows[0]["WarehouseIdTo"]
+                                                     ,DateTime.ParseExact(dtInput.Rows[0]["ImplementationDates"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                                     ,string.IsNullOrWhiteSpace(dtInput.Rows[0]["IsConfirm"].ToString())==true?"0":dtInput.Rows[0]["IsConfirm"].ToString()
+                                                     ,CommonDataHelper.UserName
+                                                     ,dtInput.Rows[0]["SchoolId"]
+                                             };
+                    var result = base.ExecScalar("ExportWarehousingMaterials_Update", sqlParams);
+                    if (NumberHelper.ConvertStringToLong(result.ToString()) < 0)
+                    {
+                        return false;
+                    }
+                    var sqlParamsDelete = new object[] { dtInput.Rows[0]["Id"], CommonDataHelper.UserName };
+                    var resultDelete = base.ExecScalar("ExportWarehousingMaterialsDetail_Delete", sqlParamsDelete);
+                    if (NumberHelper.ConvertStringToLong(resultDelete.ToString()) < 0)
+                    {
+                        return false;
+                    }
+                    foreach (System.Data.DataRow dr in dtInputDetail.Rows)
+                    {
+                        var sqlParamsDetail = new object[] {
+                                              dtInput.Rows[0]["Id"].ToString()
+                                             , dr["MaterialId"]
+                                             ,dr["Quantity"]
+                                             , CommonDataHelper.UserName
+                                             ,dr["FoodId"]
+                                             ,dr["Price"]
+                                             };
+                        var resultDetail = base.ExecScalar("ExportWarehousingMaterialsDetail_Insert", sqlParamsDetail);
+                        if (NumberHelper.ConvertStringToLong(resultDetail.ToString()) < 0)
+                        {
+                            return false;
+                        }
+
+                        //hoan thanh thi luu vao bang fifo de tinh
+                        if (dtInput.Rows[0]["IsConfirm"].ToString() == "1")
+                        {
+                            var sqlParamsFifo = new object[] {
+                                              dr["MaterialsFifoId"].ToString()                                              
+                                             ,dr["MaterialId"]
+                                             ,dr["Quantity"]
+                                             , CommonDataHelper.UserName
+                                             ,dtInput.Rows[0]["Id"].ToString()
+                                             ,dtInput.Rows[0]["WarehouseId"].ToString()
+                                             };
+                            var resultFifo = base.ExecScalar("MaterialsFifo_Update", sqlParamsFifo);
+                            if (NumberHelper.ConvertStringToLong(resultFifo.ToString()) < 0)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    var sqlParams = new object[] {
+                                             dtInput.Rows[0]["WarehouseId"]
+                                            ,dtInput.Rows[0]["WarehouseIdTo"]
+                                            ,DateTime.ParseExact(dtInput.Rows[0]["ImplementationDates"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                            ,dtInput.Rows[0]["WarehousingMaterialsCode"]
+                                            ,string.IsNullOrWhiteSpace(dtInput.Rows[0]["IsConfirm"].ToString())==true?"0":dtInput.Rows[0]["IsConfirm"].ToString()
+                                            ,"0"
+                                            ,CommonDataHelper.UserName
+                                            ,dtInput.Rows[0]["SchoolId"]
+                    };
+                    var result = base.ExecScalar("ExportWarehousingMaterials_Insert", sqlParams);
+                    if (NumberHelper.ConvertStringToLong(result.ToString()) < 0)
+                    {
+                        return false;
+                    }
+                    foreach (System.Data.DataRow dr in dtInputDetail.Rows)
+                    {
+                        var sqlParamsDetail = new object[] {
+                                               NumberHelper.ConvertStringToLong(result.ToString())
+                                             , dr["MaterialId"]
+                                             ,dr["Quantity"]
+                                             , CommonDataHelper.UserName
+                                             ,dr["FoodId"]
+                                              ,dr["Price"]
+                                             };
+                        var resultDetail = base.ExecScalar("ExportWarehousingMaterialsDetail_Insert", sqlParamsDetail);
+                        if (NumberHelper.ConvertStringToLong(resultDetail.ToString()) < 0)
+                        {
+                            return false;
+                        }
+                        //hoan thanh thi luu vao bang fifo de tinh
+                        if (dtInput.Rows[0]["IsConfirm"].ToString() == "1")
+                        {
+                            var sqlParamsFifo = new object[] {
+                                              dr["MaterialsFifoId"].ToString()
+                                             ,dr["MaterialId"]
+                                             ,dr["Quantity"]
+                                             , CommonDataHelper.UserName
+                                             ,NumberHelper.ConvertStringToLong(result.ToString())
+                                             ,dtInput.Rows[0]["WarehouseId"].ToString()
+                                             };
+                            var resultFifo = base.ExecScalar("MaterialsFifo_Update", sqlParamsFifo);
+                            if (NumberHelper.ConvertStringToLong(resultFifo.ToString()) < 0)
+                            {
+                                return false;
+                            }
+                        }
+                    }
+                }
+                tran.Complete();
+                return true;
+            }
+        }
+        /// <summary>
+        /// ExportWarehousingMaterialsGetAll
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public DataTable ExportWarehousingMaterialsGetAll(DataTable dtInput)
+        {
+            var sqlParams = new object[] { DateTime.ParseExact(dtInput.Rows[0]["FromDate"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture)
+                                           ,DateTime.ParseExact(dtInput.Rows[0]["ToDate"].ToString(), "dd/MM/yyyy", CultureInfo.InvariantCulture) };
+            var result = base.ExecuteDataSet("ExportWarehousingMaterials_GetAll", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+        /// <summary>
+        /// ExportWarehousingMaterialsByIdExcel
+        /// </summary>
+        /// <param name="strInput"></param>
+        /// <returns></returns>
+        public DataTable ExportWarehousingMaterialsByIdExcel(string strInput)
+        {
+            var sqlParams = new object[] { strInput };
+            var result = base.ExecuteDataSet("ExportWarehousingMaterialsById_Excecl", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+        /// <summary>
+        /// MaterialsFifoGetAll
+        /// </summary>
+        /// <param name="dtInput"></param>
+        /// <returns></returns>
+        public DataTable MaterialsFifoGetAll(DataTable dtInput)
+        {
+            var sqlParams = new object[] {dtInput.Rows[0]["WarehouseId"] };
+            var result = base.ExecuteDataSet("MaterialsFifo_GetAll", sqlParams);
+            if (result != null)
+            {
+                return result.Tables[0];
+            }
+            return null;
+        }
+    }
+}

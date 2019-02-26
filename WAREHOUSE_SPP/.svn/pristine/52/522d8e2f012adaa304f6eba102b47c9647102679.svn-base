@@ -1,0 +1,127 @@
+﻿using DSofT.Framework.Internal.Data;
+using DSofT.Framework.UIControl;
+using System.Collections.Generic;
+using System.Data;
+using System;
+
+namespace DSofT.Warehouse.Provider
+{
+    public interface IDM_NHA_SXUATProvider
+    {
+        int InsertorUpdateDM_NHA_SXUAT(DataTable dt);
+        int DeleteDM_NHA_SXUAT(string MA_DVIQLY, int DM_NHA_SXUATID, string ModifiledBy);
+        DataTable GetListDM_NHA_SXUAT(string MA_DVIQLY);
+
+        int Check_Exist_MA_NHA_SXUAT(string MA_DVIQLY, string MA_NHA_SXUAT);
+
+        int check_Exist_MA_NHA_SXUAT_FOR_UPDATE(string MA_DVIQLY, string MA_NHA_SXUAT, int DM_NHA_SXUATID);
+
+        DataTable GetListDM_QUOCGIA(string MA_DVIQLY);
+
+    }
+    public class DM_NHA_SXUATProvider : BaseSqlExecute, IDM_NHA_SXUATProvider
+    {
+        public DM_NHA_SXUATProvider(string appId, string userId) : base(DbCommon.WarehouseDbConnstr, appId, userId)
+        { }
+
+        public int check_Exist_MA_NHA_SXUAT_FOR_UPDATE(string MA_DVIQLY, string MA_NHA_SXUAT, int DM_NHA_SXUATID)
+        {
+            try
+            {
+                var sqlParams = new object[] { MA_DVIQLY, MA_NHA_SXUAT, DM_NHA_SXUATID };
+                var result = base.ExecScalar("DM_NHA_SXUAT_CHECK_EXISt_MA_For_UPDATE", sqlParams);
+                return int.Parse(result.ToString());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public DataTable GetListDM_QUOCGIA(string MA_DVIQLY)
+        {
+            try
+            {
+                var sqlParams = new object[] { MA_DVIQLY };
+                var result = base.ExecuteDataSet("DM_NHA_SXUAT_GET_QUOCGIA", sqlParams);
+                if (result != null)
+                    return result.Tables[0];
+                return null;
+            }catch(Exception ex)
+            {
+                throw ex;
+            }
+                
+        }
+        public int Check_Exist_MA_NHA_SXUAT(string MA_DVIQLY, string MA_NHA_SXUAT)
+        {
+            try
+            {
+                var sqlParams = new object[] { MA_DVIQLY, MA_NHA_SXUAT };
+                var result = base.ExecScalar("DM_NHA_SXUAT_CHECK_EXISt_MA", sqlParams);
+                return int.Parse(result.ToString());
+            }
+            catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+        public int InsertorUpdateDM_NHA_SXUAT(DataTable dtInput)
+        {
+            //----------------update-------------
+            if (NumberHelper.ConvertStringToLong(dtInput.Rows[0]["NHA_SXUAT_ID"].ToString()) > 0)
+            {
+                var sqlParams = new object[] {
+                                             CommonDataHelper.DonViQuanLy
+                                             ,dtInput.Rows[0]["NHA_SXUAT_ID"]
+                                             ,dtInput.Rows[0]["MA_NHA_SXUAT"]
+                                             , dtInput.Rows[0]["TEN_NHA_SXUAT"]
+                                             , dtInput.Rows[0]["DIACHI"]
+                                             , int.Parse(dtInput.Rows[0]["QUOCGIA_ID"].ToString())
+                                             ,int.Parse(dtInput.Rows[0]["TINH_TRANG"].ToString())
+                                             , CommonDataHelper.UserName
+                                             
+                                             };
+                var result = base.ExecScalar("DM_NHA_SXUAT_UPDATE", sqlParams);
+                return int.Parse(result.ToString());
+            }//-------------------------insert------------------
+            else
+            {
+                var sqlParams = new object[] {
+                                              CommonDataHelper.DonViQuanLy
+                                             ,dtInput.Rows[0]["MA_NHA_SXUAT"]
+                                             , dtInput.Rows[0]["TEN_NHA_SXUAT"]
+                                             , dtInput.Rows[0]["DIACHI"]
+                                             , int.Parse(dtInput.Rows[0]["QUOCGIA_ID"].ToString())
+                                             ,int.Parse(dtInput.Rows[0]["TINH_TRANG"].ToString())
+                                             , CommonDataHelper.UserName
+                                             };
+                var result = base.ExecScalar("DM_NHA_SXUAT_INSERT", sqlParams);
+                return int.Parse(result.ToString());
+            }
+        }
+    
+        public int DeleteDM_NHA_SXUAT(string MA_DVIQLY, int DM_NHA_SXUATID, string ModifiledBy)
+        {
+            try
+            {
+                var paramObj = new object[] { MA_DVIQLY, DM_NHA_SXUATID, ModifiledBy };
+                var result = Convert.ToInt32(base.ExecScalar("DM_NHA_SXUAT_DELETE", paramObj));
+                return result;
+            }catch(Exception ex) { throw ex; }
+        }
+        public DataTable GetListDM_NHA_SXUAT(string MA_DVIQLY)
+        {
+            try
+            {
+                var paramObj = new object[] { MA_DVIQLY };
+                var result = base.ExecuteDataSet("DM_NHA_SXUAT_GET_LIST_ALL", paramObj);
+                if (result != null)
+                {
+                    return result.Tables[0];
+                }
+                return null;
+            }catch(Exception ex) { throw ex; }
+
+        }
+    }
+}
