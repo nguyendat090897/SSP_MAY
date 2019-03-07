@@ -58,6 +58,62 @@
             </Grid>
             <Grid Grid.Row="2">
                 <TabControl x:Name="tabDuAnCT" Grid.ColumnSpan="2">
+                    <!--Thông tin chung-->
+
+                    <TabItem Header="Thông tin chung" x:Name="tabThongTinChung">
+                        <ScrollViewer HorizontalAlignment="Left" Height="Auto" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="20"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="300"/>
+                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" Grid.Row="0" Name="lblNgayHachToan"  ><Run Text="{DynamicResource lblKHNCC}"/></TextBlock>
+                                <TextBlock Grid.Column="1" Grid.Row="0" Name="txtNgayHachToan" Text="{Binding TEN_KH}"/>
+
+                                <TextBlock Grid.Column="2" Grid.Row="0" Name="tblSoPhieuThu"  >   <Run Text="{DynamicResource btnDiaDiemXuatHang}"/></TextBlock>
+                                <TextBlock Grid.Column="3" Grid.Row="0" Name="txtSoPhieuThu" Text="{Binding DIADIEM_GIAO}"/>
+
+                                <TextBlock Grid.Column="0" Grid.Row="1" Name="tblNgayPhieuThu"  ><Run Text="{DynamicResource frm_dm_khachhang_ncc_NguoiLienHe}"/></TextBlock>
+                                <TextBlock Grid.Column="1" Grid.Row="1" Name="txtNgayPhieuThu"  Text="{Binding NGUOILIENHE_A}" />
+
+                                <TextBlock Grid.Column="2" Grid.Row="1" Name="tblNguoiNop"  ><Run Text="{DynamicResource frm_lapphieu_xacnhan_hanghuhong_SoPhieu}"/></TextBlock>
+                                <TextBlock Grid.Column="3" Grid.Row="1" Name="txtNguoiNop" Text="{Binding SOPHIEU}" />
+
+                                <TextBlock Grid.Column="0" Grid.Row="2" Name="tblDiaChi" ><Run Text="{DynamicResource lblNgayPhieu}"/></TextBlock>
+                                <TextBlock Grid.Column="1" Grid.Row="2" Name="txtDiaChi" Text="{Binding NGAYLAP}"/>
+
+                                <TextBlock Grid.Column="2" Grid.Row="2" Name="tblLyDoNop" ><Run Text="{DynamicResource lbHTNX}"/></TextBlock>
+                                <TextBlock Grid.Column="3" Grid.Row="2" Name="txtLyDoNop" Text="{Binding TEN_HINHTHU_NHAPXUAT}"  />
+
+                                <TextBlock Grid.Column="0" Grid.Row="3" Name="tblKemTheo"  ><Run Text="{DynamicResource btnDonViVanChuyen}"/></TextBlock>
+                                <TextBlock Grid.Column="1" Grid.Row="3" Name="txtChungTuKemTheo" Text="{Binding TEN_DONVI_VANCHUYEN}"  />
+
+                                <TextBlock Grid.Column="2" Grid.Row="3" Name="tblTongTien"  ><Run Text="{DynamicResource lblTaiXe}"/></TextBlock>
+                                <TextBlock Grid.Column="3" Grid.Row="3" Name="txtTongTien" Text="{Binding TEN_TAIXE}"    />
+
+                                <TextBlock Grid.Column="2" Grid.Row="4" Name="tblSO_PHIEU_KIEM_KE"  ><Run Text="{DynamicResource lblSoPhieuKiemKe}"/></TextBlock>
+                                <TextBlock Grid.Column="3" Grid.Row="4" Name="txtSO_PHIEU_KIEM_KE" Text="{Binding SO_PHIEU_KIEM_KE}"    />
+
+                                <TextBlock Grid.Column="2" Grid.Row="5" Name="tblIS_NHAP_NHIEU_LAN" Text="Hình thức xuất:" Foreground="Red" ></TextBlock>
+                                <TextBlock Grid.Column="3" Grid.Row="5" Name="txtIS_NHAP_NHIEU_LAN"   Foreground="Red"  />
+
+                                
+                                <TextBlock Grid.Column="0" Grid.Row="4" Name="tblLoaiPhieuThu"  ><Run Text="{DynamicResource lblSoDienThoai}"/></TextBlock>
+                                <TextBlock Grid.Column="1" Grid.Row="4" Name="txtPhieuThu" Text="{Binding SO_DIENTHOAI}" />
+                            </Grid>
+                        </ScrollViewer>
+                    </TabItem>
+                    <!--End Thông tin chung-->
                     <!--Chi tiết-->
                     <TabItem Header="Chi tiết" x:Name="tabChiTiet">
                         <Grid>

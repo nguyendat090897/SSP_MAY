@@ -411,7 +411,6 @@
     <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_popup_GiaNhap">Đơn giá</sys:String>
     <sys:String x:Key="lblViTriHang">Vị trí</sys:String>
     <sys:String x:Key="lblSoLuongTongTon">Số lượng tổng</sys:String>
-    <sys:String x:Key="frm_lapphieu_yeucau_nhapkho_popup_SoLo">Số lô</sys:String>
 
 
 </ResourceDictionary>

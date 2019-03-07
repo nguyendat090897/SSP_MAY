@@ -1,11 +1,9 @@
 ﻿using DSofT.Framework.Internal.Data;
 using DSofT.Framework.UIControl;
 using DSofT.Warehouse.Domain.Constant;
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Windows.Forms;
 
 namespace DSofT.Warehouse.Provider
 {
@@ -19,7 +17,7 @@ namespace DSofT.Warehouse.Provider
 
 
         DataTable GetData_For_gird_VITRI_HANG(string pMA_DVIQLY,long pKHO_ID);
-        DataTable GetData_For_gird_TINHTRANG_HANG(string pMA_DVIQLY);
+        DataTable GetData_For_gird_TINHTRANG_HANG(string pMA_DVIQLY, string pMA_HINHTHU_NHAPXUAT);
         DataTable GetData_For_gird_TINHTRANG_CV(string pMA_DVIQLY);
         DataTable GetData_For_gird_TENKHO_KHUVUC(string pMA_DVIQLY);
         DataTable GetListDM_PALLET(string pMA_DVIQLY);
@@ -179,9 +177,9 @@ namespace DSofT.Warehouse.Provider
             }
             return null;
         }
-        public DataTable GetData_For_gird_TINHTRANG_HANG(string pMA_DVIQLY)
+        public DataTable GetData_For_gird_TINHTRANG_HANG(string pMA_DVIQLY, string pMA_HINHTHU_NHAPXUAT)
         {
-            var sqlParams = new object[] { pMA_DVIQLY };
+            var sqlParams = new object[] { pMA_DVIQLY, pMA_HINHTHU_NHAPXUAT };
             var result = base.ExecuteDataSet("KO_PHIEU_NHAPXUATKHO_get_TINHTRANG_HANG", sqlParams);
             if (result != null)
             {
@@ -434,9 +432,7 @@ namespace DSofT.Warehouse.Provider
         }
         public long InsertorUpdateKO_PHIEU_NHAPXUATKHO(DataTable dst, string pUser, string pX_OR_N)
         {
-            try
-            {
-                var paramObj = new object[]{
+            var paramObj = new object[]{
                             dst.Rows[0]["MA_DVIQLY"],pX_OR_N,
                             ConstCommon.NVL_NUM_LONG_NEW (dst.Rows[0]["PHIEU_NHAPXUATKHO_ID"]),
                             //dst.Rows[0]["PHIEUYEUCAU_NHAPXUATKHO_ID"],
@@ -460,18 +456,12 @@ namespace DSofT.Warehouse.Provider
                             //dst.Rows[0]["PHIEU_KIEMKE_ID"],
                             pUser
                              };
-                var result = base.ExecScalar("KO_PHIEU_NHAPXUATKHO_INSERT", paramObj);
-                if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
-                {
-                    return NumberHelper.ConvertStringToLong(result.ToString());
-                }
-                return 0;
-            }
-            catch (Exception ex)
+            var result = base.ExecScalar("KO_PHIEU_NHAPXUATKHO_INSERT", paramObj);
+            if (NumberHelper.ConvertStringToLong(result.ToString()) > 0)
             {
-                MessageBox.Show(ex.ToString());
-                return 0;
+                return NumberHelper.ConvertStringToLong(result.ToString());
             }
+            return 0;
         }
         public long InsertorUpdateKO_PHIEU_NHAPXUATKHO_CTIET(DataRow dst, string pUser)
         {
@@ -483,7 +473,7 @@ namespace DSofT.Warehouse.Provider
                             //dst["KHO_KHUVUC_ID"],
                             dst["MA_ITEM_TYPE"],
                             dst["SANPHAM_ID"],
-                            dst["SOLO"],
+                            //dst["SOLO"],
                             //dst["HANDUNG"],
                             //dst["QUYCACHDONGGOI"],
                             dst["SO_LUONG_TONG"],

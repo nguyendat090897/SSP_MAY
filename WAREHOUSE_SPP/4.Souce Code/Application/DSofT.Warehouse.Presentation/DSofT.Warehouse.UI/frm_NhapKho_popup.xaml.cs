@@ -163,8 +163,8 @@ namespace DSofT.Warehouse.UI
                     Initialize_Grid_CTPHIEUNHAP();
                     if (ds_ctiet_vitri.Tables[0].Rows.Count <= 0)
                     {
-                        //grd.Columns["GHI_SO"].Visible = false;
-                        //grd.Columns["BO_GHI_SO"].Visible = false;
+                        grd.Columns["GHI_SO"].Visible = false;
+                        grd.Columns["BO_GHI_SO"].Visible = false;
                     }
                     else
                     {
@@ -192,7 +192,7 @@ namespace DSofT.Warehouse.UI
                     isEndLoad = false;
                     if (iRowSelGb == null)
                     { return; }
-                    DispalayRequest();
+                    //DispalayRequest();
                     txtID_PHIEU_YC.Text = this.iDataSource.Rows[0]["SOPHIEU_YEUCAU"].ToString();
                     pPHIEU_XUATNHAP_KHO_ID = ConstCommon.NVL_NUM_LONG_NEW(this.iDataSource.Rows[0]["PHIEU_NHAPXUATKHO_ID"].ToString());
                     isFirstLoad = true;
@@ -251,30 +251,29 @@ namespace DSofT.Warehouse.UI
                 //btnBoGhiSoAll.Visibility = Visibility.Collapsed;
                 //btnGhiSoAll.Visibility = Visibility.Collapsed;
             }
-            this.iGridHelper.BindItemSource(dt_PHIEU_CTIET);
         }
-        public void DispalayRequest()
-        {
-            try
-            {
-                foreach (DataColumn item in this.iRowSelGb.Table.Columns)
-                {
-                    if (this.iDataSource.Columns[item.ColumnName] != null)
-                    {
-                        this.iDataSource.Rows[0][item.ColumnName] = iRowSelGb[item.ColumnName];
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "DispalayRequest()");
-                base.ShowMessage(MessageType.Error, ex.Message, ex);
-            }
-            finally
-            {
-                Mouse.OverrideCursor = Cursors.Arrow;
-            }
-        }
+        //public void DispalayRequest()
+        //{
+        //    try
+        //    {
+        //        foreach (DataColumn item in this.iRowSelGb.Table.Columns)
+        //        {
+        //            if (this.iDataSource.Columns[item.ColumnName] != null)
+        //            {
+        //                this.iDataSource.Rows[0][item.ColumnName] = iRowSelGb[item.ColumnName];
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "DispalayRequest()");
+        //        base.ShowMessage(MessageType.Error, ex.Message, ex);
+        //    }
+        //    finally
+        //    {
+        //        Mouse.OverrideCursor = Cursors.Arrow;
+        //    }
+        //}
         public void LoadData()
         {
             try
@@ -325,7 +324,7 @@ namespace DSofT.Warehouse.UI
                 xDicUser.Add("KHACHHANG_NCC_DONVI_VANCHUYEN_ID", typeof(decimal));
                 xDicUser.Add("KHACHHANG_NCC_NOI_XUATHANG_ID", typeof(decimal));
                 xDicUser.Add("TEN_HINHTHU_NHAPXUAT", typeof(string));
-                xDicUser.Add("HOPDONG_ID", typeof(string));
+                xDicUser.Add("HOPDONG_ID", typeof(decimal));
                 xDicUser.Add("IS_NHAPNHIEULAN", typeof(bool));
                 xDicUser.Add("NGUOILIENHE_A", typeof(string));
                 xDicUser.Add("TEN_KHO", typeof(string));
@@ -450,7 +449,7 @@ namespace DSofT.Warehouse.UI
                     this.iDataSource.Rows[0]["KHACHHANG_NCC_ID"] = cboNCC.GetKeyValue(0);
                 }
                 DataTable dtHinhhthucnhap;
-                if (pN_OR_N=="N")
+                if (status == true)
                 {
                      dtHinhhthucnhap = _IPHIEU_NHAP_XUAT_KHO.getDM_HINHTHU_NHAPXUAT("N");
                 }
@@ -681,12 +680,12 @@ namespace DSofT.Warehouse.UI
                 xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
                 this.iGridHelper.Add(xColumn);
 
-                xColumn = new Column("SOLO", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_SoLo"]));
-                xColumn.Width = 80;
-                xColumn.Visible = true;
-                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
-                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
-                this.iGridHelper.Add(xColumn);
+                //xColumn = new Column("SOLO", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_SoLo"]));
+                //xColumn.Width = 80;
+                //xColumn.Visible = true;
+                //xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                //xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                //this.iGridHelper.Add(xColumn);
 
 
                 //xColumn = new Column("HANDUNG", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_HanDung"]));
@@ -1275,15 +1274,14 @@ namespace DSofT.Warehouse.UI
             try
             {
                 object xReturn = null;
-                xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_XDDinhMuc_BoSung_TTTViet_TimKiemSP", null);
-                //if (pN_OR_N == "N")
-                //{
-                //    xReturn =  UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_XDDinhMuc_BoSung_TTTViet_TimKiemSP", null);
-                //}
-                //else
-                //{
-                //    xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_XDDinhMuc_BoSung_TTTViet_TimKiemSP_Kho", null);
-                //}
+                if (pN_OR_N == "N")
+                {
+                    xReturn =  UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_XDDinhMuc_BoSung_TTTViet_TimKiemSP", null);
+                }
+                else
+                {
+                    xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_XDDinhMuc_BoSung_TTTViet_TimKiemSP_Kho", null);
+                }
                 DataTable dt_SPCHON = (DataTable)xReturn;
                 if ((dt_SPCHON != null) && (dt_SPCHON.Rows.Count > 0))
                 {
@@ -1308,7 +1306,7 @@ namespace DSofT.Warehouse.UI
                                 dr["PHIEU_NHAPXUATKHO_ID"] = "0";
                                 if (pN_OR_N == "X")
                                 {
-                                    //dr["SOLO"] = dt_SPCHON.Rows[i]["SOLO"];
+                                    dr["SOLO"] = dt_SPCHON.Rows[i]["SOLO"];
                                     //dr["KHO_KHUVUC_ID"] = dt_SPCHON.Rows[i]["KHO_KHUVUC_ID"];
                                     grd.Columns["KHO_KHUVUC_ID"].Visible = false;
                                     dr["KHO_ID"] = dt_SPCHON.Rows[i]["KHO_ID"];
@@ -1318,7 +1316,7 @@ namespace DSofT.Warehouse.UI
                                 }
                                 else
                                 {
-                                    //dr["SOLO"] = null;
+                                    dr["SOLO"] = null;
                                     dr["KHO_KHUVUC_ID"] = "0";
                                    // grd.Columns["KHO_KHUVUC_ID"].Visible = true;
                                     dr["KHO_ID"] = ConstCommon.pKHO_ID;
@@ -1490,11 +1488,11 @@ namespace DSofT.Warehouse.UI
                 }
                 for (int i = 0; i < dt_PHIEU_CTIET.Rows.Count; i++)
                 {
-                    //if (dt_PHIEU_CTIET.Rows[i]["IS_NHAPNHIEULAN"].ToString() == "1")
-                    //{
-                    //    this.iDataSource.Rows[0]["IS_NHAPNHIEULAN"] = "True";
-                    //    break;
-                    //}
+                    if (dt_PHIEU_CTIET.Rows[i]["IS_NHAPNHIEULAN"].ToString() == "1")
+                    {
+                        this.iDataSource.Rows[0]["IS_NHAPNHIEULAN"] = "True";
+                        break;
+                    }
                 }
                 if (SetIsNull() == false)
                 {
@@ -1525,10 +1523,7 @@ namespace DSofT.Warehouse.UI
                 }
 
                 DataSet dsReturn = null;
-                if(pN_OR_N=="N")
-                    dsReturn = _IPHIEU_NHAP_XUAT_KHO.InsertKO_PHIEU_NHAPXUATKHO(iDataSource, dt_PHIEU_CTIET, CommonDataHelper.UserName, "N");
-                else
-                    dsReturn = _IPHIEU_NHAP_XUAT_KHO.InsertKO_PHIEU_NHAPXUATKHO(iDataSource, dt_PHIEU_CTIET, CommonDataHelper.UserName, "X");
+                dsReturn = _IPHIEU_NHAP_XUAT_KHO.InsertKO_PHIEU_NHAPXUATKHO(iDataSource, dt_PHIEU_CTIET, CommonDataHelper.UserName, pN_OR_N);
                 if ((dsReturn != null) && (dsReturn.Tables.Count == 2))
                 {
 
@@ -1559,8 +1554,8 @@ namespace DSofT.Warehouse.UI
                         //}
                         this.btnGhiSoAll.Visibility = Visibility.Visible;
                         this.btnBoGhiSoAll.Visibility = Visibility.Visible;
-                        //grd.Columns["GHI_SO"].Visible = true;
-                        //grd.Columns["BO_GHI_SO"].Visible = true;
+                        grd.Columns["GHI_SO"].Visible = true;
+                        grd.Columns["BO_GHI_SO"].Visible = true;
                         this.iGridHelper.BindItemSource(dt_PHIEU_CTIET);
 
                     }
@@ -1585,7 +1580,6 @@ namespace DSofT.Warehouse.UI
                 UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnSave.Tag.ToString());
                 base.ShowMessage(MessageType.Error, ex.Message, ex);
             }
-            this.Close();
         }
 
         private void btnThemmoi_Click(object sender, RoutedEventArgs e)
@@ -1615,138 +1609,138 @@ namespace DSofT.Warehouse.UI
 
         private void grdView_CellValueChanged(object sender, CellValueChangedEventArgs e)
         {
-            //try
-            //{
-            //    int so_luong_quy_doi = 0;
-            //    if (this.grd.GetFocusedRow() == null) return;
-            //    DataRowView row = this.grd.GetFocusedRow() as DataRowView;
-            //    if (ConstCommon.NVL_NUM_NT_NEW(row["SO_LUONG_TONG"]) != 0)
-            //        row["THANHTIEN"] = ConstCommon.NVL_NUM_DECIMAL_NEW(row["SO_LUONG_TONG"]) * ConstCommon.NVL_NUM_DECIMAL_NEW(row["DONGIA"]);
-            //    if(pN_OR_N == "X")
-            //    {
-            //        if(e.Column.FieldName == "SO_LUONG_TON" || e.Column.FieldName == "SO_LUONG_TONG")
-            //        {
-            //            int so_luong_ton = ConstCommon.NVL_NUM_NT_NEW(row["SO_LUONG_TON"]);
-            //            int so_luong_xuat = ConstCommon.NVL_NUM_NT_NEW(row["SO_LUONG_TONG"]);
-            //            int so_luong_con_lai = so_luong_ton - so_luong_xuat;
-            //            if(so_luong_con_lai < 0)
-            //            {
-            //                base.ShowMessage(MessageType.Information, "[SỐ LƯỢNG XUẤT] vượt quá [SỐ LƯỢNG TỒN KHO].");
-            //                row["SO_LUONG_TONG"] = 0;
-            //            }
-            //        }
-            //    }
-            //    if (e.Column.FieldName == "SO_LUONG_LE" || e.Column.FieldName == "SO_LUONG_TONG" || e.Column.FieldName == "SO_LUONG_THUNG")
-            //    {
-            //        so_tong = ConstCommon.NVL_NUM_NT_NEW(row["SO_LUONG_TONG"]);
-            //        so_thung = ConstCommon.NVL_NUM_NT_NEW(row["SO_LUONG_THUNG"]);
-            //        so_le = ConstCommon.NVL_NUM_NT_NEW(row["SO_LUONG_LE"]);
-            //        if (ConstCommon.NVL_NUM_NT_NEW(row["SO_LUONG_TONG"]) != 0)
-            //            row["THANHTIEN"] = ConstCommon.NVL_NUM_DECIMAL_NEW(row["SO_LUONG_TONG"]) * ConstCommon.NVL_NUM_DECIMAL_NEW(row["DONGIA"]);
-            //        if(ConstCommon.NVL_NUM_NT_NEW(row["SOLUONG_QUYDOI"])> 0)
-            //        {
-            //           so_luong_quy_doi = ConstCommon.NVL_NUM_NT_NEW(row["SOLUONG_QUYDOI"]);
-            //           SetIsNhapNhieuLan();
-            //           if (e.Column.FieldName == "SO_LUONG_TONG")
-            //           {
-            //                if((so_tong != 0 && so_thung != 0 && so_le != 0) || so_thung == 0 || so_le == 0 ||(so_thung == 0 && so_le == 0))
-            //                {
-            //                    row["SO_LUONG_THUNG"] = so_tong / so_luong_quy_doi;
-            //                    row["SO_LUONG_LE"] = so_tong % so_luong_quy_doi;
-            //                    return;
-            //                }
-            //                if(so_tong == 0)
-            //                {
-            //                    row["SO_LUONG_THUNG"] = 0;
-            //                    row["SO_LUONG_LE"] = 0;
-            //                    return;
-            //                }
-            //           }
-            //           if(e.Column.FieldName == "SO_LUONG_THUNG")
-            //           {
-            //                if (so_thung == 0)
-            //                {
-            //                    row["SO_LUONG_LE"] = so_tong;
-            //                    return;
-            //                }
-            //                if ((so_tong != 0 && so_thung != 0 && so_le != 0) || so_tong == 0 || so_tong != 0)
-            //                {
-            //                    row["SO_LUONG_TONG"] = so_thung * so_luong_quy_doi + so_le;
-            //                    return;
-            //                }
-            //           }
-            //           if(e.Column.FieldName == "SO_LUONG_LE")
-            //           {
-            //                if(so_tong != 0 && so_thung != 0 && so_le != 0)
-            //                {
-            //                    if(so_le > so_luong_quy_doi)
-            //                    {
-            //                        base.ShowMessage(MessageType.Information, "Bạn nhập quá [SỐ LƯỢNG QUY ĐỔI].");
-            //                        row["SO_LUONG_LE"] = so_tong - (so_thung * so_luong_quy_doi);
-            //                        return;
-            //                    }
-            //                    if(so_le == so_luong_quy_doi)
-            //                    {
-            //                        row["SO_LUONG_THUNG"] = so_thung + (so_le / so_luong_quy_doi);
-            //                        row["SO_LUONG_LE"] = so_le % so_luong_quy_doi;
-            //                        row["SO_LUONG_TONG"] = so_thung * so_luong_quy_doi + so_le;
-            //                        return;
-            //                    }
-            //                    else
-            //                    {
-            //                        row["SO_LUONG_TONG"] = so_thung * so_luong_quy_doi + so_le;
-            //                        return;
-            //                    }
-            //                }
-            //                if(so_thung == 0)
-            //                {
-            //                    row["SO_LUONG_TONG"] = so_le;
-            //                    row["SO_LUONG_THUNG"] = so_thung + (so_le / so_luong_quy_doi);
-            //                    row["SO_LUONG_LE"] = so_le % so_luong_quy_doi;
-            //                    return;
-            //                }
-            //                if(so_tong == 0)
-            //                {
-            //                    if(so_le >= so_luong_quy_doi)
-            //                    {
-            //                        row["SO_LUONG_THUNG"] = so_thung + (so_le / so_luong_quy_doi);
-            //                        row["SO_LUONG_LE"] = so_le % so_luong_quy_doi;
-            //                        row["SO_LUONG_TONG"] = so_thung * so_luong_quy_doi + so_le;
-            //                        return;
-            //                    }
-            //                    else
-            //                    {
-            //                        row["SO_LUONG_TONG"] = so_thung * so_luong_quy_doi + so_le;
-            //                        return;
-            //                    }
-            //                }
-            //                if(so_le == 0)
-            //                {
-            //                    row["SO_LUONG_TONG"] = so_thung * so_luong_quy_doi;
-            //                    return;
-            //                }
-            //           }
-            //        }
-            //        else
-            //        {
+            try
+            {
+                int so_luong_quy_doi = 0;
+                if (this.grd.GetFocusedRow() == null) return;
+                DataRowView row = this.grd.GetFocusedRow() as DataRowView;
+                if (ConstCommon.NVL_NUM_NT_NEW(row["SO_LUONG_TONG"]) != 0)
+                    row["THANHTIEN"] = ConstCommon.NVL_NUM_DECIMAL_NEW(row["SO_LUONG_TONG"]) * ConstCommon.NVL_NUM_DECIMAL_NEW(row["DONGIA"]);
+                if(pN_OR_N == "X")
+                {
+                    if(e.Column.FieldName == "SO_LUONG_TON" || e.Column.FieldName == "SO_LUONG_TONG")
+                    {
+                        int so_luong_ton = ConstCommon.NVL_NUM_NT_NEW(row["SO_LUONG_TON"]);
+                        int so_luong_xuat = ConstCommon.NVL_NUM_NT_NEW(row["SO_LUONG_TONG"]);
+                        int so_luong_con_lai = so_luong_ton - so_luong_xuat;
+                        if(so_luong_con_lai < 0)
+                        {
+                            base.ShowMessage(MessageType.Information, "[SỐ LƯỢNG XUẤT] vượt quá [SỐ LƯỢNG TỒN KHO].");
+                            row["SO_LUONG_TONG"] = 0;
+                        }
+                    }
+                }
+                if (e.Column.FieldName == "SO_LUONG_LE" || e.Column.FieldName == "SO_LUONG_TONG" || e.Column.FieldName == "SO_LUONG_THUNG")
+                {
+                    so_tong = ConstCommon.NVL_NUM_NT_NEW(row["SO_LUONG_TONG"]);
+                    so_thung = ConstCommon.NVL_NUM_NT_NEW(row["SO_LUONG_THUNG"]);
+                    so_le = ConstCommon.NVL_NUM_NT_NEW(row["SO_LUONG_LE"]);
+                    if (ConstCommon.NVL_NUM_NT_NEW(row["SO_LUONG_TONG"]) != 0)
+                        row["THANHTIEN"] = ConstCommon.NVL_NUM_DECIMAL_NEW(row["SO_LUONG_TONG"]) * ConstCommon.NVL_NUM_DECIMAL_NEW(row["DONGIA"]);
+                    if(ConstCommon.NVL_NUM_NT_NEW(row["SOLUONG_QUYDOI"])> 0)
+                    {
+                       so_luong_quy_doi = ConstCommon.NVL_NUM_NT_NEW(row["SOLUONG_QUYDOI"]);
+                       SetIsNhapNhieuLan();
+                       if (e.Column.FieldName == "SO_LUONG_TONG")
+                       {
+                            if((so_tong != 0 && so_thung != 0 && so_le != 0) || so_thung == 0 || so_le == 0 ||(so_thung == 0 && so_le == 0))
+                            {
+                                row["SO_LUONG_THUNG"] = so_tong / so_luong_quy_doi;
+                                row["SO_LUONG_LE"] = so_tong % so_luong_quy_doi;
+                                return;
+                            }
+                            if(so_tong == 0)
+                            {
+                                row["SO_LUONG_THUNG"] = 0;
+                                row["SO_LUONG_LE"] = 0;
+                                return;
+                            }
+                       }
+                       if(e.Column.FieldName == "SO_LUONG_THUNG")
+                       {
+                            if (so_thung == 0)
+                            {
+                                row["SO_LUONG_LE"] = so_tong;
+                                return;
+                            }
+                            if ((so_tong != 0 && so_thung != 0 && so_le != 0) || so_tong == 0 || so_tong != 0)
+                            {
+                                row["SO_LUONG_TONG"] = so_thung * so_luong_quy_doi + so_le;
+                                return;
+                            }
+                       }
+                       if(e.Column.FieldName == "SO_LUONG_LE")
+                       {
+                            if(so_tong != 0 && so_thung != 0 && so_le != 0)
+                            {
+                                if(so_le > so_luong_quy_doi)
+                                {
+                                    base.ShowMessage(MessageType.Information, "Bạn nhập quá [SỐ LƯỢNG QUY ĐỔI].");
+                                    row["SO_LUONG_LE"] = so_tong - (so_thung * so_luong_quy_doi);
+                                    return;
+                                }
+                                if(so_le == so_luong_quy_doi)
+                                {
+                                    row["SO_LUONG_THUNG"] = so_thung + (so_le / so_luong_quy_doi);
+                                    row["SO_LUONG_LE"] = so_le % so_luong_quy_doi;
+                                    row["SO_LUONG_TONG"] = so_thung * so_luong_quy_doi + so_le;
+                                    return;
+                                }
+                                else
+                                {
+                                    row["SO_LUONG_TONG"] = so_thung * so_luong_quy_doi + so_le;
+                                    return;
+                                }
+                            }
+                            if(so_thung == 0)
+                            {
+                                row["SO_LUONG_TONG"] = so_le;
+                                row["SO_LUONG_THUNG"] = so_thung + (so_le / so_luong_quy_doi);
+                                row["SO_LUONG_LE"] = so_le % so_luong_quy_doi;
+                                return;
+                            }
+                            if(so_tong == 0)
+                            {
+                                if(so_le >= so_luong_quy_doi)
+                                {
+                                    row["SO_LUONG_THUNG"] = so_thung + (so_le / so_luong_quy_doi);
+                                    row["SO_LUONG_LE"] = so_le % so_luong_quy_doi;
+                                    row["SO_LUONG_TONG"] = so_thung * so_luong_quy_doi + so_le;
+                                    return;
+                                }
+                                else
+                                {
+                                    row["SO_LUONG_TONG"] = so_thung * so_luong_quy_doi + so_le;
+                                    return;
+                                }
+                            }
+                            if(so_le == 0)
+                            {
+                                row["SO_LUONG_TONG"] = so_thung * so_luong_quy_doi;
+                                return;
+                            }
+                       }
+                    }
+                    else
+                    {
                         
-            //            SetIsNhapNhieuLan();
-            //            row["SO_LUONG_THUNG"] = 0;
-            //            row["SO_LUONG_LE"] = 0;
-            //            return;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        SetIsNhapNhieuLan();
-            //        return;
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnThemmoi.Tag.ToString());
-            //    base.ShowMessage(MessageType.Error, ex.Message, ex);
-            //}
+                        SetIsNhapNhieuLan();
+                        row["SO_LUONG_THUNG"] = 0;
+                        row["SO_LUONG_LE"] = 0;
+                        return;
+                    }
+                }
+                else
+                {
+                    SetIsNhapNhieuLan();
+                    return;
+                }
+            }
+            catch (Exception ex)
+            {
+                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, this.btnThemmoi.Tag.ToString());
+                base.ShowMessage(MessageType.Error, ex.Message, ex);
+            }
         }
 
         private void txtNGAY_CHUNGTU_EditValueChanged(object sender, EditValueChangedEventArgs e)

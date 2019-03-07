@@ -42,3 +42,17 @@ D:\NOT\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Pres
 D:\NOT\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Resources\obj\Debug\DSofT.Warehouse.Resources.dll
 D:\NOT\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Resources\obj\Debug\DSofT.Warehouse.Resources.pdb
 D:\NOT\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Resources\obj\Debug\DSofT.Warehouse.Resources.csprojAssemblyReference.cache
+C:\Users\Mr. Right_Hand\Downloads\WAREHOUSE_SPP\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application.Release\DSofT.Warehouse.Resources.dll
+C:\Users\Mr. Right_Hand\Downloads\WAREHOUSE_SPP\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application.Release\DSofT.Warehouse.Resources.pdb
+C:\Users\Mr. Right_Hand\Downloads\WAREHOUSE_SPP\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Resources\obj\Debug\DSofT.Warehouse.Resources.csprojResolveAssemblyReference.cache
+C:\Users\Mr. Right_Hand\Downloads\WAREHOUSE_SPP\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Resources\obj\Debug\CommonResource.baml
+C:\Users\Mr. Right_Hand\Downloads\WAREHOUSE_SPP\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Resources\obj\Debug\English.baml
+C:\Users\Mr. Right_Hand\Downloads\WAREHOUSE_SPP\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Resources\obj\Debug\Icons.baml
+C:\Users\Mr. Right_Hand\Downloads\WAREHOUSE_SPP\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Resources\obj\Debug\Vietnamese.baml
+C:\Users\Mr. Right_Hand\Downloads\WAREHOUSE_SPP\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Resources\obj\Debug\Icons.g.cs
+C:\Users\Mr. Right_Hand\Downloads\WAREHOUSE_SPP\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Resources\obj\Debug\DSofT.Warehouse.Resources_MarkupCompile.cache
+C:\Users\Mr. Right_Hand\Downloads\WAREHOUSE_SPP\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Resources\obj\Debug\DSofT.Warehouse.Resources.g.resources
+C:\Users\Mr. Right_Hand\Downloads\WAREHOUSE_SPP\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Resources\obj\Debug\DSofT.Warehouse.Resources.Properties.Resources.resources
+C:\Users\Mr. Right_Hand\Downloads\WAREHOUSE_SPP\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Resources\obj\Debug\DSofT.Warehouse.Resources.csproj.GenerateResource.Cache
+C:\Users\Mr. Right_Hand\Downloads\WAREHOUSE_SPP\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Resources\obj\Debug\DSofT.Warehouse.Resources.dll
+C:\Users\Mr. Right_Hand\Downloads\WAREHOUSE_SPP\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Resources\obj\Debug\DSofT.Warehouse.Resources.pdb

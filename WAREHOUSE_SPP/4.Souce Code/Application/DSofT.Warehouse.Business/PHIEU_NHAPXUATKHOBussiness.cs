@@ -15,7 +15,7 @@ namespace DSofT.Warehouse.Business
         bool InsertKO_PHIEU_NHAPXUATKHO_NHAP_NHIEU_LAN(DataTable dtSO_LUONG_TON, string pUser, long pPHIEU_NHAPXUATKHO_ID);
         bool KO_PHIEU_NHAPXUATKHO_NHAP_NHIEU_LAN_DELETE(string pMA_DVIQLY, long pPHIEU_NHAPXUATKHO_CTIET_ID, string pUser);
         DataTable GetData_For_gird_VITRI_HANG(string pMA_DVIQLY, long pKHO_ID);
-        DataTable GetData_For_gird_TINHTRANG_HANG(string pMA_DVIQLY);
+        DataTable GetData_For_gird_TINHTRANG_HANG(string pMA_DVIQLY, string pMA_HINHTHU_NHAPXUAT);
         DataTable GetData_For_gird_TINHTRANG_CV(string pMA_DVIQLY);
         DataTable GetData_For_gird_TENKHO_KHUVUC(string pMA_DVIQLY);
         DataTable GetListDM_PALLET(string pMA_DVIQLY);
@@ -136,9 +136,9 @@ namespace DSofT.Warehouse.Business
         {
             return _DM_KHOProvider.GetData_For_gird_VITRI_HANG(pMA_DVIQLY, pKHO_ID);
         }
-        public DataTable GetData_For_gird_TINHTRANG_HANG(string pMA_DVIQLY)
+        public DataTable GetData_For_gird_TINHTRANG_HANG(string pMA_DVIQLY, string pMA_HINHTHU_NHAPXUAT)
         {
-            return _DM_KHOProvider.GetData_For_gird_TINHTRANG_HANG(pMA_DVIQLY);
+            return _DM_KHOProvider.GetData_For_gird_TINHTRANG_HANG(pMA_DVIQLY,pMA_HINHTHU_NHAPXUAT);
         }
         public DataTable GetData_For_gird_TINHTRANG_CV(string pMA_DVIQLY)
         {

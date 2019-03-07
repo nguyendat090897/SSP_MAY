@@ -68,28 +68,28 @@ namespace DSofT.Warehouse.UI
                 base.ShowMessage(MessageType.Error, ex.Message, ex);
             }
         }
-        public void DispalayRequest()
-        {
-            try
-            {
-                foreach (DataColumn item in this.iRowSelGb.Table.Columns)
-                {
-                    if (this.iDataSource.Columns[item.ColumnName] != null)
-                    {
-                        this.iDataSource.Rows[0][item.ColumnName] = iRowSelGb[item.ColumnName];
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "DispalayRequest()");
-                base.ShowMessage(MessageType.Error, ex.Message, ex);
-            }
-            finally
-            {
-                Mouse.OverrideCursor = Cursors.Arrow;
-            }
-        }
+        //public void DispalayRequest()
+        //{
+        //    try
+        //    {
+        //        foreach (DataColumn item in this.iRowSelGb.Table.Columns)
+        //        {
+        //            if (this.iDataSource.Columns[item.ColumnName] != null)
+        //            {
+        //                this.iDataSource.Rows[0][item.ColumnName] = iRowSelGb[item.ColumnName];
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        UtilLog.WriteLogToDB(LogGroupName.PROGRAM, ex.Message, this.GetType().Name, "DispalayRequest()");
+        //        base.ShowMessage(MessageType.Error, ex.Message, ex);
+        //    }
+        //    finally
+        //    {
+        //        Mouse.OverrideCursor = Cursors.Arrow;
+        //    }
+        //}
         /// <summary>
         /// Binding data
         /// </summary>
@@ -107,14 +107,13 @@ namespace DSofT.Warehouse.UI
                 xDicUser.Add("TEN_DONVI_VANCHUYEN", typeof(string));
                 xDicUser.Add("DIADIEM_GIAO", typeof(string));
                 xDicUser.Add("TEN_HINHTHU_NHAPXUAT", typeof(string));
-                xDicUser.Add("HOPDONG_ID", typeof(string));
+                xDicUser.Add("HOPDONG_ID", typeof(decimal));
                 xDicUser.Add("KHACHHANG_NCC_DONVI_VANCHUYEN_ID", typeof(decimal));
                 xDicUser.Add("KHACHHANG_NCC_NOI_XUATHANG_ID", typeof(decimal));
                 xDicUser.Add("NGUOILIENHE_A", typeof(string));
                 xDicUser.Add("TEN_KHO", typeof(string));
                 xDicUser.Add("NGUOILIENHE_B", typeof(string));
                 xDicUser.Add("SO_CHUNGTU", typeof(string));
-                xDicUser.Add("SOLO", typeof(string));
                 xDicUser.Add("NGAY_CHUNGTU", typeof(string));
                 xDicUser.Add("MA_HINHTHU_NHAPXUAT", typeof(string));
                 xDicUser.Add("SOPHIEU", typeof(string));
@@ -365,12 +364,12 @@ namespace DSofT.Warehouse.UI
                 xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
                 this.iGridHelper_CTPHIEUNHAP.Add(xColumn);
 
-                xColumn = new Column("SOLO", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_SoLo"]));
-                xColumn.Width = 80;
-                xColumn.Visible = true;
-                xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
-                xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.False;
-                this.iGridHelper_CTPHIEUNHAP.Add(xColumn);
+                //xColumn = new Column("SOLO", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_SoLo"]));
+                //xColumn.Width = 80;
+                //xColumn.Visible = true;
+                //xColumn.HorizontalContentAlignment = DevExpress.Xpf.Editors.Settings.EditSettingsHorizontalAlignment.Left;
+                //xColumn.AllowEditing = DevExpress.Utils.DefaultBoolean.True;
+                //this.iGridHelper_CTPHIEUNHAP.Add(xColumn);
 
 
                 //xColumn = new Column("HANDUNG", Convert.ToString(UtilLanguage.ApplyLanguage()["frm_lapphieu_yeucau_nhapkho_popup_HanDung"]));
@@ -539,7 +538,6 @@ namespace DSofT.Warehouse.UI
             try
             {
                 frm_NhapKho_popup.status = false;
-                frm_NhapKho_popup.pN_OR_N = "X";
                 object xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_NhapKho_popup"/*,null,"X"*/);
                 LoadData();
             }
@@ -556,18 +554,18 @@ namespace DSofT.Warehouse.UI
             {
                 if (this.gridControl.GetFocusedRow() == null) return;
                 iRowSelGb = ((DataRowView)gridControl.GetFocusedRow()).Row;
-                DispalayRequest();
-                //if (iRowSelGb["IS_NHAPNHIEULAN"].ToString() == "True")
-                //{
-                //    tblIS_NHAP_NHIEU_LAN.Visibility = Visibility.Visible;
-                //    txtIS_NHAP_NHIEU_LAN.Visibility = Visibility.Visible;
-                //    txtIS_NHAP_NHIEU_LAN.Text = "Nhập nhiều lần";
-                //}
-                //else
-                //{
-                //    tblIS_NHAP_NHIEU_LAN.Visibility = Visibility.Hidden;
-                //    txtIS_NHAP_NHIEU_LAN.Visibility = Visibility.Hidden;
-                //}
+                //DispalayRequest();
+                if (iRowSelGb["IS_NHAPNHIEULAN"].ToString() == "True")
+                {
+                    tblIS_NHAP_NHIEU_LAN.Visibility = Visibility.Visible;
+                    txtIS_NHAP_NHIEU_LAN.Visibility = Visibility.Visible;
+                    txtIS_NHAP_NHIEU_LAN.Text = "Nhập nhiều lần";
+                }
+                else
+                {
+                    tblIS_NHAP_NHIEU_LAN.Visibility = Visibility.Hidden;
+                    txtIS_NHAP_NHIEU_LAN.Visibility = Visibility.Hidden;
+                }
                 DataRow[] iRowSelGb_CTPHIEUNHAP = iGridDataSource_CTPHIEUNHAP.Tables[1].Select("PHIEU_NHAPXUATKHO_ID=" + ConstCommon.NVL_NUM_LONG_NEW(iRowSelGb["PHIEU_NHAPXUATKHO_ID"]));
                 if (iRowSelGb_CTPHIEUNHAP.Length > 0)
                 {
@@ -630,7 +628,6 @@ namespace DSofT.Warehouse.UI
                 if (this.gridControl.GetFocusedRow() == null) return;
                 DataRow iRowSelGb = ((DataRowView)this.gridControl.GetFocusedRow()).Row;
                 string pLA_KIEM_KIEM = "KKK";
-                frm_NhapKho_popup.pN_OR_N = "X";
                 DataRow[] iRowSelGb_ctiet = iGridDataSource_CTPHIEUNHAP.Tables[1].Select("PHIEU_NHAPXUATKHO_ID=" + ConstCommon.NVL_NUM_LONG_NEW(iRowSelGb["PHIEU_NHAPXUATKHO_ID"]));
                 xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_NhapKho_popup", iRowSelGb, iRowSelGb_ctiet/*, "X",pLA_KIEM_KIEM*/);
                 LoadData();

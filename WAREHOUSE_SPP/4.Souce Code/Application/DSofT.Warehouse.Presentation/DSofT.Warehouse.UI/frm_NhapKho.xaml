@@ -58,19 +58,7 @@
             </Grid>
             <Grid Grid.Row="2">
                 <TabControl x:Name="tabDuAnCT" Grid.ColumnSpan="2">
-                    <!--Chi tiết-->
-                    <TabItem Header="Chi tiết" x:Name="tabChiTiet">
-                        <Grid>
-                            <dxg:GridControl  AutoPopulateColumns="True" Height="Auto" x:Name="grdChiTiet" >
-                                <dxg:GridControl.View>
-                                    <dxg:TableView AutoWidth="True" NavigationStyle="Cell" ShowGroupPanel="False" UseAnimationWhenExpanding="False"
-                                           x:Name="grdViewChiTiet"/>
-                                </dxg:GridControl.View>
-                            </dxg:GridControl>
-                        </Grid>
-                    </TabItem>
-                    <!--End Chi tiết-->
-                    <!--Thông tin chung--><!--
+                    <!--Thông tin chung-->
 
                     <TabItem Header="Thông tin chung" x:Name="tabThongTinChung">
                         <ScrollViewer HorizontalAlignment="Left" Height="Auto" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" >
@@ -125,7 +113,19 @@
                             </Grid>
                         </ScrollViewer>
                     </TabItem>
-                    --><!--End Thông tin chung-->
+                    <!--End Thông tin chung-->
+                    <!--Chi tiết-->
+                    <TabItem Header="Chi tiết" x:Name="tabChiTiet">
+                        <Grid>
+                            <dxg:GridControl  AutoPopulateColumns="True" Height="Auto" x:Name="grdChiTiet" >
+                                <dxg:GridControl.View>
+                                    <dxg:TableView AutoWidth="True" NavigationStyle="Cell" ShowGroupPanel="False" UseAnimationWhenExpanding="False"
+                                           x:Name="grdViewChiTiet"/>
+                                </dxg:GridControl.View>
+                            </dxg:GridControl>
+                        </Grid>
+                    </TabItem>
+                    <!--End Chi tiết-->
                 </TabControl>
             </Grid>
         </Grid>

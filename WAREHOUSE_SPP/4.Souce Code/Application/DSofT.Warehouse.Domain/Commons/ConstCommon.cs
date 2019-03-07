@@ -24,7 +24,7 @@ public static class ConstCommon
     public static int pSO_NGAY_DUOC_PHEP_SUA = 30;
     public static int pSO_VITRI_XEP_MOIDONG = 3;
     public static string pTEN_KHO = "";
-
+    public static string pMA_HINHTHU_NHAPXUAT = "";
     public static long NVL_NUM_LONG_NEW(object str)
     {
         if ((str != System.DBNull.Value) && (str != null))

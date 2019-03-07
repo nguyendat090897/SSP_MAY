@@ -15,3 +15,8 @@ D:\NOT\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Pres
 D:\NOT\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Log\obj\Debug\DSofT.Warehouse.Log.dll
 D:\NOT\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Log\obj\Debug\DSofT.Warehouse.Log.pdb
 D:\NOT\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Log\obj\Debug\DSofT.Warehouse.Log.csprojAssemblyReference.cache
+C:\Users\Mr. Right_Hand\Downloads\WAREHOUSE_SPP\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application.Release\DSofT.Warehouse.Log.dll
+C:\Users\Mr. Right_Hand\Downloads\WAREHOUSE_SPP\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application.Release\DSofT.Warehouse.Log.pdb
+C:\Users\Mr. Right_Hand\Downloads\WAREHOUSE_SPP\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Log\obj\Debug\DSofT.Warehouse.Log.csprojResolveAssemblyReference.cache
+C:\Users\Mr. Right_Hand\Downloads\WAREHOUSE_SPP\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Log\obj\Debug\DSofT.Warehouse.Log.dll
+C:\Users\Mr. Right_Hand\Downloads\WAREHOUSE_SPP\WAREHOUSE_SPP\WAREHOUSE_SPP\4.Souce Code\Application\DSofT.Warehouse.Presentation\DSofT.Warehouse.Log\obj\Debug\DSofT.Warehouse.Log.pdb
