@@ -1274,9 +1274,10 @@ namespace DSofT.Warehouse.UI
             try
             {
                 object xReturn = null;
+                //xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_XDDinhMuc_BoSung_TTTViet_TimKiemSP", null);
                 if (pN_OR_N == "N")
                 {
-                    xReturn =  UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_XDDinhMuc_BoSung_TTTViet_TimKiemSP", null);
+                    xReturn = UIAgent.GetUIPopupDialog(this, null, this.GetType().ToString(), "DSofT.Warehouse.UI", "frm_XDDinhMuc_BoSung_TTTViet_TimKiemSP", null);
                 }
                 else
                 {
@@ -1308,10 +1309,10 @@ namespace DSofT.Warehouse.UI
                                 {
                                     dr["SOLO"] = dt_SPCHON.Rows[i]["SOLO"];
                                     //dr["KHO_KHUVUC_ID"] = dt_SPCHON.Rows[i]["KHO_KHUVUC_ID"];
-                                    grd.Columns["KHO_KHUVUC_ID"].Visible = false;
+                                    //grd.Columns["KHO_KHUVUC_ID"].Visible = false;
                                     dr["KHO_ID"] = dt_SPCHON.Rows[i]["KHO_ID"];
                                     dr["HANDUNG"] = dt_SPCHON.Rows[i]["HANDUNG"];
-                                    dr["SO_LUONG_TON"] = dt_SPCHON.Rows[i]["SO_LUONG_TON"];
+                                    //dr["SO_LUONG_TON"] = dt_SPCHON.Rows[i]["SO_LUONG_TON"];
                                     dr["VITRI"] = dt_SPCHON.Rows[i]["VITRI"];
                                 }
                                 else
